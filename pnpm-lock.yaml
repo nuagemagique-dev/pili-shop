@@ -279,11 +279,11 @@ importers:
         specifier: ^0.155.0
         version: 0.155.0
       tailwindcss:
-        specifier: ^3.4.19
-        version: 3.4.19(yaml@2.9.1)
+        specifier: ^4.3.3
+        version: 4.3.3
       tailwindcss-animate:
         specifier: ^1.0.7
-        version: 1.0.7(tailwindcss@3.4.19(yaml@2.9.1))
+        version: 1.0.7(tailwindcss@4.3.3)
       typescript:
         specifier: ^6.0.3
         version: 6.0.3
@@ -5473,6 +5473,9 @@ packages:
     resolution: {integrity: sha512-3ofp+LL8E+pK/JuPLPggVAIaEuhvIz4qNcf3nA1Xn2o/7fb7s/TYpHhwGDv1ZU3PkBluUVaF8PyCHcm48cKLWQ==}
     engines: {node: '>=14.0.0'}
     hasBin: true
+
+  tailwindcss@4.3.3:
+    resolution: {integrity: sha512-gOhV3P7ufE62QDGg1zVaTgCR+EtPv92k2nIhVcVKcLmxT1sUBsQGhnZj175j+MqRt4zLF7ic+sCYjfhxMxj7YQ==}
 
   tar-stream@3.2.2:
     resolution: {integrity: sha512-+8NeqHRjQWH9nYlwo2gamAMImZCVzI4UoEgDpWorBt9OEfppiZn+uSkskzQKPWIZyji/C8fpWO7u69G0DX0tbg==}
@@ -11476,9 +11479,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  tailwindcss-animate@1.0.7(tailwindcss@3.4.19(yaml@2.9.1)):
+  tailwindcss-animate@1.0.7(tailwindcss@4.3.3):
     dependencies:
-      tailwindcss: 3.4.19(yaml@2.9.1)
+      tailwindcss: 4.3.3
 
   tailwindcss@3.4.19(yaml@2.9.1):
     dependencies:
@@ -11507,6 +11510,8 @@ snapshots:
     transitivePeerDependencies:
       - tsx
       - yaml
+
+  tailwindcss@4.3.3: {}
 
   tar-stream@3.2.2:
     dependencies:
