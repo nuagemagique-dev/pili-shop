@@ -23,7 +23,7 @@
     "prepare": "vp config"
   },
   "dependencies": {
-    "@intlify/utils": "^0.14.1",
+    "@intlify/utils": "^1.0.1",
     "@nuxt/kit": "^4.6.2",
     "@nuxtjs/google-fonts": "^3.2.0",
     "@nuxtjs/sitemap": "^9.0.2",
