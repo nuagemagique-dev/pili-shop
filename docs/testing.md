@@ -6,12 +6,12 @@ Playwright suites (`*/e2e`), not by the unit metric. Those run against an in-rep
 write and run them is in `layers/engine/e2e/mock/README.md` (CI job "E2E (mock)").
 
 ```bash
-npm test                                          # all projects, ~25 s
-npx vp test run layers/engine/stores              # one folder / file
-npx vp test run -t "removes the line"             # by test title
-npx vp test run --project unit                    # only the plain-node project (fastest, no Nuxt boot)
-npx vp test run --sequence.shuffle --sequence.seed=7   # random order: the suite must pass in any order
-npm run test:coverage                             # coverage + thresholds (what CI runs); report in coverage/
+pnpm test                                             # all projects, ~25 s
+pnpm exec vp test run layers/engine/stores            # one folder / file
+pnpm exec vp test run -t "removes the line"           # by test title
+pnpm exec vp test run --project unit                  # only the plain-node project (fastest, no Nuxt boot)
+pnpm exec vp test run --sequence.shuffle --sequence.seed=7  # random order: the suite must pass in any order
+pnpm run test:coverage                                # coverage + thresholds (what CI runs); report in coverage/
 ```
 
 `coverage/lcov-report/index.html` is the browsable report. The thresholds in `vite.config.ts`

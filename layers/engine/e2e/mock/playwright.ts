@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url'
 /*
  * The Playwright configuration of mock mode, shared by every brand app (apps/<brand>/playwright.mock.config.ts):
  *
- *   npm run test:e2e:mock -w tokyosushi         (or ygfliege)
+ *   pnpm --filter tokyosushi run test:e2e:mock   (or ygfliege)
  *
  * It starts, as `webServer`s, the mock tsb-service (e2e/mock/server.ts) and a PRODUCTION build of the app whose API,
  * WebSocket, S3 and Zitadel URLs all point at that mock, and runs the specs against them. No secret, database, tunnel

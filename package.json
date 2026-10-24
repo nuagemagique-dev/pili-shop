@@ -1,32 +1,30 @@
 {
   "name": "tsb-frontend",
   "private": true,
-  "workspaces": [
-    "layers/*",
-    "apps/*"
-  ],
   "type": "module",
   "scripts": {
-    "dev": "npm run dev -w tokyosushi",
-    "build": "npm run build -w tokyosushi",
-    "generate": "npm run generate -w tokyosushi",
-    "preview": "npm run preview -w tokyosushi",
+    "dev": "pnpm --filter tokyosushi run dev",
+    "build": "pnpm --filter tokyosushi run build",
+    "generate": "pnpm --filter tokyosushi run generate",
+    "preview": "pnpm --filter tokyosushi run preview",
     "lint": "vp lint && node scripts/check-ssr-safety.mjs && node scripts/check-engine-boundaries.mjs && node scripts/check-locale-parity.mjs && node scripts/check-hardcoded-phone.mjs && node scripts/check-focus-ring-contrast.mjs && node scripts/check-token-contrast.mjs",
     "check": "vp check && node scripts/check-ssr-safety.mjs && node scripts/check-engine-boundaries.mjs && node scripts/check-locale-parity.mjs && node scripts/check-hardcoded-phone.mjs && node scripts/check-focus-ring-contrast.mjs && node scripts/check-token-contrast.mjs",
     "check:graphql": "node scripts/check-graphql-operations.mjs --root layers --root apps",
     "fmt": "vp fmt",
     "test": "vp test run",
     "test:coverage": "vp test run --coverage",
-    "test:e2e": "npm run test:e2e:all",
-    "test:e2e:tsb": "npm run test:e2e -w tokyosushi",
-    "test:e2e:ygf": "npm run test:e2e -w ygfliege",
-    "test:e2e:all": "npm run test:e2e:tsb; tsb=$?; npm run test:e2e:ygf && exit $tsb",
-    "test:e2e:mock": "npm run test:e2e:mock -w tokyosushi; tsb=$?; npm run test:e2e:mock -w ygfliege && exit $tsb",
-    "test:visual": "npm run test:visual -w tokyosushi; tsb=$?; npm run test:visual -w ygfliege && exit $tsb",
-    "test:visual:update": "npm run test:visual:update -w tokyosushi; tsb=$?; npm run test:visual:update -w ygfliege && exit $tsb",
+    "test:e2e": "pnpm run test:e2e:all",
+    "test:e2e:tsb": "pnpm --filter tokyosushi run test:e2e",
+    "test:e2e:ygf": "pnpm --filter ygfliege run test:e2e",
+    "test:e2e:all": "pnpm run test:e2e:tsb; tsb=$?; pnpm run test:e2e:ygf && exit $tsb",
+    "test:e2e:mock": "pnpm --filter tokyosushi run test:e2e:mock; tsb=$?; pnpm --filter ygfliege run test:e2e:mock && exit $tsb",
+    "test:visual": "pnpm --filter tokyosushi run test:visual; tsb=$?; pnpm --filter ygfliege run test:visual && exit $tsb",
+    "test:visual:update": "pnpm --filter tokyosushi run test:visual:update; tsb=$?; pnpm --filter ygfliege run test:visual:update && exit $tsb",
     "prepare": "vp config"
   },
   "dependencies": {
+    "@intlify/utils": "^0.14.1",
+    "@nuxt/kit": "^4.6.2",
     "@nuxtjs/google-fonts": "^3.2.0",
     "@nuxtjs/sitemap": "^9.0.2",
     "@pinia/nuxt": "^1.0.3",
@@ -34,11 +32,20 @@
     "@vueuse/core": "^15.0.0",
     "graphql": "^17.0.2",
     "graphql-ws": "^6.4.1",
+    "h3": "^1.15.11",
     "leaflet": "^1.9.4",
     "libphonenumber-js": "^1.13.15",
+    "nitropack": "^2.13.5",
     "nuxt": "^4.6.2",
+    "ofetch": "^1.5.1",
+    "ohash": "^2.0.12",
     "oidc-client-ts": "^3.5.0",
-    "pinia-plugin-persistedstate": "^4.7.1"
+    "pinia": "^4.1.0",
+    "pinia-plugin-persistedstate": "^4.7.1",
+    "ufo": "^1.6.4",
+    "vue": "^3.5.44",
+    "vue-i18n": "^11.4.12",
+    "vue-router": "^5.4.0"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
@@ -54,23 +61,13 @@
     "happy-dom": "^21.0.4",
     "jiti": "^2.7.0",
     "oxc-parser": "^0.155.0",
+    "tailwindcss": "^3.4.19",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^6.0.3",
+    "vite": "catalog:",
     "vite-plus": "1.4.0",
     "vue-tsc": "^3.3.13",
     "ws": "^8.22.0"
   },
-  "overrides": {
-    "vite": "npm:@voidzero-dev/vite-plus-core@1.4.0"
-  },
-  "devEngines": {
-    "packageManager": {
-      "name": "npm",
-      "version": "^12.2.0",
-      "onFail": "error"
-    }
-  },
-  "allowScripts": {
-    "esbuild": true
-  }
+  "packageManager": "pnpm@12.15.0"
 }

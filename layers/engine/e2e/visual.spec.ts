@@ -18,7 +18,7 @@ import { waitForNuxtHydration } from './support/hydration'
  *  - Time slots and other clock-driven values are masked.
  *
  * Update baselines after an intended visual change:
- *   npm run test:visual:update      (from tsb-core, both brands)
+ *   pnpm run test:visual:update     (from tsb-core, both brands)
  * then review the PNG diffs in git before committing.
  */
 

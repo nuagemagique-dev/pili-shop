@@ -47,7 +47,7 @@ the AA-corrected steps `--ygf-orange-on-white` (#C2570C), `--ygf-orange-on-white
 The unused shadcn colours (`secondary`, `destructive`, `muted`, `accent`, `popover`, `card`) are gone from both
 configs; use the contract names above. (`tsb-three` stays: the order-completed petals read it through `theme()`.)
 
-## Guards (all run in `npm run lint`)
+## Guards (all run in `pnpm run lint`)
 
 - `scripts/check-engine-boundaries.mjs`: the engine only uses the names above (no raw gray/orange/slate…,
   no hex colours, no brand-name literals).

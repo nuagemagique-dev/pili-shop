@@ -46,7 +46,7 @@ export default defineConfig<BrandOptions>({
     },
   ],
   webServer: {
-    command: 'npm run dev',
+    command: 'pnpm run dev',
     url: 'http://localhost:3000/fr/',
     reuseExistingServer: true,
     timeout: 120_000,

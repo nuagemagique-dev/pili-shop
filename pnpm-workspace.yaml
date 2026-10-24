@@ -1,0 +1,30 @@
+packages:
+  - layers/*
+  - apps/*
+
+# Vite+ ships its own vite build (vite-plus-core). Its release is pinned once, in
+# the catalog: the root devDependency makes it the `vite` that every peer
+# dependency on vite resolves to (otherwise pnpm installs the real vite next to
+# it), the override covers the plain dependencies on vite, and test/flags.ts
+# imports it. Keep it equal to devDependencies.vite-plus; Dependabot cannot move
+# it, scripts/sync-vite-plus-pins.mjs does on its vite-plus PRs.
+catalog:
+  vite: npm:@voidzero-dev/vite-plus-core@1.4.0
+
+overrides:
+  vite: 'catalog:'
+
+# Dependency install scripts do not run unless listed. esbuild's only checks its
+# platform binary (the one it ships as a platform package works without), but
+# the old npm setup allowed it (allowScripts), so keep it. Nothing else builds.
+allowBuilds:
+  esbuild: true
+
+# @nuxt/test-utils finds out which vitest major runs by resolving `vitest` from
+# the project root, and picks the module to import (vitest/runtime from 5 on)
+# from it. Nothing depends on vitest directly (vite-plus bundles it), so under
+# pnpm's isolation it is not found and every Nuxt test environment fails to
+# start. npm hoisted it by accident; this hoists exactly that package to the
+# root node_modules, whatever vite-plus pins.
+publicHoistPattern:
+  - vitest

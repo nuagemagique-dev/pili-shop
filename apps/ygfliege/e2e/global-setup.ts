@@ -6,7 +6,7 @@
  * Auth is opt-in: set YGF_E2E_USER_EMAIL (plus the DB_* and ZITADEL_* vars from
  * layers/engine/e2e/support/db-env.ts, pointing at the Zitadel this app uses)
  * to run the logged-in engine specs. Without it they skip. It is a separate
- * var from tokyosushi's E2E_USER_EMAIL so `npm run test:e2e:all` in one shell
+ * var from tokyosushi's E2E_USER_EMAIL so `pnpm run test:e2e:all` in one shell
  * never tries a YGF login against a Zitadel that isn't set up for it.
  */
 import type { FullConfig } from '@playwright/test'
