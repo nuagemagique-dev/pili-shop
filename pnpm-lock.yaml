@@ -169,12 +169,6 @@ importers:
 
   .:
     dependencies:
-      '@intlify/utils':
-        specifier: ^0.14.1
-        version: 0.14.1
-      '@nuxt/kit':
-        specifier: ^4.6.2
-        version: 4.6.2(@nuxt/schema@4.6.2)(confbox@0.2.4)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.155.0)(rolldown@1.2.15)(unplugin@3.4.0(@voidzero-dev/vite-plus-core@1.4.0(@types/node@24.19.2)(@volar/typescript@2.4.28(typescript@6.0.3))(@vue/language-core@3.3.13)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(typescript@6.0.3)(vue-tsc@3.3.13(typescript@6.0.3))(yaml@2.9.1))(esbuild@0.28.2)(rolldown@1.2.15)(rollup@4.64.12))
       '@nuxtjs/google-fonts':
         specifier: ^3.2.0
         version: 3.2.0(magicast@0.5.5)
@@ -196,48 +190,21 @@ importers:
       graphql-ws:
         specifier: ^6.4.1
         version: 6.4.1(crossws@0.4.15(srvx@1.0.6))(graphql@17.0.2)(ws@8.22.0)
-      h3:
-        specifier: ^1.15.11
-        version: 1.15.11
       leaflet:
         specifier: ^1.9.4
         version: 1.9.4
       libphonenumber-js:
         specifier: ^1.13.15
         version: 1.13.15
-      nitropack:
-        specifier: ^2.13.5
-        version: 2.13.5(@voidzero-dev/vite-plus-core@1.4.0(@types/node@24.19.2)(@volar/typescript@2.4.28(typescript@6.0.3))(@vue/language-core@3.3.13)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(typescript@6.0.3)(vue-tsc@3.3.13(typescript@6.0.3))(yaml@2.9.1))(oxc-parser@0.155.0)(rolldown@1.2.15)(srvx@1.0.6)(supports-color@10.2.2)
       nuxt:
         specifier: ^4.6.2
         version: 4.6.2(812bfaeee219218d341e2ab83b0086df)
-      ofetch:
-        specifier: ^1.5.1
-        version: 1.5.1
-      ohash:
-        specifier: ^2.0.12
-        version: 2.0.12
       oidc-client-ts:
         specifier: ^3.5.0
         version: 3.5.0
-      pinia:
-        specifier: ^4.1.0
-        version: 4.1.0(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.44(typescript@6.0.3))
       pinia-plugin-persistedstate:
         specifier: ^4.7.1
         version: 4.7.1(4a7f527fbc19aa2d51c5239dda474eb9)
-      ufo:
-        specifier: ^1.6.4
-        version: 1.6.4
-      vue:
-        specifier: ^3.5.44
-        version: 3.5.44(typescript@6.0.3)
-      vue-i18n:
-        specifier: ^11.4.12
-        version: 11.4.12(vue@3.5.44(typescript@6.0.3))
-      vue-router:
-        specifier: ^5.4.0
-        version: 5.4.0(@voidzero-dev/vite-plus-core@1.4.0(@types/node@24.19.2)(@volar/typescript@2.4.28(typescript@6.0.3))(@vue/language-core@3.3.13)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(typescript@6.0.3)(vue-tsc@3.3.13(typescript@6.0.3))(yaml@2.9.1))(@vue/compiler-sfc@3.5.44)(esbuild@0.28.2)(pinia@4.1.0(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.44(typescript@6.0.3)))(rolldown@1.2.15)(rollup@4.64.12)(vue@3.5.44(typescript@6.0.3))
     devDependencies:
       '@axe-core/playwright':
         specifier: ^4.14.0
@@ -278,9 +245,6 @@ importers:
       oxc-parser:
         specifier: ^0.155.0
         version: 0.155.0
-      tailwindcss:
-        specifier: ^3.4.19
-        version: 3.4.19(yaml@2.9.1)
       tailwindcss-animate:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.4.19(yaml@2.9.1))
