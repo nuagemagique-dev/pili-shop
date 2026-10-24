@@ -22,11 +22,11 @@ allowBuilds:
 
 # Packages the app imports but whose version belongs to a framework package:
 # nuxt (vue, vue-router, h3, nitropack, ufo, ohash, ofetch, @nuxt/kit),
-# @pinia/nuxt (pinia), @nuxtjs/i18n (vue-i18n, @intlify/utils) and
-# @nuxtjs/tailwindcss (tailwindcss). They are hoisted from that package's tree
-# instead of declared here, so they move only when it moves: declared, Dependabot
-# bumped them alone (h3 2 for Nitro 3, Tailwind 4, a vue-i18n ahead of the
-# @intlify runtime @nuxtjs/i18n pins) and broke the build.
+# @pinia/nuxt (pinia), @nuxtjs/i18n (vue-i18n, @intlify/utils). They are hoisted from that package's tree instead of declared here, so they move
+# only when it moves: declared, Dependabot bumped them alone (h3 2 for Nitro 3, a
+# vue-i18n ahead of the @intlify runtime @nuxtjs/i18n pins) and broke the build.
+# (Tailwind is ours, not a framework package's: tailwindcss and @tailwindcss/vite
+# are declared in package.json and move together, see .github/dependabot.yml.)
 #
 # vitest: @nuxt/test-utils finds out which vitest major runs by resolving
 # `vitest` from the project root, and picks the module to import (vitest/runtime
@@ -44,4 +44,3 @@ publicHoistPattern:
   - pinia
   - vue-i18n
   - '@intlify/utils'
-  - tailwindcss
