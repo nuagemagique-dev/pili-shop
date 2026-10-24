@@ -20,6 +20,10 @@ updates:
         update-types: ['version-update:semver-major']
       # Peer-pinned to the vitest that vite-plus bundles: bump it together with vite-plus, never alone.
       - dependency-name: '@vitest/coverage-v8'
+      # Tailwind 3 is what @nuxtjs/tailwindcss 6 runs on (a direct dependency only since pnpm, which does not
+      # hoist it): v4 drops the JS config and PostCSS plugin the module needs. Move both together, never alone.
+      - dependency-name: 'tailwindcss'
+        update-types: ['version-update:semver-major']
     groups:
       # Security fixes, opened as soon as an advisory lands (no cooldown).
       security:
