@@ -6,9 +6,8 @@ tunnel, no Zitadel. CI runs this ("E2E (mock)", one job per brand and per half: 
 and still used by hand.
 
 ```bash
-export PATH=<npm 12>/bin:$PATH
-npm run test:e2e:mock -w tokyosushi          # or ygfliege; builds the app, starts mock + app, runs the specs
-E2E_SKIP_BUILD=1 npm run test:e2e:mock -w tokyosushi -- --project=engine-desktop -g "coupon"   # reuse the last build
+pnpm --filter tokyosushi run test:e2e:mock          # or ygfliege; builds the app, starts mock + app, runs the specs
+E2E_SKIP_BUILD=1 pnpm --filter tokyosushi run test:e2e:mock --project=engine-desktop -g "coupon"   # reuse the last build
 E2E_REUSE=1 ...                               # reuse a mock/app already listening (ports below)
 ```
 
@@ -146,5 +145,5 @@ it). CI is not affected. Locally, run the suite in its own network namespace, wh
 ```bash
 # once, normally (it builds apps/<brand>/.output), then:
 cd apps/tokyosushi
-E2E_SKIP_BUILD=1 unshare -rn bash -c 'ip link set lo up && exec npx playwright test -c playwright.mock.config.ts'
+E2E_SKIP_BUILD=1 unshare -rn bash -c 'ip link set lo up && exec pnpm exec playwright test -c playwright.mock.config.ts'
 ```

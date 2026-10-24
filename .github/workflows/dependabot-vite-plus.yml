@@ -2,7 +2,7 @@ name: Dependabot Vite+ pins
 
 # Completes Dependabot's `vite-plus` group PR. Dependabot bumps vite-plus and
 # @voidzero-dev/* but cannot move two pins that must follow them: the
-# `overrides.vite` alias (npm:@voidzero-dev/vite-plus-core@<version>) and
+# `catalog.vite` alias of pnpm-workspace.yaml (npm:@voidzero-dev/vite-plus-core@<version>) and
 # @vitest/coverage-v8 (peer-pinned to the vitest that vite-plus bundles).
 # This job moves both (scripts/sync-vite-plus-pins.mjs), refreshes the
 # lockfile, pushes the commit on the PR branch and starts CI again (a
@@ -53,9 +53,10 @@ jobs:
           result=$(node scripts/sync-vite-plus-pins.mjs)
           echo "result=$result" >> "$GITHUB_OUTPUT"
           if [ "$result" = changed ]; then
-            # The npm that package.json's devEngines asks for writes the lockfile.
-            npm install -g "npm@$(jq -r '.devEngines.packageManager.version' package.json)"
-            npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+            # The pnpm that package.json's packageManager pins writes the lockfile; installed from
+            # outside the repo so no pnpm has to exist yet.
+            (cd "$RUNNER_TEMP" && npm install -g "pnpm@$(jq -r '.packageManager | ltrimstr("pnpm@")' "$GITHUB_WORKSPACE/package.json")")
+            pnpm install --lockfile-only --ignore-scripts
             git diff --stat
           fi
 
@@ -66,7 +67,7 @@ jobs:
           version=$(jq -r '.devDependencies["vite-plus"]' package.json)
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add package.json package-lock.json
+          git add package.json pnpm-workspace.yaml pnpm-lock.yaml
           git commit -m "build(deps): move the vite-plus pins to $version"
           git push origin "HEAD:$BRANCH"
           gh workflow run ci.yml --ref "$BRANCH"

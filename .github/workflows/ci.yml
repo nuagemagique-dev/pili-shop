@@ -93,7 +93,41 @@ jobs:
           cache: true
 
       - name: Build
-        run: npm run build -w ${{ matrix.app }}
+        run: pnpm --filter ${{ matrix.app }} run build
+
+  # Pull requests build the Docker image of one brand and boot it, as the release jobs of action.yml do, so a change to
+  # the Dockerfile, its base image or the package manager install can never merge untested. Pushes to main and release
+  # tags (workflow_call from action.yml) skip it: their images are built and smoke-tested right after, with the real
+  # build arguments. One brand is enough: the Dockerfile is shared and ygfliege only differs by APP.
+  image:
+    name: Docker image boots (tokyosushi)
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+
+      - name: Build the image (amd64, dummy build arguments)
+        run: |
+          docker buildx build . \
+            --file Dockerfile \
+            --build-arg APP=tokyosushi \
+            --platform linux/amd64 \
+            --tag pili-shop-ci:pr \
+            --build-arg BASE_URL=https://localhost \
+            --build-arg API_BASE_URL=https://localhost/api/v1 \
+            --build-arg S3_BUCKET_URL=https://localhost \
+            --build-arg GRAPHQL_WS_URL=wss://localhost/api/v1/graphql \
+            --build-arg ZITADEL_AUTHORITY=https://localhost \
+            --build-arg ZITADEL_CLIENT_ID=ci-dummy-client-id \
+            --load
+
+      - name: Boot smoke test
+        run: scripts/ci-smoke-image.sh pili-shop-ci:pr
 
   e2e-mock:
     name: E2E (mock) (${{ matrix.app }}, ${{ matrix.shard }})
@@ -123,7 +157,7 @@ jobs:
         run: vp exec playwright install --with-deps chromium
 
       - name: Run E2E tests against the mock
-        run: npm run test:e2e:mock:${{ matrix.shard }} -w ${{ matrix.app }}
+        run: pnpm --filter ${{ matrix.app }} run test:e2e:mock:${{ matrix.shard }}
 
       - name: Upload Playwright report
         if: ${{ failure() }}
@@ -164,4 +198,4 @@ jobs:
         run: vp exec playwright install --with-deps chromium
 
       - name: Run E2E tests
-        run: npm run test:e2e
+        run: pnpm run test:e2e

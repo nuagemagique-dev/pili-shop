@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*
- * Locale checks, run by `npm run lint` and CI.
+ * Locale checks, run by `pnpm run lint` and CI.
  *
  * 1. Key parity: fr, en, nl and zh must define exactly the same keys, separately for the engine
  *    layer (layers/engine/locales) and for every app (apps/<app>/locales). A key missing from one

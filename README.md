@@ -32,7 +32,7 @@ Repository `nuagemagique-dev/pili-shop`, local folder and internal name `tsb-cor
 cp .env.example .env
 ```
 
-Required for a production build (`npm run build`, the Docker image): there is no default, and the build fails
+Required for a production build (`pnpm run build`, the Docker image): there is no default, and the build fails
 naming whatever is missing. They are baked into the client bundle, so set them when building (Docker: `--build-arg`).
 The dev server and `nuxi typecheck` do not need them.
 
@@ -51,9 +51,13 @@ default; the default only delays the language file and the prefetch hints.
 
 ### 2) Install and run
 
+The package manager is [pnpm](https://pnpm.io) (version pinned by `packageManager` in `package.json`; with Node's
+corepack or pnpm installed, the right version is used automatically). The repo is a pnpm workspace
+(`pnpm-workspace.yaml`): the shared engine layer under `layers/` and one app per brand under `apps/`.
+
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 App runs on port `3000` by default.
@@ -61,14 +65,14 @@ App runs on port `3000` by default.
 ## Commands
 
 ```bash
-npm run dev
-npm run build
-npm run lint
-npm test                 # unit tests (vp test run), see docs/testing.md
-npm run test:coverage    # same, with v8 coverage and the CI thresholds
-npm run test:e2e
-npm run test:e2e:headed
-npm run test:e2e:ui
+pnpm run dev
+pnpm run build
+pnpm run lint
+pnpm test                 # unit tests (vp test run), see docs/testing.md
+pnpm run test:coverage    # same, with v8 coverage and the CI thresholds
+pnpm run test:e2e
+pnpm run test:e2e:headed
+pnpm run test:e2e:ui
 ```
 
 E2E tests require:

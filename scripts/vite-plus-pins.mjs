@@ -1,17 +1,11 @@
-// Dependabot bumps vite-plus and @voidzero-dev/* as one group, but two pins stay behind: the `overrides.vite` alias
-// (vite-plus-core of the same release) and @vitest/coverage-v8 (peer-pinned to the vitest vite-plus bundles).
-// .github/workflows/dependabot-vite-plus.yml moves them on the Dependabot PR with sync-vite-plus-pins.mjs.
+// Dependabot bumps vite-plus and @voidzero-dev/* as one group, but two pins stay behind: the `catalog.vite` alias of
+// pnpm-workspace.yaml (vite-plus-core of the same release) and @vitest/coverage-v8 (peer-pinned to the vitest vite-plus
+// bundles). .github/workflows/dependabot-vite-plus.yml moves them on the Dependabot PR with sync-vite-plus-pins.mjs.
 
 /**
  * @typedef {object} Manifest
  * @property {Record<string, string>} [dependencies]
  * @property {Record<string, string>} [devDependencies]
- * @property {Record<string, string>} [overrides]
- */
-
-/**
- * @typedef {object} Lockfile
- * @property {Record<string, Manifest>} [packages]
  */
 
 /**
@@ -39,39 +33,64 @@ function replaceEntry(text, name, { from, to }) {
   return text.replace(entry, `${JSON.stringify(name)}: ${JSON.stringify(to)}`)
 }
 
+const catalogLine = /^( {2}vite: )(npm:@voidzero-dev\/vite-plus-core@\S+)$/gm
+
 /**
- * package.json text with `overrides.vite` and @vitest/coverage-v8 moved to the vite-plus release it declares.
- * Returns the text unchanged when both pins already hold.
- * @param {string} pkgText package.json
- * @param {string} lockText package-lock.json, as Dependabot left it
- * @returns {string}
+ * The vitest release the locked vite-plus depends on: the `vitest:` entry of the vite-plus snapshot of pnpm-lock.yaml
+ * (the key carries the peer suffix, e.g. `vite-plus@1.4.0(@types/node@24.19.2)(...):`).
+ * @param {string} lockText pnpm-lock.yaml
+ * @returns {string | undefined}
  */
-export function syncedPins(pkgText, lockText) {
+function lockedVitest(lockText) {
+  const lines = lockText.split('\n')
+  const start = lines.findIndex((line) => /^ {2}vite-plus@[^(\s]+\(.*\):$/.test(line))
+  if (start === -1) {
+    return undefined
+  }
+  for (const line of lines.slice(start + 1)) {
+    if (/^ {2}\S/.test(line)) {
+      return undefined
+    }
+    const match = /^ {6}vitest: ([^(\s]+)/.exec(line)
+    if (match) {
+      return match[1]
+    }
+  }
+  return undefined
+}
+
+/**
+ * package.json and pnpm-workspace.yaml texts with `catalog.vite` and @vitest/coverage-v8 moved to the vite-plus
+ * release package.json declares. A text comes back unchanged when its pin already holds.
+ * @param {string} pkgText package.json
+ * @param {string} workspaceText pnpm-workspace.yaml
+ * @param {string} lockText pnpm-lock.yaml, as Dependabot left it
+ * @returns {{ pkg: string, workspace: string }}
+ */
+export function syncedPins(pkgText, workspaceText, lockText) {
   /** @type {Manifest} */
   const pkg = parseObject(pkgText)
-  /** @type {Lockfile} */
-  const lock = parseObject(lockText)
   const declared = pkg.devDependencies?.['vite-plus']
-  const override = pkg.overrides?.vite
-  if (declared === undefined || override === undefined) {
-    throw new Error('package.json needs devDependencies.vite-plus and overrides.vite')
+  const catalogPins = [...workspaceText.matchAll(catalogLine)]
+  if (declared === undefined || catalogPins.length !== 1) {
+    throw new Error(
+      'package.json needs devDependencies.vite-plus and pnpm-workspace.yaml one catalog.vite alias',
+    )
   }
+
+  const core = `npm:@voidzero-dev/vite-plus-core@${declared}`
+  const workspace = workspaceText.replace(catalogLine, `$1${core}`)
 
   let text = pkgText
-  const core = `npm:@voidzero-dev/vite-plus-core@${declared}`
-  if (override !== core) {
-    text = replaceEntry(text, 'vite', { from: override, to: core })
-  }
-
   const coverage = pkg.devDependencies?.['@vitest/coverage-v8']
   if (coverage !== undefined) {
-    const vitest = lock.packages?.['node_modules/vite-plus']?.dependencies?.vitest
+    const vitest = lockedVitest(lockText)
     if (vitest === undefined) {
-      throw new Error('package-lock.json has no vitest dependency for node_modules/vite-plus')
+      throw new Error('pnpm-lock.yaml has no vitest dependency for vite-plus')
     }
     if (coverage !== vitest) {
       text = replaceEntry(text, '@vitest/coverage-v8', { from: coverage, to: vitest })
     }
   }
-  return text
+  return { pkg: text, workspace }
 }

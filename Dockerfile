@@ -4,7 +4,7 @@
 #   docker buildx build . --file Dockerfile --build-arg APP=ygfliege ...
 FROM node:24.21-slim AS builder
 
-# Which app under apps/ to build (npm workspace name = directory name).
+# Which app under apps/ to build (pnpm workspace name = directory name).
 ARG APP=tokyosushi
 
 WORKDIR /usr/src/app
@@ -48,24 +48,26 @@ ENV BASE_URL=${BASE_URL} \
 # The image has no git; skip the Vite+ hook setup run by the `prepare` script.
 ENV VP_GIT_HOOKS=0
 
-# The base image ships npm 11; package.json's devEngines requires npm ^12.2.0
-# (onFail: error), so install it before `npm ci`. Keep in sync with devEngines.
-RUN npm install -g npm@12.2.0 && npm --version
+# pnpm, pinned. Keep in sync with "packageManager" in package.json (pnpm would
+# switch to that version itself, but then downloads it on every build).
+RUN npm install -g pnpm@12.15.0 && pnpm --version
 
 # Copy workspace manifests first for dependency-install layer caching.
-COPY package.json package-lock.json ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY layers/engine/package.json ./layers/engine/package.json
 COPY apps/${APP}/package.json ./apps/${APP}/package.json
 
-# Install the whole workspace (hoisted to the root node_modules).
-RUN npm ci --prefer-offline --no-audit
+# Install the dependencies of this app and the engine layer (what the workspace
+# root declares is shared by both). The other brand's manifest is not in the
+# image, so the frozen lockfile is checked for these projects only.
+RUN pnpm install --frozen-lockfile --filter ${APP}...
 
 # Copy the shared engine layer + this brand app.
 COPY layers ./layers
 COPY apps/${APP} ./apps/${APP}
 
 # Build only this app (pulls in the engine layer via `extends`).
-RUN npm run build -w ${APP}
+RUN pnpm --filter ${APP} run build
 
 # ---------- Runtime ----------
 FROM node:24.21-alpine3.24
@@ -80,7 +82,7 @@ ENV NODE_ENV=production
 ENV NITRO_PRESET=node-server
 
 # Nitro's node-server output is self-contained (bundles its own
-# .output/server/node_modules), so no runtime `npm install` is needed.
+# .output/server/node_modules), so no runtime `pnpm install` is needed.
 COPY --from=builder /usr/src/app/apps/${APP}/.output ./.output
 
 USER appuser

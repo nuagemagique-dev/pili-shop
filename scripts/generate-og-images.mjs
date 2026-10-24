@@ -9,7 +9,7 @@
  *   node scripts/generate-og-images.mjs            # both brands
  *   node scripts/generate-og-images.mjs ygfliege   # one
  *
- * Needs a Chromium: Playwright's own (`npx playwright install chromium`), or set CHROMIUM_PATH.
+ * Needs a Chromium: Playwright's own (`pnpm exec playwright install chromium`), or set CHROMIUM_PATH.
  * The files are cached for a year by the apps (nitro publicAssets): when you change the image, rename it
  * (og-default-2.jpg) and update layers/engine/plugins/seo-defaults.ts.
  */
