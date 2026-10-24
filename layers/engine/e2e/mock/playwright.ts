@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { type PlaywrightTestConfig, type Project, devices } from '@playwright/test'
 import type { BrandOptions } from '../support/test'
 import type { MockBrand } from './types'
