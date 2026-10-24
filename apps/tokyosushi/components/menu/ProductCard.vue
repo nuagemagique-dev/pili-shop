@@ -7,7 +7,7 @@
       :data-testid="inPicks ? 'menu-picks-card' : 'product-card'"
       :data-product-id="inPicks ? undefined : product.id"
       :data-has-choices="hasChoices"
-      class="isolate min-w-0 md:max-w-[185px] w-full h-full min-h-[260px] bg-white border border-neutral-100 rounded-xl shadow-sm flex flex-col p-2 transition-all duration-300 hover:shadow-md"
+      class="isolate min-w-0 md:max-w-[185px] w-full h-full min-h-[260px] bg-white border border-neutral-100 rounded-xl shadow-xs flex flex-col p-2 transition-all duration-300 hover:shadow-md"
     >
       <!-- Product Image (flexible: grows/shrinks to fill remaining space) -->
       <div
@@ -80,7 +80,7 @@
             aria-haspopup="dialog"
             data-testid="product-name"
             translate="no"
-            class="relative max-w-full -my-2 py-2 text-black font-semibold text-sm text-center mb-0.5 rounded-md hover:text-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors duration-300"
+            class="relative max-w-full -my-2 py-2 text-black font-semibold text-sm text-center mb-0.5 rounded-md hover:text-primary-hover focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors duration-300"
             :title="product.name"
             :aria-label="$t('menu.viewDetails', { name: product.name })"
             @click="emit('openProductModal')"
@@ -111,7 +111,7 @@
                 ref="addButtonRef"
                 :aria-label="$t('cart.addNamed', { name: product.name })"
                 data-testid="product-add-to-cart"
-                class="flex items-center justify-center w-11 h-11 rounded-xl border border-neutral-200 bg-white text-neutral-600 hover:bg-tsb-four hover:text-primary-400 hover:border-primary-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50"
+                class="flex items-center justify-center w-11 h-11 rounded-xl border border-neutral-200 bg-white text-neutral-600 hover:bg-tsb-four hover:text-primary-400 hover:border-primary-200 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50"
                 type="button"
                 :disabled="orderingDisabled || !isMounted"
                 @click="addToCart"
@@ -121,7 +121,7 @@
               <button
                 v-else
                 ref="countButtonRef"
-                class="flex items-center justify-center w-11 h-11 rounded-xl bg-tsb-four text-primary-700 font-semibold border border-primary-200 hover:bg-primary-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-all duration-300 cursor-pointer"
+                class="flex items-center justify-center w-11 h-11 rounded-xl bg-tsb-four text-primary-700 font-semibold border border-primary-200 hover:bg-primary-100 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-all duration-300 cursor-pointer"
                 type="button"
                 :aria-label="$t('cart.inCartNamed', { name: product.name, count: cardQuantity })"
                 :class="{ 'animate-number-bounce': isQuantityBouncing }"

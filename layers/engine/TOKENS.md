@@ -2,7 +2,9 @@
 
 Everything in `layers/engine` is written once and must render correctly in every brand. It therefore
 talks to the theme through **names**, never through a brand's literal colours. Each brand maps the names
-in its `tailwind.config.ts` (and `assets/css/*.css` for the HSL variables).
+in the `@theme` blocks of its `assets/css/tailwind.css` (Tailwind 4, no JS config; `assets/css/brand.css` holds the HSL
+variables). Both brands start from Tailwind's own oklch palette: `primary-*` and `neutral-*` point at its red and gray
+scales (Tailwind 4 has a neutral palette of its own: our `neutral-*` is the gray scale, mapped in `@theme`).
 
 | Name                                       | Meaning                                                                                                                                       |
 | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -13,7 +15,11 @@ in its `tailwind.config.ts` (and `assets/css/*.css` for the HSL variables).
 | `red`, `amber`, `green`, `emerald`, `blue` | the same meaning in every brand: error, warning, success, completed, halal                                                                    |
 
 `primary-*`/`neutral-*`/`tsb-*` class names stay stable; a brand may override a step where the raw scale
-fails contrast (YGF: `backgroundColor.primary`, `textColor.primary`, `borderColor.neutral`).
+fails contrast (YGF: `--color-primary-500…800`, `--color-neutral-*`). A theme colour is one value for every
+utility (background, text, border, ring...): Tailwind 4 has no per-utility colour override.
+
+A brand's own custom properties must not reuse the names Tailwind 4 reads as its theme (`--radius-*`, `--shadow-*`,
+`--ease-*`, `--font-*`, `--color-*`...): YGF prefixes them `--ygf-`.
 
 ## Accessibility rules the contract carries
 
@@ -39,19 +45,19 @@ fails contrast (YGF: `backgroundColor.primary`, `textColor.primary`, `borderColo
 (the kit is awaiting the franchisor's decision; do not switch before it comes). Decorative orange (large
 surfaces, borders, glyphs, the loading bar) is that value; anything that carries white text or small text uses
 the AA-corrected steps `--ygf-orange-on-white` (#C2570C), `--ygf-orange-on-white-hover` and `--ygf-orange-text`
-(see `apps/ygfliege/assets/css/brand.css`). To change the orange: `YGF_ORANGE` in `apps/ygfliege/tailwind.config.ts`,
+(see `apps/ygfliege/assets/css/brand.css`). To change the orange: `--color-ygf` and `--color-ygf-orange-500` in `apps/ygfliege/assets/css/tailwind.css`,
 `--ygf-orange` in `brand.css` and the `theme-color` meta in `apps/ygfliege/nuxt.config.ts`.
 
 ## Dead tokens
 
 The unused shadcn colours (`secondary`, `destructive`, `muted`, `accent`, `popover`, `card`) are gone from both
-configs; use the contract names above. (`tsb-three` stays: the order-completed petals read it through `theme()`.)
+themes; use the contract names above. (`tsb-three` stays: the order-completed petals read it through `--theme()`.)
 
 ## Guards (all run in `pnpm run lint`)
 
 - `scripts/check-engine-boundaries.mjs`: the engine only uses the names above (no raw gray/orange/slate…,
   no hex colours, no brand-name literals).
-- `scripts/check-token-contrast.mjs`: reads both brands' real configs and fails if a contract text colour,
+- `scripts/check-token-contrast.mjs`: reads both brands' `@theme` blocks (and Tailwind's oklch palette, converted to sRGB by `scripts/theme-colors.mjs`) and fails if a contract text colour,
   CTA fill or the focus ring drops below its ratio (`--table` prints every pair), and if a template
   uses pale secondary text.
 - `scripts/check-focus-ring-contrast.mjs`: no `focus:ring-<colour>-100…400` utility in a template.

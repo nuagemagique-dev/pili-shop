@@ -108,7 +108,7 @@
             >
               <!-- Type icon (decorative; gone under 400 px, where the status and the date need the width) -->
               <div
-                class="w-9 h-9 rounded-lg bg-primary-50 flex items-center justify-center flex-shrink-0 max-[400px]:hidden"
+                class="w-9 h-9 rounded-lg bg-primary-50 flex items-center justify-center shrink-0 max-[400px]:hidden"
                 aria-hidden="true"
               >
                 <!-- Moped icon for delivery (Tabler Icons) -->
@@ -164,7 +164,7 @@
               </div>
 
               <!-- Price + chevron -->
-              <div class="flex items-center gap-2 ml-1 flex-shrink-0">
+              <div class="flex items-center gap-2 ml-1 shrink-0">
                 <span class="text-sm font-bold text-neutral-900 tabular-nums">{{
                   formatPrice(order.totalPrice)
                 }}</span>
@@ -303,11 +303,11 @@
           class="flex items-center gap-3 my-5"
         >
           <div
-            class="flex-1 h-px bg-gradient-to-r from-transparent via-neutral-300/40 to-transparent"
+            class="flex-1 h-px bg-linear-to-r from-transparent via-neutral-300/40 to-transparent"
           />
           <svg
             v-if="japaneseAccents"
-            class="w-5 h-5 text-neutral-300/50 flex-shrink-0"
+            class="w-5 h-5 text-neutral-300/50 shrink-0"
             viewBox="0 0 20 20"
             fill="none"
             stroke="currentColor"
@@ -321,7 +321,7 @@
             <line x1="5" y1="9" x2="15" y2="9" />
           </svg>
           <div
-            class="flex-1 h-px bg-gradient-to-r from-transparent via-neutral-300/40 to-transparent"
+            class="flex-1 h-px bg-linear-to-r from-transparent via-neutral-300/40 to-transparent"
           />
         </div>
 
@@ -331,7 +331,7 @@
             v-for="order in visiblePastOrders"
             :id="`order-card-${order.id}`"
             :key="order.id"
-            class="past-card relative bg-white rounded-xl border-l-[3px] shadow-sm transition-shadow hover:shadow-md"
+            class="past-card relative bg-white rounded-xl border-l-[3px] shadow-xs transition-shadow hover:shadow-md"
             :class="orderBorderClass(order.status)"
           >
             <!-- Hanko seal for completed orders (nijuumaru double circle) -->
@@ -353,7 +353,7 @@
             >
               <!-- Type icon (decorative; gone under 400 px, where the status and the date need the width) -->
               <div
-                class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 max-[400px]:hidden"
+                class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 max-[400px]:hidden"
                 :class="iconBgClass(order.status)"
                 aria-hidden="true"
               >
@@ -411,7 +411,7 @@
               </div>
 
               <!-- Price + chevron -->
-              <div class="flex items-center gap-2 ml-1 flex-shrink-0">
+              <div class="flex items-center gap-2 ml-1 shrink-0">
                 <span class="text-sm font-semibold text-neutral-800 tabular-nums">{{
                   formatPrice(order.totalPrice)
                 }}</span>
@@ -557,7 +557,7 @@
                 <!-- Download Invoice button -->
                 <button
                   v-if="invoicesEnabled && isOrderSuccess(order.status)"
-                  class="mt-2 w-full flex items-center justify-center gap-2 rounded-xl border border-neutral-200 bg-white px-4 py-2 text-sm font-medium text-neutral-600 transition-colors hover:bg-tsb-four/40 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                  class="mt-2 w-full flex items-center justify-center gap-2 rounded-xl border border-neutral-200 bg-white px-4 py-2 text-sm font-medium text-neutral-600 transition-colors hover:bg-tsb-four/40 focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2"
                   @click.stop="downloadInvoice(order.id)"
                 >
                   <svg
@@ -883,6 +883,8 @@ const accordionAfterLeave = (el: Element) => {
 </script>
 
 <style scoped>
+@reference "#brand/assets/css/tailwind.css";
+
 /* ── Active card breathing glow ── */
 .active-card {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08);
@@ -894,12 +896,12 @@ const accordionAfterLeave = (el: Element) => {
   100% {
     box-shadow:
       0 1px 3px 0 rgba(0, 0, 0, 0.08),
-      0 0 0 0 theme('colors.primary.500 / 0%');
+      0 0 0 0 --alpha(--theme(--color-primary-500 inline) / 0%);
   }
   50% {
     box-shadow:
       0 1px 3px 0 rgba(0, 0, 0, 0.08),
-      0 0 14px -3px theme('colors.primary.500 / 15%');
+      0 0 14px -3px --alpha(--theme(--color-primary-500 inline) / 15%);
   }
 }
 
@@ -927,18 +929,18 @@ const accordionAfterLeave = (el: Element) => {
   right: 10px;
   width: 28px;
   height: 28px;
-  border: 2px solid theme('colors.primary.500 / 22%');
+  border: 2px solid --alpha(--theme(--color-primary-500 inline) / 22%);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: theme('colors.primary.500 / 30%');
+  color: --alpha(--theme(--color-primary-500 inline) / 30%);
   font-size: 12px;
   font-weight: 800;
   pointer-events: none;
   z-index: 2;
   line-height: 1;
-  box-shadow: inset 0 0 3px theme('colors.primary.500 / 6%');
+  box-shadow: inset 0 0 3px --alpha(--theme(--color-primary-500 inline) / 6%);
 }
 
 /* Nijuumaru outer ring */
@@ -946,7 +948,7 @@ const accordionAfterLeave = (el: Element) => {
   content: '';
   position: absolute;
   inset: -4px;
-  border: 1px solid theme('colors.primary.500 / 12%');
+  border: 1px solid --alpha(--theme(--color-primary-500 inline) / 12%);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -984,14 +986,14 @@ const accordionAfterLeave = (el: Element) => {
 /* ── Hanko seal hover intensification ── */
 @media (hover: hover) {
   .past-card:hover .hanko-seal {
-    color: theme('colors.primary.500 / 45%');
-    border-color: theme('colors.primary.500 / 35%');
+    color: --alpha(--theme(--color-primary-500 inline) / 45%);
+    border-color: --alpha(--theme(--color-primary-500 inline) / 35%);
     transition:
       color 300ms ease,
       border-color 300ms ease;
   }
   .past-card:hover .hanko-seal::before {
-    border-color: theme('colors.primary.500 / 22%');
+    border-color: --alpha(--theme(--color-primary-500 inline) / 22%);
     transition: border-color 300ms ease;
   }
 }
@@ -1046,7 +1048,7 @@ const accordionAfterLeave = (el: Element) => {
   transform: translate(-50%, -50%);
   font-size: 10px;
   letter-spacing: 2px;
-  color: theme('colors.neutral.200');
+  color: --theme(--color-neutral-200 inline);
   pointer-events: none;
 }
 

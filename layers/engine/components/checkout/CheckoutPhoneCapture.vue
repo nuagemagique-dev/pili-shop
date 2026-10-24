@@ -2,7 +2,7 @@
   <section
     id="checkout-phone-capture"
     tabindex="-1"
-    class="rounded-lg border p-4 shadow-sm"
+    class="rounded-lg border p-4 shadow-xs"
     :class="isCollapsed ? 'bg-white border-neutral-200' : 'bg-amber-50/70 border-amber-200'"
   >
     <div class="flex items-start gap-3">
@@ -45,7 +45,7 @@
         v-if="isCollapsed"
         type="button"
         :aria-label="$t('checkout.phoneCapture.editAria')"
-        class="min-h-11 min-w-11 inline-flex items-center justify-center px-3 -mr-2 text-sm font-medium text-primary-700 hover:text-primary-900 rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-none transition-colors"
+        class="min-h-11 min-w-11 inline-flex items-center justify-center px-3 -mr-2 text-sm font-medium text-primary-700 hover:text-primary-900 rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-hidden transition-colors"
         @click="startEditing"
       >
         {{ $t('checkout.phoneCapture.edit') }}
@@ -71,7 +71,7 @@
               phoneError ? 'checkout-phone-error' : phoneHint ? 'checkout-phone-hint' : undefined
             "
             :class="loading ? 'pr-9' : 'pr-3'"
-            class="w-full px-3 py-2.5 bg-white border border-neutral-200 rounded-xl text-base sm:text-sm text-neutral-900 placeholder-neutral-600 tabular-nums focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-ring focus-visible:outline-none transition-all duration-300"
+            class="w-full px-3 py-2.5 bg-white border border-neutral-200 rounded-xl text-base sm:text-sm text-neutral-900 placeholder:text-neutral-600 tabular-nums focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-ring focus-visible:outline-hidden transition-all duration-300"
             @input="onInput"
             @blur="onBlur"
           />
@@ -85,7 +85,7 @@
           type="button"
           data-testid="checkout-phone-cancel"
           :disabled="loading"
-          class="min-h-11 shrink-0 px-3 rounded-xl text-sm font-medium text-neutral-600 hover:bg-neutral-100 focus-visible:ring-2 focus-visible:outline-none disabled:opacity-60"
+          class="min-h-11 shrink-0 px-3 rounded-xl text-sm font-medium text-neutral-600 hover:bg-neutral-100 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden disabled:opacity-60"
           @click="cancelEditing"
         >
           {{ $t('common.cancel') }}
@@ -94,7 +94,7 @@
           type="submit"
           data-testid="checkout-phone-save"
           :disabled="loading"
-          class="min-h-11 shrink-0 px-4 rounded-xl text-sm font-semibold bg-red-600 text-white hover:bg-red-700 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-2 focus-visible:outline-none disabled:opacity-60 disabled:cursor-wait"
+          class="min-h-11 shrink-0 px-4 rounded-xl text-sm font-semibold bg-red-600 text-white hover:bg-red-700 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-2 focus-visible:outline-hidden disabled:opacity-60 disabled:cursor-wait"
         >
           {{ $t('common.save') }}
         </button>

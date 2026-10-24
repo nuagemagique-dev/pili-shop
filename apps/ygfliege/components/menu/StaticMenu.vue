@@ -148,7 +148,7 @@
             :key="filter"
             type="button"
             :aria-pressed="filter === activeFilter"
-            class="min-h-11 px-4 py-3 rounded-ygf-btn border text-sm font-medium transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            class="min-h-11 px-4 py-3 rounded-ygf-btn border text-sm font-medium transition-all duration-300 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             :class="
               filter === activeFilter
                 ? 'bg-ygf border-ygf text-ygf-black'
@@ -312,12 +312,14 @@ useSeoMeta({
 </script>
 
 <style scoped>
+@reference "~/assets/css/tailwind.css";
+
 /* Same warm background as the home hero of the old site. */
 .static-menu-hero {
   background: radial-gradient(
     120% 80% at 50% 0%,
-    theme('colors.ygf.bg') 0%,
-    theme('colors.ygf.cream') 55%,
+    --theme(--color-ygf-bg inline) 0%,
+    --theme(--color-ygf-cream inline) 55%,
     #fbe3cc 100%
   );
 }
@@ -327,7 +329,7 @@ useSeoMeta({
 }
 
 :deep(.static-menu-bowl) {
-  filter: drop-shadow(0 24px 48px theme('colors.ygf.DEFAULT / 28%'));
+  filter: drop-shadow(0 24px 48px --alpha(--theme(--color-ygf inline) / 28%));
 }
 
 .broth-card {
@@ -338,7 +340,7 @@ useSeoMeta({
 
 .broth-card:hover {
   transform: translateY(-4px);
-  box-shadow: theme('boxShadow.ygf-md');
+  box-shadow: --theme(--shadow-ygf-md inline);
 }
 
 :deep(.broth-card-photo) {

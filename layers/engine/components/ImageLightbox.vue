@@ -7,7 +7,7 @@
         role="dialog"
         aria-modal="true"
         :aria-label="alt || $t('common.image')"
-        class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm"
+        class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-xs"
         @click.self="close"
       >
         <!-- Close button (white ring: the brand focus colour does not reach 3:1 on the dark overlay) -->
@@ -15,7 +15,7 @@
           ref="closeRef"
           type="button"
           :aria-label="$t('common.close')"
-          class="absolute top-4 right-4 w-11 h-11 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-colors z-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+          class="absolute top-4 right-4 w-11 h-11 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-colors z-10 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
           :style="{ marginTop: 'env(safe-area-inset-top, 0px)' }"
           @click="close"
         >

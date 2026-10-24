@@ -35,7 +35,7 @@
           type="button"
           data-testid="reorder-bar-close"
           :aria-label="$t('reorder.barClose')"
-          class="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full text-neutral-600 hover:text-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+          class="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full text-neutral-600 hover:text-neutral-800 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-primary-500"
           @click="onDismiss"
         >
           <svg

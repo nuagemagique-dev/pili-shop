@@ -10,7 +10,7 @@
       :disabled="busy"
       :class="
         buttonClass ??
-        'min-h-11 shrink-0 rounded-lg border border-current px-4 text-sm font-semibold hover:bg-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-60'
+        'min-h-11 shrink-0 rounded-lg border border-current px-4 text-sm font-semibold hover:bg-black/5 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-60'
       "
       @click="emit('retry')"
     >

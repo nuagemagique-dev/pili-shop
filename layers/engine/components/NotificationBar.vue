@@ -30,7 +30,7 @@
             <button
               v-if="action"
               type="button"
-              class="flex-shrink-0 min-h-11 bg-white text-neutral-900 px-4 py-1.5 rounded-full text-sm font-semibold hover:bg-neutral-100 active:scale-95 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              class="shrink-0 min-h-11 bg-white text-neutral-900 px-4 py-1.5 rounded-full text-sm font-semibold hover:bg-neutral-100 active:scale-95 transition focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               @click="invokeAction"
             >
               {{ action.label }}
@@ -39,7 +39,7 @@
             <slot v-else-if="cookieConsent" name="action">
               <button
                 type="button"
-                class="flex-shrink-0 min-h-11 bg-white text-neutral-900 px-4 py-1.5 rounded-full text-sm font-semibold hover:bg-neutral-100 active:scale-95 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                class="shrink-0 min-h-11 bg-white text-neutral-900 px-4 py-1.5 rounded-full text-sm font-semibold hover:bg-neutral-100 active:scale-95 transition focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 @click="close"
                 :aria-label="$t('cookies.acceptAria')"
               >
@@ -52,7 +52,7 @@
               type="button"
               data-testid="notification-close"
               :aria-label="$t('common.close')"
-              class="-mr-3 -my-1.5 inline-flex min-h-11 min-w-11 flex-shrink-0 items-center justify-center rounded-full opacity-70 hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800"
+              class="-mr-3 -my-1.5 inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full opacity-70 hover:opacity-100 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-neutral-800"
               @click="close"
             >
               <svg
@@ -72,7 +72,7 @@
         <!-- Progress bar: a CSS animation over the toast's duration; it stops while the toast is hovered or focused, like its timer -->
         <div
           v-if="!persistent && !cookieConsent"
-          class="w-full mt-2 h-0.5 bg-white/20 rounded overflow-hidden"
+          class="w-full mt-2 h-0.5 bg-white/20 rounded-sm overflow-hidden"
         >
           <div
             class="h-full progress-bar"

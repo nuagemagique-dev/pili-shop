@@ -353,6 +353,8 @@ useSeoMeta({
 </script>
 
 <style scoped>
+@reference "#brand/assets/css/tailwind.css";
+
 .privacy-heading {
   @apply mb-3 text-lg font-semibold text-neutral-900;
 }

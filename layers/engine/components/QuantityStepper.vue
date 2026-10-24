@@ -39,7 +39,7 @@ import { ref } from 'vue'
 
 // Single -/+ control for the product card, the cart and the product modal.
 // Emits the `.stepper` vocabulary; each brand app styles it in its own CSS.
-const BUTTON = 'stepper-btn focus:outline-none focus-visible:ring-2 focus-visible:ring-ring'
+const BUTTON = 'stepper-btn focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring'
 
 const ICON = {
   sm: 'h-4 w-4',

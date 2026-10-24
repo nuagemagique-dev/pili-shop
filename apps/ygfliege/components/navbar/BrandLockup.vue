@@ -7,7 +7,7 @@
          translate="no" marking of the Chinese name, which a French voice would then spell. The circle is decorative. -->
   <NuxtLinkLocale
     to="/"
-    class="lockup shrink-0 inline-flex items-center gap-2 lg:gap-3 min-h-11 rounded-ygf-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2"
+    class="lockup shrink-0 inline-flex items-center gap-2 lg:gap-3 min-h-11 rounded-ygf-sm focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
   >
     <img
       src="/images/logos/logo-color.svg"

@@ -5,7 +5,7 @@
     :aria-label="chipAriaLabel"
     v-bind="forwardedAttrs"
     :class="[
-      'inline-flex min-h-11 items-center gap-1.5 rounded-xl font-medium transition-all duration-300 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 max-w-full',
+      'inline-flex min-h-11 items-center gap-1.5 rounded-xl font-medium transition-all duration-300 ease-out focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 max-w-full',
       'text-xs',
       compact ? 'px-2.5 py-1.5' : 'px-3 py-2',
       stateClasses,

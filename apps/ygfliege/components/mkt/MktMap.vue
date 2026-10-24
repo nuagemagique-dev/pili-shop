@@ -149,7 +149,7 @@ onBeforeUnmount(() => {
   border-radius: 9999px;
   background: var(--ygf-white);
   color: var(--ygf-black);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--ygf-shadow-md);
   transition: color 300ms ease-out;
 }
 

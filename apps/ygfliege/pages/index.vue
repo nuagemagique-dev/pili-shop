@@ -338,7 +338,7 @@ useSeoMeta({
   min-height: 3rem;
   padding: 0.75rem 1.5rem;
   border: 2px solid transparent;
-  border-radius: var(--radius-btn);
+  border-radius: var(--ygf-radius-btn);
   font-weight: 600;
   transition:
     background-color 300ms ease-out,

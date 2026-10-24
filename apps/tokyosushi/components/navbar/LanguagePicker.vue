@@ -7,8 +7,8 @@
       data-testid="language-picker"
       :class="
         variant === 'rail'
-          ? 'relative group w-[50px] h-[50px] bg-white text-neutral-900 flex flex-col items-center justify-center gap-0.5 rounded-full hover:shadow-md transition-shadow overflow-visible cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
-          : 'inline-flex min-h-11 items-center gap-2 rounded-xl px-3 text-sm font-medium text-neutral-700 hover:bg-tsb-four/40 transition-colors duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
+          ? 'relative group w-[50px] h-[50px] bg-white text-neutral-900 flex flex-col items-center justify-center gap-0.5 rounded-full hover:shadow-md transition-shadow overflow-visible cursor-pointer focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
+          : 'inline-flex min-h-11 items-center gap-2 rounded-xl px-3 text-sm font-medium text-neutral-700 hover:bg-tsb-four/40 transition-colors duration-300 cursor-pointer focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
       "
       :aria-expanded="open"
       :aria-controls="open ? panelId : undefined"
@@ -43,7 +43,7 @@
       <span
         v-if="variant === 'rail' && !open"
         aria-hidden="true"
-        class="absolute left-1/2 top-full -translate-x-1/2 mt-2 px-2 py-1 bg-black text-white text-xs font-normal rounded opacity-0 group-hover:opacity-100 transition whitespace-nowrap z-50 min-w-max pointer-events-none"
+        class="absolute left-1/2 top-full -translate-x-1/2 mt-2 px-2 py-1 bg-black text-white text-xs font-normal rounded-sm opacity-0 group-hover:opacity-100 transition whitespace-nowrap z-50 min-w-max pointer-events-none"
       >
         {{ $t('nav.language') }}
       </span>
@@ -67,7 +67,7 @@
           :hreflang="lang.code"
           :aria-current="lang.current ? 'true' : undefined"
           :class="[
-            'flex min-h-11 items-center justify-between gap-4 px-4 text-sm transition-colors duration-300 hover:bg-tsb-four/40 focus:outline-none focus-visible:bg-tsb-four/40',
+            'flex min-h-11 items-center justify-between gap-4 px-4 text-sm transition-colors duration-300 hover:bg-tsb-four/40 focus:outline-hidden focus-visible:bg-tsb-four/40',
             lang.current ? 'font-semibold text-primary-hover' : 'text-neutral-700',
           ]"
           @click="choose(lang.code)"

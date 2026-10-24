@@ -138,17 +138,19 @@ const runHours = (run: HoursRun): string => {
 </script>
 
 <style scoped>
+@reference "~/assets/css/tailwind.css";
+
 /* Orange dot (the brand keeps green for vegan only), a soft pulse while open. */
 .status-dot {
   width: 0.625rem;
   height: 0.625rem;
   flex-shrink: 0;
   border-radius: 9999px;
-  background: theme('colors.ygf.wood');
+  background: --theme(--color-ygf-wood inline);
 }
 
 .status-dot.is-open {
-  background: theme('colors.ygf.DEFAULT');
+  background: --theme(--color-ygf inline);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -159,15 +161,15 @@ const runHours = (run: HoursRun): string => {
 
 @keyframes ygf-status-pulse {
   0% {
-    box-shadow: 0 0 0 0 theme('colors.ygf.DEFAULT / 55%');
+    box-shadow: 0 0 0 0 --alpha(--theme(--color-ygf inline) / 55%);
   }
 
   70% {
-    box-shadow: 0 0 0 8px theme('colors.ygf.DEFAULT / 0%');
+    box-shadow: 0 0 0 8px --alpha(--theme(--color-ygf inline) / 0%);
   }
 
   100% {
-    box-shadow: 0 0 0 0 theme('colors.ygf.DEFAULT / 0%');
+    box-shadow: 0 0 0 0 --alpha(--theme(--color-ygf inline) / 0%);
   }
 }
 </style>

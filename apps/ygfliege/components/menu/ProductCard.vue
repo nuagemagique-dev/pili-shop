@@ -141,7 +141,7 @@
           <button
             type="button"
             aria-haspopup="dialog"
-            class="relative self-start max-w-full -my-2 py-2 rounded text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            class="relative self-start max-w-full -my-2 py-2 rounded-sm text-left focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             @click="emit('openProductModal')"
           >
             <span
@@ -179,7 +179,7 @@
             :aria-label="$t('cart.addNamed', { name: product.name })"
             data-testid="product-add-to-cart"
             type="button"
-            class="inline-flex items-center justify-center w-11 h-11 rounded-full border border-ygf-orange-200 bg-white text-ygf-orange-800 hover:bg-ygf-orange-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+            class="inline-flex items-center justify-center w-11 h-11 rounded-full border border-ygf-orange-200 bg-white text-ygf-orange-800 hover:bg-ygf-orange-50 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
             :disabled="orderingDisabled || !isMounted"
             @click="addToCart"
           >

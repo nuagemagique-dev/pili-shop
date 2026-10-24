@@ -2,7 +2,7 @@
   <section
     id="checkout-payment-extras"
     tabindex="-1"
-    class="card p-4 sm:p-5 w-full mx-auto space-y-6"
+    class="card p-4 sm:p-5 w-full mx-auto flex flex-col gap-6"
   >
     <h2 class="text-lg font-bold text-neutral-900">
       {{ $t('checkout.extrasAndPayment', 'Extras & Payment') }}
@@ -12,7 +12,7 @@
     <CheckoutCouponInput />
 
     <!-- Payment Method with Icons -->
-    <div class="mb-6">
+    <div>
       <h3 class="font-medium mb-2">
         {{ $t('checkout.paymentMethod', 'Payment Method') }}
       </h3>
@@ -32,7 +32,7 @@
           data-testid="payment-online"
           @click="setOnlinePayment(true)"
           :class="[
-            'cursor-pointer flex-1 border rounded-lg p-4 flex flex-col items-center transition-all hover:shadow-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-none',
+            'cursor-pointer flex-1 border rounded-lg p-4 flex flex-col items-center transition-all hover:shadow-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-hidden',
             isOnlinePayment ? 'border-primary bg-tsb-four' : 'border-neutral-200 bg-white',
           ]"
         >
@@ -54,7 +54,7 @@
           data-testid="payment-cash"
           @click="setOnlinePayment(false)"
           :class="[
-            'cursor-pointer flex-1 border rounded-lg p-4 flex flex-col items-center transition-all hover:shadow-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-none',
+            'cursor-pointer flex-1 border rounded-lg p-4 flex flex-col items-center transition-all hover:shadow-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-hidden',
             !isOnlinePayment ? 'border-primary bg-tsb-four' : 'border-neutral-200 bg-white',
           ]"
         >
@@ -113,7 +113,7 @@
             data-testid="cash-acknowledge"
             v-model="cashAcknowledgedModel"
             :class="[
-              'mt-0.5 h-6 w-6 rounded shrink-0 focus-visible:ring-2',
+              'mt-0.5 h-6 w-6 rounded-sm shrink-0 focus-visible:ring-2 focus-visible:ring-ring',
               showCashAckError
                 ? 'accent-primary-700 text-primary-700 border-primary-500 focus-visible:ring-ring focus-visible:ring-offset-2'
                 : 'accent-primary-700 text-primary-700 border-neutral-300 focus-visible:ring-ring focus-visible:ring-offset-2',
@@ -167,7 +167,7 @@
               :aria-invalid="showCashShort ? 'true' : undefined"
               :aria-describedby="cashHintId"
               :class="[
-                'w-full pl-3.5 pr-8 py-2.5 border rounded-xl bg-white text-base sm:text-sm text-neutral-900 placeholder-neutral-600 focus-visible:outline-none transition-all duration-300',
+                'w-full pl-3.5 pr-8 py-2.5 border rounded-xl bg-white text-base sm:text-sm text-neutral-900 placeholder:text-neutral-600 focus-visible:outline-hidden transition-all duration-300',
                 cashAcknowledgedModel
                   ? 'border-neutral-200 focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-ring'
                   : 'border-amber-300 focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-amber-400',
@@ -204,7 +204,7 @@
     </div>
 
     <!-- Extras (brand.orderExtras) -->
-    <div v-if="hasOfferedExtras" class="mb-6">
+    <div v-if="hasOfferedExtras">
       <h3 class="font-medium text-lg mb-4">
         {{ $t('checkout.extras', 'Extras') }}
       </h3>
@@ -219,7 +219,7 @@
             id="chopsticks"
             data-testid="order-extra-chopsticks"
             v-model="addChopsticks"
-            class="mr-4 h-6 w-6 shrink-0 accent-primary-700 text-primary-700 border-neutral-300 rounded"
+            class="mr-4 h-6 w-6 shrink-0 accent-primary-700 text-primary-700 border-neutral-300 rounded-sm"
           />
           <label for="chopsticks" class="text-neutral-700 font-medium">
             {{ $t('checkout.addChopsticks', 'Add Chopsticks') }}
@@ -235,7 +235,7 @@
             id="cutlery"
             data-testid="order-extra-cutlery"
             v-model="addCutlery"
-            class="mr-4 h-6 w-6 shrink-0 accent-primary-700 text-primary-700 border-neutral-300 rounded"
+            class="mr-4 h-6 w-6 shrink-0 accent-primary-700 text-primary-700 border-neutral-300 rounded-sm"
           />
           <label for="cutlery" class="text-neutral-700 font-medium">
             {{ $t('checkout.addCutlery') }}
@@ -253,7 +253,7 @@
             data-testid="order-extra-wasabi"
             v-model="addWasabi"
             :disabled="isLocked('wasabi')"
-            class="mr-4 h-6 w-6 shrink-0 accent-primary-700 text-primary-700 border-neutral-300 rounded disabled:cursor-not-allowed"
+            class="mr-4 h-6 w-6 shrink-0 accent-primary-700 text-primary-700 border-neutral-300 rounded-sm disabled:cursor-not-allowed"
           />
           <label for="wasabi" class="text-neutral-700 font-medium">
             {{ $t('checkout.addWasabi') }}
@@ -271,7 +271,7 @@
             data-testid="order-extra-ginger"
             v-model="addGinger"
             :disabled="isLocked('ginger')"
-            class="mr-4 h-6 w-6 shrink-0 accent-primary-700 text-primary-700 border-neutral-300 rounded disabled:cursor-not-allowed"
+            class="mr-4 h-6 w-6 shrink-0 accent-primary-700 text-primary-700 border-neutral-300 rounded-sm disabled:cursor-not-allowed"
           />
           <label for="ginger" class="text-neutral-700 font-medium">
             {{ $t('checkout.addGinger') }}
@@ -290,7 +290,7 @@
               data-testid="order-extra-sauce"
               :checked="addSauce"
               :disabled="isLocked('sauce')"
-              class="h-6 w-6 shrink-0 accent-primary-700 text-primary-700 border-neutral-300 rounded disabled:cursor-not-allowed"
+              class="h-6 w-6 shrink-0 accent-primary-700 text-primary-700 border-neutral-300 rounded-sm disabled:cursor-not-allowed"
               @change="addSauce = !addSauce"
             />
             <label for="add-sauce" class="text-neutral-700 font-medium">
@@ -382,7 +382,7 @@
     </div>
 
     <!-- General Order Comment -->
-    <div class="mb-6">
+    <div>
       <h3 id="order-comment-label" class="font-medium text-lg mb-2">
         {{ $t('checkout.orderComment', 'Order Comment') }}
         <span class="text-neutral-600 text-sm font-normal">{{
@@ -440,7 +440,7 @@
     <p
       v-if="isQuotePending"
       data-testid="checkout-quote-updating-desktop"
-      class="hidden lg:block text-center text-xs text-neutral-600 mt-1"
+      class="hidden lg:block text-center text-xs text-neutral-600"
     >
       {{ $t('cart.quoteUpdating') }}
     </p>

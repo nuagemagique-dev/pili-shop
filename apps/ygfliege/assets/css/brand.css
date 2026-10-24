@@ -78,7 +78,7 @@
   --ygf-orange-on-white-hover: #9a3412; /* white text: 7.31:1 */
   --ygf-orange-text: #9a3412; /* orange text on cream: 6.88:1, AA */
   /* Keyboard-focus indicator colour (WCAG 1.4.11, >= 3:1 on white and the
-       orange tints). Mirrors the `focus` colour in tailwind.config.ts. */
+       orange tints). Mirrors the `focus` colour in tailwind.css. */
   --ygf-focus: var(--ygf-orange-on-white);
 
   --ygf-black: #1a1a1a;
@@ -99,7 +99,7 @@
   --ygf-gray-600: #666666; /* secondary text: 5.74:1 on white. Use this, not gray-400, for text. */
 
   /* Typography */
-  --font-sans:
+  --ygf-font-sans:
     'Inter', 'Inter Fallback', 'Inter Fallback Roboto', 'Noto Sans', system-ui, sans-serif;
   /* Chinese text is set in the visitor's own CJK font (Noto Sans SC where installed, else PingFang / Microsoft YaHei):
      the hosted Noto Sans SC is not shipped any more (see nuxt.config.ts). */
@@ -107,16 +107,16 @@
   --font-serif-chinese: 'YGF Accent Serif', serif;
 
   /* Radii */
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 24px;
-  --radius-btn: 48px;
+  --ygf-radius-sm: 6px;
+  --ygf-radius-md: 12px;
+  --ygf-radius-lg: 24px;
+  --ygf-radius-btn: 48px;
 
   /* Warm shadows (never cold gray) */
-  --shadow-sm: 0 2px 8px rgba(242, 123, 32, 0.06);
-  --shadow-md: 0 4px 20px rgba(242, 123, 32, 0.08);
-  --shadow-lg: 0 8px 40px rgba(242, 123, 32, 0.12);
-  --shadow-glow: 0 0 60px rgba(245, 130, 32, 0.08);
+  --ygf-shadow-sm: 0 2px 8px rgba(242, 123, 32, 0.06);
+  --ygf-shadow-md: 0 4px 20px rgba(242, 123, 32, 0.08);
+  --ygf-shadow-lg: 0 8px 40px rgba(242, 123, 32, 0.12);
+  --ygf-shadow-glow: 0 0 60px rgba(245, 130, 32, 0.08);
 
   /* Warm borders */
   --border-subtle: 1px solid rgba(242, 123, 32, 0.08);
@@ -124,7 +124,7 @@
   --border-strong: 1px solid rgba(242, 123, 32, 0.18);
 
   /* Motion */
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ygf-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --duration-fast: 150ms;
   --duration-normal: 200ms;
   --duration-slow: 500ms;

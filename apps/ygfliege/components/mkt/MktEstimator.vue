@@ -88,6 +88,8 @@ const rateLabel = computed(() =>
 </script>
 
 <style scoped>
+@reference "~/assets/css/tailwind.css";
+
 .estimator {
   display: grid;
   gap: 2rem;
@@ -103,7 +105,7 @@ const rateLabel = computed(() =>
 
 .estimator-bowl {
   transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
-  filter: drop-shadow(0 14px 28px theme('colors.ygf.DEFAULT / 24%'));
+  filter: drop-shadow(0 14px 28px --alpha(--theme(--color-ygf inline) / 24%));
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -115,7 +117,7 @@ const rateLabel = computed(() =>
 /* Orange track and thumb, 28px tall for the thumb (a comfortable touch target). */
 .estimator-range {
   height: 28px;
-  accent-color: theme('colors.primary.DEFAULT');
+  accent-color: --theme(--color-primary inline);
   cursor: pointer;
 }
 </style>

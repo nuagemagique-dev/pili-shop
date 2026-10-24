@@ -28,7 +28,7 @@
       <details
         v-for="(faq, index) in faqs"
         :key="index"
-        class="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow"
+        class="bg-white rounded-lg shadow-sm p-4 hover:shadow-md transition-shadow"
       >
         <summary
           class="font-semibold text-lg cursor-pointer hover:text-primary-900 transition-colors"

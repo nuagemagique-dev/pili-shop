@@ -1,7 +1,7 @@
 <template>
   <nav
     :aria-label="$t('nav.primary')"
-    class="hidden sm:block sticky top-0 z-40 bg-ygf-bg/95 backdrop-blur border-b border-ygf-orange-100"
+    class="hidden sm:block sticky top-0 z-40 bg-ygf-bg/95 backdrop-blur-sm border-b border-ygf-orange-100"
   >
     <div
       class="max-w-7xl mx-auto px-3 md:px-4 lg:px-8 h-16 flex items-center gap-1 md:gap-2 lg:gap-8"
@@ -16,7 +16,7 @@
           <NuxtLinkLocale
             :to="item.to"
             :aria-current="isActive(item.to) ? 'page' : undefined"
-            class="relative inline-flex items-center h-16 px-1.5 md:px-2 lg:px-3 text-sm whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-inset"
+            class="relative inline-flex items-center h-16 px-1.5 md:px-2 lg:px-3 text-sm whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-inset"
             :class="
               isActive(item.to) ? 'text-ygf-orange-800' : 'text-ygf-black/70 hover:text-ygf-black'
             "
@@ -85,13 +85,13 @@
             <NuxtLinkLocale
               to="auth-login"
               :aria-label="$t('nav.login')"
-              class="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-full bg-white border border-ygf-orange-100 hover:bg-ygf-orange-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              class="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-full bg-white border border-ygf-orange-100 hover:bg-ygf-orange-50 transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               <img src="/icons/account-circle-icon.svg" alt="" aria-hidden="true" class="w-5 h-5" />
             </NuxtLinkLocale>
             <NuxtLinkLocale
               to="auth-login"
-              class="hidden lg:inline-flex btn btn-secondary !py-2 !px-5 text-sm"
+              class="hidden lg:inline-flex btn btn-secondary py-2! px-5! text-sm"
             >
               {{ $t('nav.login') }}
             </NuxtLinkLocale>
@@ -100,7 +100,7 @@
             v-else
             to="me"
             :aria-label="$t('nav.myAccount')"
-            class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-white border border-ygf-orange-100 hover:bg-ygf-orange-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-white border border-ygf-orange-100 hover:bg-ygf-orange-50 transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
             <img src="/icons/account-circle-icon.svg" alt="" aria-hidden="true" class="w-5 h-5" />
           </NuxtLinkLocale>
@@ -109,7 +109,7 @@
             <span aria-hidden="true" class="invisible inline-flex lg:hidden w-11 h-11" />
             <span
               aria-hidden="true"
-              class="invisible hidden lg:inline-flex btn btn-secondary !py-2 !px-5 text-sm"
+              class="invisible hidden lg:inline-flex btn btn-secondary py-2! px-5! text-sm"
             >
               {{ $t('nav.login') }}
             </span>

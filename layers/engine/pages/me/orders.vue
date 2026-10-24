@@ -167,7 +167,7 @@ const getStatusColorClass = (status: string) => {
     <div class="mb-6 sm:mb-8 bento-cell" style="--delay: 0">
       <NuxtLinkLocale
         to="/me"
-        class="inline-flex min-h-11 items-center gap-1.5 rounded-lg px-2 text-sm text-neutral-600 hover:text-primary-700 transition mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        class="inline-flex min-h-11 items-center gap-1.5 rounded-lg px-2 text-sm text-neutral-600 hover:text-primary-700 transition mb-4 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
       >
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
@@ -211,7 +211,7 @@ const getStatusColorClass = (status: string) => {
           type="button"
           :aria-expanded="isExpanded(order.id)"
           :aria-controls="`order-panel-${order.id}`"
-          class="w-full min-h-11 text-left p-5 sm:p-6 cursor-pointer hover:bg-tsb-two/80 rounded-2xl flex items-center justify-between focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          class="w-full min-h-11 text-left p-5 sm:p-6 cursor-pointer hover:bg-tsb-two/80 rounded-2xl flex items-center justify-between focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           @click="toggleOrder(order.id)"
         >
           <div class="flex-1 min-w-0">
@@ -241,7 +241,7 @@ const getStatusColorClass = (status: string) => {
             </span>
             <span
               :class="{ 'rotate-180': isExpanded(order.id) }"
-              class="text-neutral-600 transition-transform duration-200 flex-shrink-0"
+              class="text-neutral-600 transition-transform duration-200 shrink-0"
             >
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -326,7 +326,7 @@ const getStatusColorClass = (status: string) => {
                 </p>
                 <!-- Under 400 px the quantity and the price sit under the name (beside it, the name was squeezed to a few letters per line). -->
                 <div
-                  class="flex items-center gap-2 ml-3 flex-shrink-0 max-[400px]:ml-0 max-[400px]:justify-end"
+                  class="flex items-center gap-2 ml-3 shrink-0 max-[400px]:ml-0 max-[400px]:justify-end"
                 >
                   <span class="text-xs font-medium text-neutral-600 tabular-nums"
                     >x{{ item.quantity }}</span
@@ -360,7 +360,7 @@ const getStatusColorClass = (status: string) => {
             <button
               v-if="invoicesEnabled && ['DELIVERED', 'PICKED_UP'].includes(order.status)"
               type="button"
-              class="mt-2 w-full min-h-11 rounded-xl border border-neutral-200 bg-white px-4 py-2.5 text-sm font-medium text-neutral-700 transition-colors hover:bg-tsb-four/40 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+              class="mt-2 w-full min-h-11 rounded-xl border border-neutral-200 bg-white px-4 py-2.5 text-sm font-medium text-neutral-700 transition-colors hover:bg-tsb-four/40 focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2"
               @click.stop="downloadInvoice(order.id)"
             >
               {{ $t('me.orders.downloadInvoice') }}
@@ -373,7 +373,7 @@ const getStatusColorClass = (status: string) => {
       <button
         v-if="hasMore"
         type="button"
-        class="load-more-btn group mt-2 w-full min-h-11 rounded-2xl border border-dashed border-neutral-300 hover:border-primary-300 bg-tsb-two/60 hover:bg-tsb-four/50 py-4 flex items-center justify-center gap-2.5 transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        class="load-more-btn group w-full min-h-11 rounded-2xl border border-dashed border-neutral-300 hover:border-primary-300 bg-tsb-two/60 hover:bg-tsb-four/50 py-4 flex items-center justify-center gap-2.5 transition-all duration-300 cursor-pointer focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         @click="loadMore"
       >
         <span

@@ -35,7 +35,7 @@
             ref="closeButtonRef"
             type="button"
             :aria-label="$t('cart.closeCart')"
-            class="flex h-11 w-11 items-center justify-center rounded-full hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            class="flex h-11 w-11 items-center justify-center rounded-full hover:bg-neutral-100 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             @click="cartStore.toggleCartVisibility"
           >
             <svg
@@ -57,12 +57,12 @@
               :key="lineKeys[lineIndex]"
               data-testid="cart-item"
               data-cart-line
-              class="grid grid-cols-[4rem_minmax(0,1fr)] gap-x-3 gap-y-2 bg-white rounded-xl border border-neutral-100 shadow-sm p-3 items-center"
+              class="grid grid-cols-[4rem_minmax(0,1fr)] gap-x-3 gap-y-2 bg-white rounded-xl border border-neutral-100 shadow-xs p-3 items-center"
             >
               <!-- IMAGE -->
               <button
                 type="button"
-                class="row-span-2 flex shrink-0 items-center justify-center w-16 h-16 bg-neutral-50 rounded-md overflow-hidden cursor-pointer active:scale-95 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                class="row-span-2 flex shrink-0 items-center justify-center w-16 h-16 bg-neutral-50 rounded-md overflow-hidden cursor-pointer active:scale-95 transition-transform focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 :aria-label="$t('common.viewPhoto', { name: item.product.name })"
                 aria-haspopup="dialog"
                 @click="openLightbox(item.product.id, item.product.name)"
@@ -150,7 +150,7 @@
                     data-testid="cart-item-remove"
                     data-cart-remove
                     :aria-label="$t('cart.removeNamed', { name: item.product.name })"
-                    class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-neutral-600 hover:text-primary-700 hover:bg-primary-50 active:bg-primary-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                    class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-neutral-600 hover:text-primary-700 hover:bg-primary-50 active:bg-primary-100 transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                     @click="removeWithUndo(item)"
                   >
                     <svg
@@ -180,7 +180,7 @@
               v-if="cartStore.products.length === 0"
               class="flex flex-col items-center justify-center h-64 text-neutral-600"
             >
-              <img src="/icons/shopping-bag-icon.svg" alt="" class="h-12 w-12 mb-4 flex-shrink-0" />
+              <img src="/icons/shopping-bag-icon.svg" alt="" class="h-12 w-12 mb-4 shrink-0" />
               <p>{{ $t('cart.empty') }}</p>
             </li>
           </ul>
@@ -189,7 +189,7 @@
           <div
             v-if="hasBreakdownRows"
             data-testid="cart-breakdown"
-            class="space-y-1.5 rounded-xl border border-neutral-100 bg-white p-3 text-sm shadow-sm"
+            class="space-y-1.5 rounded-xl border border-neutral-100 bg-white p-3 text-sm shadow-xs"
           >
             <div v-if="hasBreakdown" class="flex justify-between gap-3 text-neutral-600">
               <span>{{ $t('cart.subtotal') }}</span>
@@ -211,7 +211,7 @@
                 <button
                   type="button"
                   data-testid="cart-out-of-zone-switch-to-pickup"
-                  class="underline min-h-11 px-1 hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-current rounded"
+                  class="underline min-h-11 px-1 hover:opacity-80 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-current rounded-sm"
                   @click="switchToPickup"
                 >
                   {{ $t('delivery.modal.switchToPickup') }}
@@ -272,7 +272,7 @@
             <button
               type="button"
               data-testid="cart-switch-to-pickup"
-              class="mt-1 min-h-11 px-3 font-medium underline hover:text-red-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-lg"
+              class="mt-1 min-h-11 px-3 font-medium underline hover:text-red-800 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-lg"
               @click="switchToPickup"
             >
               {{ $t('delivery.modal.switchToPickup') }}

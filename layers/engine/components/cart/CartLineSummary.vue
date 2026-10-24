@@ -6,7 +6,7 @@
     </p>
     <details v-if="presentation.details.length > 0" class="group/detail text-xs text-neutral-600">
       <summary
-        class="inline-flex min-h-8 cursor-pointer select-none list-none items-center gap-1 font-medium text-neutral-700 hover:text-primary-700 [&::-webkit-details-marker]:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
+        class="inline-flex min-h-8 cursor-pointer select-none list-none items-center gap-1 font-medium text-neutral-700 hover:text-primary-700 [&::-webkit-details-marker]:hidden focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
       >
         {{ $t('cart.showDetail') }}
         <svg

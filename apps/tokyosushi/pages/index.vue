@@ -165,7 +165,7 @@ useHead({
             decoding="async"
           />
         </picture>
-        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+        <div class="absolute inset-0 bg-linear-to-t from-black/60 via-black/10 to-transparent" />
         <div class="absolute inset-x-0 bottom-0 p-5 sm:p-8 text-white">
           <h1 class="text-3xl sm:text-4xl font-bold drop-shadow-md">
             {{ brand.name }}
@@ -205,7 +205,7 @@ useHead({
             </span>
             <span
               v-if="orderingStatus === 'loading'"
-              class="h-4 w-28 rounded animate-shimmer"
+              class="h-4 w-28 rounded-sm animate-shimmer"
               style="
                 background-size: 200% 100%;
                 background-image: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
@@ -224,7 +224,7 @@ useHead({
           </div>
           <button
             type="button"
-            class="shrink-0 min-h-11 inline-flex items-center text-xs font-medium text-neutral-600 hover:text-neutral-700 underline underline-offset-2 decoration-neutral-300 hover:decoration-neutral-500 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-none rounded-md px-1 -mr-1"
+            class="shrink-0 min-h-11 inline-flex items-center text-xs font-medium text-neutral-600 hover:text-neutral-700 underline underline-offset-2 decoration-neutral-300 hover:decoration-neutral-500 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-hidden rounded-md px-1 -mr-1"
             @click="scrollToOpeningHours"
           >
             {{ $t('home.schedule') }}
@@ -243,9 +243,9 @@ useHead({
             :aria-checked="collection === 'DELIVERY'"
             @click="collection = 'DELIVERY'"
             :class="[
-              'flex-1 inline-flex min-h-11 items-center justify-center gap-2 py-2.5 text-sm font-medium rounded-lg transition-all focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-none',
+              'flex-1 inline-flex min-h-11 items-center justify-center gap-2 py-2.5 text-sm font-medium rounded-lg transition-all focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-hidden',
               collection === 'DELIVERY'
-                ? 'bg-white text-neutral-900 shadow-sm'
+                ? 'bg-white text-neutral-900 shadow-xs'
                 : 'text-neutral-600 hover:text-neutral-700',
             ]"
           >
@@ -273,9 +273,9 @@ useHead({
             :aria-checked="collection === 'PICKUP'"
             @click="collection = 'PICKUP'"
             :class="[
-              'flex-1 inline-flex min-h-11 items-center justify-center gap-2 py-2.5 text-sm font-medium rounded-lg transition-all focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-none',
+              'flex-1 inline-flex min-h-11 items-center justify-center gap-2 py-2.5 text-sm font-medium rounded-lg transition-all focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-hidden',
               collection === 'PICKUP'
-                ? 'bg-white text-neutral-900 shadow-sm'
+                ? 'bg-white text-neutral-900 shadow-xs'
                 : 'text-neutral-600 hover:text-neutral-700',
             ]"
           >
@@ -448,12 +448,12 @@ useHead({
           <!-- Chapter 1: founding year -->
           <div class="mb-8 sm:mb-10">
             <div class="flex items-center gap-4 mb-4">
-              <div class="h-px flex-1 bg-gradient-to-r from-transparent to-primary-200/50" />
+              <div class="h-px flex-1 bg-linear-to-r from-transparent to-primary-200/50" />
               <span
                 class="font-channel text-3xl sm:text-4xl text-primary-700 leading-none shrink-0"
                 >{{ brand.foundingYear }}</span
               >
-              <div class="h-px flex-1 bg-gradient-to-l from-transparent to-primary-200/50" />
+              <div class="h-px flex-1 bg-linear-to-l from-transparent to-primary-200/50" />
             </div>
             <p class="text-neutral-600 leading-relaxed text-[15px] text-center">
               {{ $t('about.ourStoryText1') }}
@@ -463,11 +463,11 @@ useHead({
           <!-- Chapter 2: 2024 -->
           <div class="mb-8 sm:mb-10">
             <div class="flex items-center gap-4 mb-4">
-              <div class="h-px flex-1 bg-gradient-to-r from-transparent to-primary-200/50" />
+              <div class="h-px flex-1 bg-linear-to-r from-transparent to-primary-200/50" />
               <span class="font-channel text-3xl sm:text-4xl text-primary-700 leading-none shrink-0"
                 >2024</span
               >
-              <div class="h-px flex-1 bg-gradient-to-l from-transparent to-primary-200/50" />
+              <div class="h-px flex-1 bg-linear-to-l from-transparent to-primary-200/50" />
             </div>
             <p class="text-neutral-600 leading-relaxed text-[15px] text-center">
               {{ $t('about.ourStoryText2') }}
@@ -477,18 +477,18 @@ useHead({
           <!-- Chapter 3: 2026 - Anniversary -->
           <div>
             <div class="flex items-center gap-4 mb-4">
-              <div class="h-px flex-1 bg-gradient-to-r from-transparent to-primary-200/50" />
+              <div class="h-px flex-1 bg-linear-to-r from-transparent to-primary-200/50" />
               <span class="font-channel text-3xl sm:text-4xl text-primary-700 leading-none shrink-0"
                 >2026</span
               >
-              <div class="h-px flex-1 bg-gradient-to-l from-transparent to-primary-200/50" />
+              <div class="h-px flex-1 bg-linear-to-l from-transparent to-primary-200/50" />
             </div>
             <p class="text-neutral-600 leading-relaxed text-[15px] text-center mb-5">
               {{ $t('about.ourStoryText3') }}
             </p>
             <!-- Years counter -->
             <div class="flex justify-center">
-              <div class="bg-white/60 backdrop-blur-sm rounded-xl px-8 py-5 text-center shadow-sm">
+              <div class="bg-white/60 backdrop-blur-xs rounded-xl px-8 py-5 text-center shadow-xs">
                 <span
                   class="font-channel text-5xl sm:text-6xl text-primary-700 block leading-none"
                   >{{ yearsSince }}</span
@@ -534,7 +534,7 @@ useHead({
         <a
           :href="phoneHref"
           :aria-label="`${$t('about.callUs')} ${brand.phone}`"
-          class="inline-flex items-center gap-2 min-h-11 px-3 rounded-lg bg-white border border-neutral-200 text-sm font-medium text-neutral-900 hover:bg-tsb-four/40 hover:border-neutral-300 transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-none mb-3"
+          class="inline-flex items-center gap-2 min-h-11 px-3 rounded-lg bg-white border border-neutral-200 text-sm font-medium text-neutral-900 hover:bg-tsb-four/40 hover:border-neutral-300 transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-hidden mb-3"
         >
           <svg
             aria-hidden="true"

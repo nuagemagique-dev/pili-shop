@@ -253,7 +253,7 @@ function resetForm() {
             autocomplete="name"
             maxlength="100"
             :placeholder="$t('feedback.namePlaceholder')"
-            class="w-full bg-white/60 backdrop-blur-sm border border-neutral-200/80 rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-neutral-900 placeholder-neutral-500 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-ring focus-visible:outline-none"
+            class="w-full bg-white/60 backdrop-blur-xs border border-neutral-200/80 rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-neutral-900 placeholder:text-neutral-600 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-ring focus-visible:outline-hidden"
           />
         </div>
         <div>
@@ -267,7 +267,7 @@ function resetForm() {
             autocomplete="email"
             maxlength="255"
             :placeholder="$t('feedback.emailPlaceholder')"
-            class="w-full bg-white/60 backdrop-blur-sm border border-neutral-200/80 rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-neutral-900 placeholder-neutral-500 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-ring focus-visible:outline-none"
+            class="w-full bg-white/60 backdrop-blur-xs border border-neutral-200/80 rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-neutral-900 placeholder:text-neutral-600 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-ring focus-visible:outline-hidden"
           />
         </div>
       </div>
@@ -331,7 +331,7 @@ function resetForm() {
           maxlength="2000"
           rows="4"
           :placeholder="$t('feedback.messagePlaceholder')"
-          class="w-full bg-white/60 backdrop-blur-sm border border-neutral-200/80 rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-neutral-900 placeholder-neutral-500 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-ring focus-visible:outline-none resize-none"
+          class="w-full bg-white/60 backdrop-blur-xs border border-neutral-200/80 rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-neutral-900 placeholder:text-neutral-600 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-ring focus-visible:outline-hidden resize-none"
         />
         <p class="text-xs text-neutral-600 text-right mt-1">{{ message.length }} / 2000</p>
       </div>

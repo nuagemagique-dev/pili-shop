@@ -79,14 +79,14 @@
               v-model="searchValue"
               type="search"
               :placeholder="$t('nav.search')"
-              class="w-full h-full bg-transparent rounded-full pl-11 pr-10 outline-none text-base sm:text-sm text-ygf-black placeholder:text-neutral-600"
+              class="w-full h-full bg-transparent rounded-full pl-11 pr-10 outline-hidden text-base sm:text-sm text-ygf-black placeholder:text-neutral-600"
             />
             <button
               type="button"
               v-show="searchValue.length > 0"
               @click.stop="clearSearch"
               :aria-label="$t('common.clear')"
-              class="absolute right-0 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center text-neutral-600 hover:text-ygf-black transition-colors rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              class="absolute right-0 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center text-neutral-600 hover:text-ygf-black transition-colors rounded-full focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               <svg
                 class="w-5 h-5"
@@ -172,7 +172,7 @@
       <!-- Skeleton Loading State -->
       <section v-else-if="!dataCategories" class="max-w-7xl mx-auto px-4 py-4 space-y-12">
         <div v-for="i in 3" :key="i" class="space-y-4">
-          <div class="h-6 w-32 bg-ygf-orange-100/60 rounded animate-pulse"></div>
+          <div class="h-6 w-32 bg-ygf-orange-100/60 rounded-sm animate-pulse"></div>
           <div class="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4">
             <div
               v-for="j in 4"
@@ -335,7 +335,7 @@
       <Transition name="modal-backdrop">
         <div
           v-if="routedProductId"
-          class="fixed inset-0 z-50 bg-black/30 flex items-center justify-center sm:p-4 backdrop-blur-sm"
+          class="fixed inset-0 z-50 bg-black/30 flex items-center justify-center sm:p-4 backdrop-blur-xs"
           @click.self="closeModal"
         >
           <Transition name="modal-panel" appear>

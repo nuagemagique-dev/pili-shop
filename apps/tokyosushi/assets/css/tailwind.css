@@ -1,6 +1,208 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss' source(none);
+@import 'tw-animate-css';
+
+/* Where the classes are written: this brand and the shared engine layer (Tailwind does not follow Nuxt layers itself). */
+@source '../..';
+@source '../../../../layers/engine';
+@source not '../../.nuxt';
+@source not '../../.output';
+@source not '../../e2e';
+@source not '../../locales';
+@source not '../../public';
+@source not '../../../../layers/engine/e2e';
+@source not '../../../../layers/engine/locales';
+@source not '../../../../layers/engine/public';
+
+/* Theme contract shared with every brand app (the engine layer's components only use these names, never a literal hue):
+     primary-50..950  brand accent scale (red here)
+     neutral-50..950  text/surface/border neutrals (gray here)
+     tsb-one..four    page, container, decorative, selected
+   Red-* stays reserved for errors and destructive actions. */
+@theme {
+  /* The "... Fallback" faces are the size-adjusted stand-ins declared in assets/css/brand.css. */
+  --font-sans:
+    Montserrat, 'Montserrat Fallback', 'Montserrat Fallback Roboto', Arial, Helvetica, sans-serif;
+  --font-channel: Channel, 'Channel Fallback', 'Channel Fallback Roboto', sans-serif;
+
+  /* Line heights in rem, as in Tailwind 3: Tailwind 4 gives them as ratios, which an element of another font size inherits
+     rescaled (a text-[11px] inside a text-xs block got 14.7px lines instead of 16px). */
+  --text-xs--line-height: 1rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base--line-height: 1.5rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl--line-height: 1.75rem;
+  --text-2xl--line-height: 2rem;
+  --text-3xl--line-height: 2.25rem;
+  --text-4xl--line-height: 2.5rem;
+
+  /* Brand theme tokens: a second brand app redefines these hex values / display font; the tsb-* class names stay stable. */
+  --color-tsb-one: #f6f5f2;
+  --color-tsb-two: #f0ebe3;
+  --color-tsb-three: #f2a9bd;
+  --color-tsb-four: #ffefef;
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-hover: hsl(var(--primary-hover));
+  --color-primary-soft: hsl(var(--primary-soft));
+
+  /* Radii: xs was `rounded-sm` before Tailwind 4 renamed the scale (rounded-sm is the former bare `rounded`). */
+  --radius-xs: calc(var(--radius) - 4px);
+  --radius-sm: 0.25rem;
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  /* The two radii for comparable surfaces: controls and cards (xl), containers and modals (2xl). Overridable per brand. */
+  --radius-xl: var(--radius-control, 0.75rem);
+  --radius-2xl: var(--radius-container, 1rem);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-cart-flash: cart-flash 1.5s ease-out forwards;
+  --animate-cart-pulse: cart-pulse 0.3s ease-in-out;
+  --animate-number-bounce: number-bounce 0.2s ease-out;
+  --animate-shake: shake 0.4s ease-out;
+  --animate-shimmer: shimmer 1.5s ease-in-out infinite;
+  --animate-check-bounce: check-bounce 0.2s ease-out;
+  --animate-glow-pulse: glow-pulse 2s ease-in-out infinite;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+  @keyframes cart-flash {
+    0% {
+      background-color: #fef3c7;
+    }
+    100% {
+      background-color: #ffffff;
+    }
+  }
+  @keyframes cart-pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.02);
+    }
+  }
+  @keyframes number-bounce {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.3);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    15% {
+      transform: translateX(-6px);
+    }
+    30% {
+      transform: translateX(6px);
+    }
+    45% {
+      transform: translateX(-4px);
+    }
+    60% {
+      transform: translateX(4px);
+    }
+    75% {
+      transform: translateX(-2px);
+    }
+    90% {
+      transform: translateX(2px);
+    }
+  }
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  @keyframes check-bounce {
+    0% {
+      transform: scale(0);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  @keyframes glow-pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+    }
+    50% {
+      box-shadow: 0 0 8px 2px rgba(34, 197, 94, 0.3);
+    }
+  }
+}
+
+/* primary is the red scale and neutral the gray scale. Tailwind 4 has its own neutral palette, so the neutral-* names are
+   pointed at gray here (inline: the utilities read the gray value itself; static: the scales are always emitted, because
+   the <style> blocks of the engine's components read them as plain custom properties). */
+@theme static inline {
+  --color-primary-50: var(--color-red-50);
+  --color-primary-100: var(--color-red-100);
+  --color-primary-200: var(--color-red-200);
+  --color-primary-300: var(--color-red-300);
+  --color-primary-400: var(--color-red-400);
+  --color-primary-500: var(--color-red-500);
+  --color-primary-600: var(--color-red-600);
+  --color-primary-700: var(--color-red-700);
+  --color-primary-800: var(--color-red-800);
+  --color-primary-900: var(--color-red-900);
+  --color-primary-950: var(--color-red-950);
+  --color-neutral-50: var(--color-gray-50);
+  --color-neutral-100: var(--color-gray-100);
+  --color-neutral-200: var(--color-gray-200);
+  --color-neutral-300: var(--color-gray-300);
+  --color-neutral-400: var(--color-gray-400);
+  --color-neutral-500: var(--color-gray-500);
+  --color-neutral-600: var(--color-gray-600);
+  --color-neutral-700: var(--color-gray-700);
+  --color-neutral-800: var(--color-gray-800);
+  --color-neutral-900: var(--color-gray-900);
+  --color-neutral-950: var(--color-gray-950);
+}
+
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  @media (width >= 1400px) {
+    max-width: 1400px;
+  }
+}
 
 /* Neutral defaults. The brand accent (--primary*, --ring)
    and the radii are set in brand.css, which loads after this file. */
@@ -22,12 +224,28 @@
     --radius: 0.5rem;
   }
 
-  * {
-    @apply border-border;
+  /* Tailwind 4 draws borders in currentColor: every border takes the theme's border colour instead (as in Tailwind 3). */
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-border);
+  }
+
+  /* Tailwind 4 buttons keep the arrow cursor and its placeholders are currentColor at 50%: both back to the Tailwind 3 look. */
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-gray-400);
   }
 
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
   }
 }
 
@@ -61,7 +279,7 @@
   }
 
   .btn-primary {
-    @apply bg-primary-600 text-primary-foreground shadow-sm;
+    @apply bg-primary-600 text-primary-foreground shadow-xs;
   }
 
   @media (hover: hover) {
@@ -101,7 +319,7 @@
   }
 
   .card {
-    @apply rounded-2xl border border-neutral-100 bg-white shadow-sm;
+    @apply rounded-2xl border border-neutral-100 bg-white shadow-xs;
   }
 
   .field-label {
@@ -113,7 +331,7 @@
   }
 
   .field:focus-visible {
-    @apply border-primary-300 outline-none ring-2 ring-primary-300/50;
+    @apply border-primary-300 outline-hidden ring-2 ring-primary-300/50;
   }
 
   .stepper {
@@ -160,30 +378,27 @@
   }
 }
 
-@layer utilities {
-  .min-h-calc {
-    min-height: calc(100dvh - 60px);
-  }
+@utility min-h-calc {
+  min-height: calc(100dvh - 60px);
+}
 
-  /* A page that grows after hydration (checkout, order tracking) takes at least this much, so that the footer starts just below
-     the fold instead of jumping out of it (CLS). Used from lg: the desktop layout has a side navigation and no top bar, so the
-     page's own height is the viewport's. */
-  .min-h-fold {
-    min-height: 100dvh;
-  }
+/* A page that grows after hydration (checkout, order tracking) takes at least this much, so that the footer starts just below
+   the fold instead of jumping out of it (CLS). Used from lg: the desktop layout has a side navigation and no top bar, so the
+   page's own height is the viewport's. */
+@utility min-h-fold {
+  min-height: 100dvh;
+}
 
+@utility no-scrollbar {
   /* Hide scrollbar for Chrome, Safari and Opera */
-  .no-scrollbar::-webkit-scrollbar {
+  &::-webkit-scrollbar {
     display: none;
   }
-
   /* Hide scrollbar for IE, Edge and Firefox */
-  .no-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
 
-  .safe-area-spacer-bottom {
-    height: env(safe-area-inset-bottom, 0px);
-  }
+@utility safe-area-spacer-bottom {
+  height: env(safe-area-inset-bottom, 0px);
 }

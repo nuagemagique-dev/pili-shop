@@ -74,7 +74,7 @@ useSeoMeta({
             :href="googleMapsLink"
             target="_blank"
             rel="noopener noreferrer"
-            class="absolute bottom-3 right-3 inline-flex min-h-11 items-center bg-white/90 backdrop-blur-sm text-neutral-700 text-xs font-medium px-3 py-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-white shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            class="absolute bottom-3 right-3 inline-flex min-h-11 items-center bg-white/90 backdrop-blur-xs text-neutral-700 text-xs font-medium px-3 py-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-white shadow-xs focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
             {{ $t('contact.viewLargerMap') }}
             <svg
@@ -129,7 +129,7 @@ useSeoMeta({
             :href="googleMapsLink"
             target="_blank"
             rel="noopener noreferrer"
-            class="mt-4 inline-flex min-h-11 items-center gap-1.5 text-xs font-medium text-neutral-900 hover:text-primary-800 transition group/link rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            class="mt-4 inline-flex min-h-11 items-center gap-1.5 text-xs font-medium text-neutral-900 hover:text-primary-800 transition group/link rounded-md focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
             {{ $t('contact.viewLargerMap') }}
             <svg
@@ -149,7 +149,7 @@ useSeoMeta({
       <div class="bento-phone bento-cell" style="--delay: 4">
         <a
           :href="`tel:${brand.phone.replace(/\s/gu, '')}`"
-          class="block h-full rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          class="block h-full rounded-2xl focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
           <div
             class="bg-tsb-two rounded-2xl p-6 sm:p-8 h-full flex flex-col hover:bg-tsb-four/40 transition-colors duration-300"
@@ -180,7 +180,7 @@ useSeoMeta({
       <div class="bento-email bento-cell" style="--delay: 5">
         <a
           :href="`mailto:${brand.email}`"
-          class="block h-full rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          class="block h-full rounded-2xl focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
           <div
             class="bg-tsb-two rounded-2xl p-6 sm:p-8 h-full flex flex-col hover:bg-tsb-four/40 transition-colors duration-300"
@@ -238,7 +238,7 @@ useSeoMeta({
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
-              class="w-11 h-11 rounded-full bg-white flex items-center justify-center hover:bg-tsb-four transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              class="w-11 h-11 rounded-full bg-white flex items-center justify-center hover:bg-tsb-four transition-colors duration-300 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               <img src="/icons/instagram-icon.svg" alt="" aria-hidden="true" class="w-5 h-5" />
             </a>
@@ -247,7 +247,7 @@ useSeoMeta({
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Facebook"
-              class="w-11 h-11 rounded-full bg-white flex items-center justify-center hover:bg-tsb-four transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              class="w-11 h-11 rounded-full bg-white flex items-center justify-center hover:bg-tsb-four transition-colors duration-300 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               <img src="/icons/facebook-icon.svg" alt="" aria-hidden="true" class="w-5 h-5" />
             </a>

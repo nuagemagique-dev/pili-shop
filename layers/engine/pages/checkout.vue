@@ -134,7 +134,7 @@
             <li v-for="err in submitErrors" :key="err.targetId">
               <button
                 type="button"
-                class="text-left text-sm text-primary-700 underline underline-offset-2 decoration-primary-300 hover:text-primary-900 hover:decoration-primary-500 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-none rounded"
+                class="text-left text-sm text-primary-700 underline underline-offset-2 decoration-primary-300 hover:text-primary-900 hover:decoration-primary-500 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-hidden rounded-sm"
                 @click="scrollToValidationTarget(err.targetId)"
               >
                 {{ err.message }}
@@ -255,11 +255,11 @@
               aria-hidden="true"
               class="card relative overflow-hidden p-5 space-y-4 animate-shimmer"
             >
-              <div class="h-5 w-32 rounded bg-neutral-100" />
+              <div class="h-5 w-32 rounded-sm bg-neutral-100" />
               <div class="space-y-2">
-                <div class="h-3 rounded bg-neutral-100" />
-                <div class="h-3 rounded bg-neutral-100 w-5/6" />
-                <div class="h-3 rounded bg-neutral-100 w-2/3" />
+                <div class="h-3 rounded-sm bg-neutral-100" />
+                <div class="h-3 rounded-sm bg-neutral-100 w-5/6" />
+                <div class="h-3 rounded-sm bg-neutral-100 w-2/3" />
               </div>
               <div class="h-10 rounded-lg bg-neutral-100" />
             </div>
@@ -346,13 +346,13 @@
           <div
             v-for="n in 3"
             :key="`fallback-${n}`"
-            class="relative overflow-hidden bg-white rounded-2xl border border-neutral-100 shadow-sm p-5 space-y-4 animate-shimmer"
+            class="relative overflow-hidden bg-white rounded-2xl border border-neutral-100 shadow-xs p-5 space-y-4 animate-shimmer"
           >
-            <div class="h-5 w-32 rounded bg-neutral-100" />
+            <div class="h-5 w-32 rounded-sm bg-neutral-100" />
             <div class="space-y-2">
-              <div class="h-3 rounded bg-neutral-100" />
-              <div class="h-3 rounded bg-neutral-100 w-5/6" />
-              <div class="h-3 rounded bg-neutral-100 w-2/3" />
+              <div class="h-3 rounded-sm bg-neutral-100" />
+              <div class="h-3 rounded-sm bg-neutral-100 w-5/6" />
+              <div class="h-3 rounded-sm bg-neutral-100 w-2/3" />
             </div>
             <div class="h-10 rounded-lg bg-neutral-100" />
           </div>
@@ -366,7 +366,7 @@
         role="status"
         aria-live="polite"
         aria-atomic="true"
-        class="fixed inset-0 z-[110] flex flex-col items-center justify-center bg-white/95 backdrop-blur-sm"
+        class="fixed inset-0 z-[110] flex flex-col items-center justify-center bg-white/95 backdrop-blur-xs"
       >
         <svg
           class="animate-spin h-8 w-8 text-primary-500 mb-4"
@@ -411,7 +411,7 @@
           type="button"
           @click="guardedCloseAddressModal"
           :aria-label="$t('common.close')"
-          class="absolute top-4 right-4 min-h-11 min-w-11 inline-flex items-center justify-center rounded-lg text-neutral-600 hover:text-neutral-900 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          class="absolute top-4 right-4 min-h-11 min-w-11 inline-flex items-center justify-center rounded-lg text-neutral-600 hover:text-neutral-900 transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

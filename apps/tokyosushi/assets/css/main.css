@@ -1,5 +1,5 @@
-/* Tailwind directives, tokens and custom utilities live in tailwind.css
-   (loaded first by @nuxtjs/tailwindcss); the brand font, background and accent
+/* The Tailwind theme, base layer and custom utilities live in tailwind.css
+   (first in nuxt.config's css list); the brand font, background and accent
    tokens live in brand.css. */
 
 /* Nuxt page transitions (name="page", mode="out-in") */

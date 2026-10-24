@@ -13,7 +13,7 @@
       >
         <button
           type="button"
-          class="group block w-full text-left rounded-ygf-card focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          class="group block w-full text-left rounded-ygf-card focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           :aria-label="$t(`mkt.home.gallery.items.${i}`)"
           @click="openIndex = i"
         >
@@ -49,13 +49,13 @@
           role="dialog"
           aria-modal="true"
           :aria-label="$t(`mkt.home.gallery.items.${openIndex}`)"
-          class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/85 backdrop-blur-sm p-4"
+          class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/85 backdrop-blur-xs p-4"
           @click.self="openIndex = null"
         >
           <button
             ref="closeRef"
             type="button"
-            class="absolute top-4 right-4 w-11 h-11 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+            class="absolute top-4 right-4 w-11 h-11 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
             :aria-label="$t('common.close')"
             @click="openIndex = null"
           >
@@ -133,7 +133,7 @@ useBodyScrollLock(computed(() => openIndex.value !== null))
 <style scoped>
 .mkt-lightbox-enter-active,
 .mkt-lightbox-leave-active {
-  transition: opacity var(--duration-normal) var(--ease-out);
+  transition: opacity var(--duration-normal) var(--ygf-ease-out);
 }
 .mkt-lightbox-enter-from,
 .mkt-lightbox-leave-to {

@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-6">
+  <div>
     <!-- Persistent live region: the applied state is inserted already filled, which screen readers do not announce. -->
     <p role="status" aria-live="polite" class="sr-only" data-testid="coupon-status">
       {{ statusMessage }}
@@ -35,7 +35,7 @@
         ref="removeButtonRef"
         type="button"
         data-testid="coupon-remove"
-        class="min-h-11 inline-flex items-center rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none text-sm text-primary-700 hover:text-primary-800 font-medium underline underline-offset-2 decoration-primary-300 hover:decoration-primary-500"
+        class="min-h-11 inline-flex items-center rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-hidden text-sm text-primary-700 hover:text-primary-800 font-medium underline underline-offset-2 decoration-primary-300 hover:decoration-primary-500"
         @click="removeCoupon"
       >
         {{ $t('coupon.remove') }}

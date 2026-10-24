@@ -92,14 +92,14 @@
               v-model="searchValue"
               type="search"
               :placeholder="$t('nav.search')"
-              class="w-full h-full bg-transparent rounded-2xl pl-11 pr-10 outline-none text-base sm:text-sm placeholder-gray-600"
+              class="w-full h-full bg-transparent rounded-2xl pl-11 pr-10 outline-hidden text-base sm:text-sm placeholder:text-gray-600"
             />
             <button
               type="button"
               v-show="searchValue.length > 0"
               @click.stop="clearSearch"
               :aria-label="$t('nav.clearSearch')"
-              class="absolute right-0 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center text-neutral-600 hover:text-neutral-700 transition-colors rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              class="absolute right-0 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center text-neutral-600 hover:text-neutral-700 transition-colors rounded-2xl focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               <svg
                 class="w-5 h-5"
@@ -117,17 +117,17 @@
 
           <!-- Filter Row (compact chips): one horizontally scrolling row on a phone (padding + negative margin keep the focus rings inside the scroller), wrapping from 640px up -->
           <div
-            class="flex items-center gap-1.5 flex-nowrap overflow-x-auto no-scrollbar -mx-1.5 -my-1.5 px-1.5 py-1.5 sm:flex-wrap sm:overflow-visible sm:m-0 sm:p-0 [&>button]:shrink-0"
+            class="flex items-center gap-1.5 flex-nowrap overflow-x-auto no-scrollbar -mx-1.5 px-1.5 py-1.5 sm:flex-wrap sm:overflow-visible sm:m-0 sm:p-0 [&>button]:shrink-0"
           >
             <!-- Halal toggle -->
             <button
               type="button"
               @click="toggleFilter('halal')"
               :aria-pressed="activeFilters.has('halal')"
-              class="inline-flex min-h-11 items-center gap-1.5 rounded-full px-3.5 text-xs font-medium transition-all duration-200 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              class="inline-flex min-h-11 items-center gap-1.5 rounded-full px-3.5 text-xs font-medium transition-all duration-200 ease-out focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               :class="
                 activeFilters.has('halal')
-                  ? 'bg-blue-700 text-white shadow-sm shadow-blue-200'
+                  ? 'bg-blue-700 text-white shadow-xs shadow-blue-200'
                   : 'bg-white text-neutral-600 border border-neutral-200 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200'
               "
             >
@@ -144,10 +144,10 @@
               type="button"
               @click="toggleFilter('vegetarian')"
               :aria-pressed="activeFilters.has('vegetarian')"
-              class="inline-flex min-h-11 items-center gap-1.5 rounded-full px-3.5 text-xs font-medium transition-all duration-200 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              class="inline-flex min-h-11 items-center gap-1.5 rounded-full px-3.5 text-xs font-medium transition-all duration-200 ease-out focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               :class="
                 activeFilters.has('vegetarian')
-                  ? 'bg-emerald-700 text-white shadow-sm shadow-emerald-200'
+                  ? 'bg-emerald-700 text-white shadow-xs shadow-emerald-200'
                   : 'bg-white text-neutral-600 border border-neutral-200 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-200'
               "
             >
@@ -164,10 +164,10 @@
               type="button"
               @click="toggleFilter('spicy')"
               :aria-pressed="activeFilters.has('spicy')"
-              class="inline-flex min-h-11 items-center gap-1.5 rounded-full px-3.5 text-xs font-medium transition-all duration-200 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              class="inline-flex min-h-11 items-center gap-1.5 rounded-full px-3.5 text-xs font-medium transition-all duration-200 ease-out focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               :class="
                 activeFilters.has('spicy')
-                  ? 'bg-primary-600 text-white shadow-sm shadow-red-200'
+                  ? 'bg-primary-600 text-white shadow-xs shadow-red-200'
                   : 'bg-white text-neutral-600 border border-neutral-200 hover:bg-red-50 hover:text-red-800 hover:border-red-200'
               "
             >
@@ -194,7 +194,7 @@
         >
           <!-- Left gradient fade -->
           <div
-            class="absolute left-0 top-0 bottom-0 w-10 bg-gradient-to-r from-tsb-one to-transparent z-10 pointer-events-none transition-opacity duration-300 flex items-center justify-start pl-1"
+            class="absolute left-0 top-0 bottom-0 w-10 bg-linear-to-r from-tsb-one to-transparent z-10 pointer-events-none transition-opacity duration-300 flex items-center justify-start pl-1"
             :class="canScrollLeft ? 'opacity-100' : 'opacity-0'"
           >
             <svg
@@ -234,7 +234,7 @@
 
           <!-- Right gradient fade -->
           <div
-            class="absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-tsb-one to-transparent z-10 pointer-events-none transition-opacity duration-300 flex items-center justify-end pr-1"
+            class="absolute right-0 top-0 bottom-0 w-10 bg-linear-to-l from-tsb-one to-transparent z-10 pointer-events-none transition-opacity duration-300 flex items-center justify-end pr-1"
             :class="canScrollRight ? 'opacity-100' : 'opacity-0'"
           >
             <svg
@@ -276,7 +276,7 @@
       <!-- Skeleton Loading State -->
       <section v-else-if="!dataCategories" class="max-w-7xl mx-auto px-0 sm:px-4 py-4 space-y-12">
         <div v-for="i in 3" :key="i" class="space-y-4">
-          <div class="h-6 w-32 bg-neutral-200 rounded animate-pulse ml-0 sm:ml-4"></div>
+          <div class="h-6 w-32 bg-neutral-200 rounded-sm animate-pulse ml-0 sm:ml-4"></div>
           <div class="grid grid-cols-2 gap-3 sm:gap-5 sm:grid-cols-3 md:grid-cols-4">
             <div
               v-for="j in 4"
@@ -399,7 +399,7 @@
       <Transition name="modal-backdrop">
         <div
           v-if="routedProductId"
-          class="fixed inset-0 z-50 bg-black/30 flex items-end sm:items-center justify-center sm:p-4 backdrop-blur-sm"
+          class="fixed inset-0 z-50 bg-black/30 flex items-end sm:items-center justify-center sm:p-4 backdrop-blur-xs"
           @click.self="closeModal"
         >
           <Transition name="modal-panel" appear>

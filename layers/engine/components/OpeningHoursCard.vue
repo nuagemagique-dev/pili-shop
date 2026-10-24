@@ -35,7 +35,7 @@
         </dd>
         <dd
           v-else
-          class="mt-0.5 h-4 w-40 max-w-full rounded animate-shimmer bg-[length:200%_100%] bg-gradient-to-r from-neutral-200 from-25% via-neutral-100 via-50% to-neutral-200 to-75%"
+          class="mt-0.5 h-4 w-40 max-w-full rounded-sm animate-shimmer bg-[length:200%_100%] bg-linear-to-r from-neutral-200 from-25% via-neutral-100 via-50% to-neutral-200 to-75%"
           aria-hidden="true"
         />
       </div>
@@ -48,7 +48,7 @@
         </dd>
         <dd
           v-else
-          class="mt-0.5 h-4 w-32 max-w-full rounded animate-shimmer bg-[length:200%_100%] bg-gradient-to-r from-neutral-200 from-25% via-neutral-100 via-50% to-neutral-200 to-75%"
+          class="mt-0.5 h-4 w-32 max-w-full rounded-sm animate-shimmer bg-[length:200%_100%] bg-linear-to-r from-neutral-200 from-25% via-neutral-100 via-50% to-neutral-200 to-75%"
           aria-hidden="true"
         />
       </div>

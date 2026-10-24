@@ -9,7 +9,7 @@
     :tabindex="tag !== 'button' && inactive ? -1 : undefined"
     :aria-busy="loading || undefined"
     :class="[
-      'btn focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+      'btn focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
       VARIANTS[variant],
       SIZES[size],
       block ? 'w-full' : '',

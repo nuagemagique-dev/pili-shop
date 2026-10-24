@@ -31,7 +31,7 @@
       <button
         type="button"
         :aria-label="$t('common.close')"
-        class="shrink-0 w-11 h-11 -mr-2 -mt-1 inline-flex items-center justify-center rounded-full text-neutral-600 hover:text-ygf-black hover:bg-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        class="shrink-0 w-11 h-11 -mr-2 -mt-1 inline-flex items-center justify-center rounded-full text-neutral-600 hover:text-ygf-black hover:bg-white transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         @click="emit('close')"
       >
         <svg
@@ -58,7 +58,7 @@
         <!-- Product photo (click to enlarge) -->
         <button
           type="button"
-          class="relative block w-44 sm:w-full mx-auto sm:mx-0 aspect-square bg-ygf-orange-50/40 rounded-ygf-card overflow-hidden cursor-zoom-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          class="relative block w-44 sm:w-full mx-auto sm:mx-0 aspect-square bg-ygf-orange-50/40 rounded-ygf-card overflow-hidden cursor-zoom-in focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           :aria-label="$t('common.viewPhoto', { name: p.name })"
           aria-haspopup="dialog"
           @click="openLightbox(p.id, p.name)"
@@ -112,34 +112,34 @@
           >
             <span
               v-if="p.isHalal"
-              class="chip chip-static !bg-blue-50 !border-blue-200 !text-blue-800"
+              class="chip chip-static bg-blue-50! border-blue-200! text-blue-800!"
             >
               <DietIcon kind="halal" class="w-3.5 h-3.5" />
               {{ $t('menu.halal') }}
             </span>
             <span
               v-if="p.isVegetarian"
-              class="chip chip-static !bg-emerald-50 !border-emerald-200 !text-emerald-800"
+              class="chip chip-static bg-emerald-50! border-emerald-200! text-emerald-800!"
             >
               <DietIcon kind="vegetarian" class="w-3.5 h-3.5" />
               {{ $t('menu.vegetarian') }}
             </span>
             <span
               v-if="p.isSpicy"
-              class="chip chip-static !bg-ygf-orange-50 !border-ygf-orange-200 !text-ygf-orange-800"
+              class="chip chip-static bg-ygf-orange-50! border-ygf-orange-200! text-ygf-orange-800!"
             >
               <DietIcon kind="spicy" class="w-3.5 h-3.5" />
               {{ $t('menu.spicy') }}
             </span>
             <span
               v-if="p.isLunchOnly"
-              class="chip chip-static !bg-ygf-orange-50 !border-ygf-orange-200 !text-ygf-orange-800"
+              class="chip chip-static bg-ygf-orange-50! border-ygf-orange-200! text-ygf-orange-800!"
             >
               {{ $t('menu.lunchOnly') }}
             </span>
             <span
               v-if="p.isDiscountable"
-              class="chip chip-static !bg-emerald-50 !border-emerald-200 !text-emerald-800"
+              class="chip chip-static bg-emerald-50! border-emerald-200! text-emerald-800!"
             >
               {{ $t('menu.pickupDiscountBadge', policyParams) }}
             </span>

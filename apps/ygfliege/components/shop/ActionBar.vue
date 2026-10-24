@@ -183,7 +183,7 @@ onBeforeUnmount(() => clearTimeout(pulseTimeout))
      viewport itself. The cells stretch the buttons, so the padding only sets how much room the labels need. */
   padding: 0 0.5rem;
   border: 2px solid transparent;
-  border-radius: var(--radius-btn);
+  border-radius: var(--ygf-radius-btn);
   font-size: 0.875rem;
   font-weight: 600;
   white-space: nowrap;

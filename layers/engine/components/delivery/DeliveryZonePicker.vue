@@ -13,11 +13,11 @@
         :disabled="!deliveryEnabled"
         @click="setMode('DELIVERY')"
         :class="[
-          'flex-1 inline-flex min-h-11 flex-wrap items-center justify-center gap-x-2 gap-y-0.5 py-2.5 text-sm font-medium rounded-lg transition-all focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-none',
+          'flex-1 inline-flex min-h-11 flex-wrap items-center justify-center gap-x-2 gap-y-0.5 py-2.5 text-sm font-medium rounded-lg transition-all focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-hidden',
           !deliveryEnabled
             ? 'cursor-not-allowed text-neutral-600 opacity-70'
             : cartStore.collectionOption === 'DELIVERY'
-              ? 'bg-white text-neutral-900 shadow-sm'
+              ? 'bg-white text-neutral-900 shadow-xs'
               : 'text-neutral-600 hover:text-neutral-700',
         ]"
       >
@@ -48,9 +48,9 @@
         :aria-checked="cartStore.collectionOption === 'PICKUP'"
         @click="setMode('PICKUP')"
         :class="[
-          'flex-1 inline-flex min-h-11 items-center justify-center gap-2 py-2.5 text-sm font-medium rounded-lg transition-all focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-none',
+          'flex-1 inline-flex min-h-11 items-center justify-center gap-2 py-2.5 text-sm font-medium rounded-lg transition-all focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-hidden',
           cartStore.collectionOption === 'PICKUP'
-            ? 'bg-white text-neutral-900 shadow-sm'
+            ? 'bg-white text-neutral-900 shadow-xs'
             : 'text-neutral-600 hover:text-neutral-700',
         ]"
       >
@@ -91,7 +91,7 @@
           <button
             type="button"
             @click="replaceAddress = true"
-            class="shrink-0 text-xs font-medium text-primary-700 hover:text-primary-900 underline-offset-2 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded"
+            class="shrink-0 text-xs font-medium text-primary-700 hover:text-primary-900 underline-offset-2 hover:underline focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
           >
             {{ $t('delivery.modal.change') }}
           </button>
@@ -164,7 +164,7 @@
               v-if="!inZone"
               type="button"
               @click="switchToPickup"
-              class="mt-3 inline-flex items-center gap-1.5 min-h-11 rounded-xl bg-white border border-primary-200 px-3 py-2 text-xs font-semibold text-primary-700 hover:bg-primary-100 transition-all active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              class="mt-3 inline-flex items-center gap-1.5 min-h-11 rounded-xl bg-white border border-primary-200 px-3 py-2 text-xs font-semibold text-primary-700 hover:bg-primary-100 transition-all active:scale-[0.98] focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               <img
                 src="/icons/shopping-bag-icon.svg"
@@ -194,7 +194,7 @@
         v-if="showCancel"
         type="button"
         @click="emit('cancel')"
-        class="min-h-11 px-4 py-2 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-sm font-medium text-neutral-700 transition-all active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        class="min-h-11 px-4 py-2 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-sm font-medium text-neutral-700 transition-all active:scale-[0.97] focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
       >
         {{ $t('common.cancel') }}
       </button>

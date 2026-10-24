@@ -243,6 +243,8 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+@reference "~/assets/css/tailwind.css";
+
 .broth-selector {
   display: flex;
   flex-direction: column;
@@ -290,7 +292,7 @@ onBeforeUnmount(() => {
 
 :deep(.selector-bowl-img) {
   display: block;
-  filter: drop-shadow(0 18px 36px theme('colors.ygf.DEFAULT / 24%'));
+  filter: drop-shadow(0 18px 36px --alpha(--theme(--color-ygf inline) / 24%));
 }
 
 /* Steam over the bowl (orange wisps: the stage sits on white). */
@@ -309,7 +311,7 @@ onBeforeUnmount(() => {
   width: 8px;
   height: 26px;
   border-radius: 9999px;
-  background: theme('colors.ygf.DEFAULT / 22%');
+  background: --alpha(--theme(--color-ygf inline) / 22%);
   opacity: 0;
 }
 
@@ -380,8 +382,8 @@ onBeforeUnmount(() => {
   padding: 3px;
   border: 2px solid transparent;
   border-radius: 9999px;
-  background: theme('colors.ygf.white');
-  box-shadow: 0 2px 8px theme('colors.ygf.DEFAULT / 10%');
+  background: --theme(--color-ygf-white inline);
+  box-shadow: 0 2px 8px --alpha(--theme(--color-ygf inline) / 10%);
   cursor: pointer;
   transition:
     border-color 200ms ease-out,
@@ -389,16 +391,16 @@ onBeforeUnmount(() => {
 }
 
 .selector-tab:hover {
-  border-color: theme('colors.ygf.light');
+  border-color: --theme(--color-ygf-light inline);
 }
 
 .selector-tab.active {
-  border-color: theme('colors.ygf.DEFAULT');
+  border-color: --theme(--color-ygf inline);
   transform: scale(1.08);
 }
 
 .selector-tab:focus-visible {
-  outline: 2px solid theme('colors.ygf.black');
+  outline: 2px solid --theme(--color-ygf-black inline);
   outline-offset: 2px;
 }
 

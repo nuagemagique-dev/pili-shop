@@ -25,7 +25,7 @@
             <MktIcon name="caret-left" :size="22" />
           </button>
           <div class="flex-1 min-w-0">
-            <span class="section-label !mb-0.5" data-testid="bowl-composer-eyebrow">{{
+            <span class="section-label mb-0.5!" data-testid="bowl-composer-eyebrow">{{
               $t(editItem ? 'menu.editing' : 'composer.eyebrow')
             }}</span>
             <h2
@@ -58,7 +58,7 @@
             type="button"
             :data-testid="`bowl-composer-step-${i}`"
             :aria-current="i === stepIndex ? 'step' : undefined"
-            class="group flex-1 py-2 lg:flex-none lg:py-0 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            class="group flex-1 py-2 lg:flex-none lg:py-0 rounded-full focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
             @click="goTo(i)"
           >
             <span
@@ -137,7 +137,7 @@
                   :data-testid="`bowl-composer-choice-${broth.variants[0]!.id}`"
                   :data-composer-step="i"
                   :aria-pressed="pickedBrothSlug === broth.slug"
-                  class="broth-card text-left flex flex-col gap-1.5 p-2.5 pb-3 rounded-ygf-card border-2 shadow-ygf-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  class="broth-card text-left flex flex-col gap-1.5 p-2.5 pb-3 rounded-ygf-card border-2 shadow-ygf-sm focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   :class="
                     pickedBrothSlug === broth.slug
                       ? 'border-primary bg-ygf-bg'
@@ -229,7 +229,7 @@
                       :style="{ width: `${progressPct(progress.count)}%` }"
                     />
                     <span
-                      class="absolute -top-[3px] w-0.5 h-3 rounded-sm bg-ygf-black"
+                      class="absolute -top-[3px] w-0.5 h-3 rounded-xs bg-ygf-black"
                       :style="{ left: `${progressPct(progress.min)}%` }"
                     />
                   </div>
@@ -282,7 +282,7 @@
                         :data-testid="`bowl-composer-choice-inc-${choice.id}`"
                         :aria-label="$t('composer.addIngredient', { name: choice.name })"
                         :disabled="!canIncrement(choice)"
-                        class="absolute inset-0 w-full rounded-ygf-card cursor-pointer disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                        class="absolute inset-0 w-full rounded-ygf-card cursor-pointer disabled:cursor-not-allowed focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                         @click="addIngredient(choice)"
                       />
                       <span
@@ -308,7 +308,7 @@
                         :data-testid="`bowl-composer-choice-dec-${choice.id}`"
                         :aria-label="$t('composer.removeIngredient', { name: choice.name })"
                         :disabled="quantityOf(choice) === 0"
-                        class="absolute right-1 bottom-1 w-9 h-9 rounded-full bg-white shadow-ygf-sm text-lg leading-none text-ygf-black inline-flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        class="absolute right-1 bottom-1 w-9 h-9 rounded-full bg-white shadow-ygf-sm text-lg leading-none text-ygf-black inline-flex items-center justify-center focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
                         :class="{ invisible: quantityOf(choice) === 0 }"
                         @click="decrementChoice(choice)"
                       >
@@ -346,7 +346,7 @@
                   :data-testid="`bowl-composer-choice-${choice.id}`"
                   :data-composer-step="i"
                   :aria-pressed="quantityOf(choice) > 0"
-                  class="flex items-center justify-between gap-3 min-h-16 px-4.5 py-3 rounded-ygf-card border-2 text-left transition-colors duration-200 lg:flex-col lg:items-start lg:justify-start lg:p-4.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  class="flex items-center justify-between gap-3 min-h-16 px-4.5 py-3 rounded-ygf-card border-2 text-left transition-colors duration-200 lg:flex-col lg:items-start lg:justify-start lg:p-4.5 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   :class="
                     quantityOf(choice) > 0
                       ? 'border-primary bg-ygf-bg'
@@ -947,6 +947,8 @@ onMounted(() => {
 </script>
 
 <style scoped>
+@reference "~/assets/css/tailwind.css";
+
 /* The step slide of the mockup: 450 ms on the brand ease. */
 .composer-track {
   transition: transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -958,7 +960,7 @@ onMounted(() => {
 
 .composer-bowl {
   transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
-  filter: drop-shadow(0 10px 20px theme('colors.ygf.DEFAULT / 25%'));
+  filter: drop-shadow(0 10px 20px --alpha(--theme(--color-ygf inline) / 25%));
 }
 
 .broth-card {
@@ -969,7 +971,7 @@ onMounted(() => {
 }
 
 :deep(.broth-card-img) {
-  filter: drop-shadow(0 8px 16px theme('colors.ygf.DEFAULT / 20%'));
+  filter: drop-shadow(0 8px 16px --alpha(--theme(--color-ygf inline) / 20%));
 }
 
 @media (hover: hover) {
@@ -1005,7 +1007,7 @@ onMounted(() => {
   width: 7px;
   height: 22px;
   border-radius: 9999px;
-  background: theme('colors.ygf.DEFAULT / 22%');
+  background: --alpha(--theme(--color-ygf inline) / 22%);
   opacity: 0;
 }
 

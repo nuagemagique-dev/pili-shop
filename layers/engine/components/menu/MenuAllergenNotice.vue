@@ -30,7 +30,7 @@
       </span>
       <button
         type="button"
-        class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full hover:bg-amber-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full hover:bg-amber-100 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         :aria-label="$t('common.close')"
         @click="emit('dismiss')"
       >

@@ -29,7 +29,7 @@
           <!-- Product image -->
           <button
             type="button"
-            class="w-14 h-14 shrink-0 rounded-xl bg-neutral-50 flex items-center justify-center overflow-hidden cursor-pointer active:scale-95 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            class="w-14 h-14 shrink-0 rounded-xl bg-neutral-50 flex items-center justify-center overflow-hidden cursor-pointer active:scale-95 transition-transform focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             :aria-label="$t('common.viewPhoto', { name: item.product.name })"
             aria-haspopup="dialog"
             @click="openLightbox(item.product.id, item.product.name)"
@@ -195,7 +195,7 @@
                 :aria-label="$t('checkout.deliveryFee')"
                 :aria-expanded="showTooltip"
                 :aria-describedby="showTooltip ? 'delivery-fee-tooltip' : undefined"
-                class="min-w-11 min-h-11 -m-2.5 p-2.5 inline-flex items-center justify-center text-neutral-600 hover:text-neutral-700 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-none rounded-full relative"
+                class="min-w-11 min-h-11 -m-2.5 p-2.5 inline-flex items-center justify-center text-neutral-600 hover:text-neutral-700 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-hidden rounded-full relative"
                 @click.stop="showTooltip = !showTooltip"
               >
                 <svg
@@ -239,7 +239,7 @@
             <button
               type="button"
               data-testid="cart-out-of-zone-switch-to-pickup"
-              class="underline min-h-11 px-1 hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-current rounded"
+              class="underline min-h-11 px-1 hover:opacity-80 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-current rounded-sm"
               @click="switchToPickup"
             >
               {{ $t('delivery.modal.switchToPickup') }}
@@ -268,9 +268,7 @@
           <span class="tabular-nums">{{ formatCents(onlineFeeCents) }}</span>
         </div>
         <!-- Total -->
-        <div
-          class="flex justify-between items-baseline gap-3 pt-2 mt-1 border-t border-neutral-100"
-        >
+        <div class="flex justify-between items-baseline gap-3 pt-2 border-t border-neutral-100">
           <span class="font-bold text-neutral-900">{{ $t('checkout.total', 'Total:') }}</span>
           <span class="inline-flex flex-wrap items-baseline justify-end gap-x-2 text-right"
             ><QuoteUpdatingHint /><span class="font-bold text-lg text-primary-700 tabular-nums">{{
