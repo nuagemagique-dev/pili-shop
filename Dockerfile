@@ -2,7 +2,7 @@
 # so the shared engine layer (layers/engine) is available to the build. In CI:
 #   docker buildx build . --file Dockerfile --build-arg APP=tokyosushi ...
 #   docker buildx build . --file Dockerfile --build-arg APP=ygfliege ...
-FROM node:24.21-slim AS builder
+FROM node:24.22-slim AS builder
 
 # Which app under apps/ to build (pnpm workspace name = directory name).
 ARG APP=tokyosushi
@@ -70,7 +70,7 @@ COPY apps/${APP} ./apps/${APP}
 RUN pnpm --filter ${APP} run build
 
 # ---------- Runtime ----------
-FROM node:24.21-alpine3.24
+FROM node:24.22-alpine3.24
 
 ARG APP=tokyosushi
 
