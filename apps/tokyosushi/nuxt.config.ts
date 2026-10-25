@@ -40,7 +40,7 @@ export default defineNuxtConfig({
 
   // Modules that are UI/brand concerns (fonts). Engine registers the
   // Rest (i18n, pinia, sitemap, sentry); module arrays concat across layers.
-  modules: ['@nuxtjs/google-fonts'],
+  modules: ['@nuxt/fonts'],
 
   // Tailwind 4 runs as a Vite plugin; the theme lives in assets/css/tailwind.css.
   vite: {
@@ -118,15 +118,27 @@ export default defineNuxtConfig({
     },
   },
 
-  googleFonts: {
-    families: {
-      Montserrat: [400, 500, 600, 700],
+  // Montserrat is fetched from Google at build time and self-hosted (same origin, no runtime request to Google). The size-adjusted
+  // Fallback faces are hand-written in assets/css/brand.css, so the module's generated ones are switched off (fallbacks: []).
+  fonts: {
+    families: [
+      {
+        name: 'Montserrat',
+        provider: 'google',
+        global: true,
+        preload: true,
+        fallbacks: [],
+        weights: [400, 500, 600, 700],
+        styles: ['normal'],
+      },
+    ],
+    defaults: {
+      weights: [400, 500, 600, 700],
+      styles: ['normal'],
+      subsets: ['latin', 'latin-ext'],
     },
-    display: 'swap',
-    download: true,
-    preload: true,
-    inject: true,
-    overwriting: true,
+    // Url-only sources, as before: no local() lookup of a same-named installed font.
+    experimental: { disableLocalFallbacks: true },
   },
 
   /*
