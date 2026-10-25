@@ -13,7 +13,7 @@
       @click="emit('close')"
       :aria-label="$t('common.close')"
       type="button"
-      class="z-10 flex h-11 w-11 shrink-0 self-end m-1 sm:m-0 sm:absolute sm:top-4 sm:right-4 items-center justify-center rounded-full text-neutral-600 hover:bg-neutral-100 hover:text-neutral-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      class="z-10 flex h-11 w-11 shrink-0 self-end m-1 sm:m-0 sm:absolute sm:top-4 sm:right-4 items-center justify-center rounded-full text-neutral-600 hover:bg-neutral-100 hover:text-neutral-700 transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -37,7 +37,7 @@
         <!-- Image Section -->
         <button
           type="button"
-          class="relative block w-full h-44 lg:h-96 bg-neutral-50 rounded-xl overflow-hidden cursor-zoom-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          class="relative block w-full h-44 lg:h-96 bg-neutral-50 rounded-xl overflow-hidden cursor-zoom-in focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           :aria-label="$t('common.viewPhoto', { name: p.name })"
           aria-haspopup="dialog"
           @click="openLightbox(p.id, p.name)"
@@ -49,7 +49,7 @@
               ref="imageElement"
               :alt="p.name"
               :src="`${productImageBaseSrc}.png`"
-              class="object-contain w-full h-full transition-opacity duration-500 rounded-lg shadow-sm"
+              class="object-contain w-full h-full transition-opacity duration-500 rounded-lg shadow-xs"
               :class="[!p.isAvailable ? 'grayscale' : '']"
               @error="handleProductImageError"
             />

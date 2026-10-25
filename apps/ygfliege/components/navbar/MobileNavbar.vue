@@ -26,7 +26,7 @@
             :aria-label="$t('nav.toggleMenu')"
             :aria-expanded="isMenuOpen"
             aria-controls="mobile-menu"
-            class="hamburger inline-flex h-11 w-11 items-center justify-center cursor-pointer rounded-lg border border-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            class="hamburger inline-flex h-11 w-11 items-center justify-center cursor-pointer rounded-lg border border-gray-200 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             :class="{ 'hamburger-active': isMenuOpen }"
             @click="toggleMenu"
           >
@@ -234,7 +234,7 @@ watch(
        white link text clears WCAG AA (4.50:1 vs 2.59:1). */
   background-color: var(--ygf-orange-on-white);
   color: var(--ygf-white);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--ygf-shadow-md);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -269,8 +269,8 @@ watch(
   opacity: 0;
   transform: translateX(-10px);
   transition:
-    opacity var(--duration-normal) var(--ease-out),
-    transform var(--duration-normal) var(--ease-out);
+    opacity var(--duration-normal) var(--ygf-ease-out),
+    transform var(--duration-normal) var(--ygf-ease-out);
   transition-delay: 0s;
 }
 
@@ -278,8 +278,8 @@ watch(
   opacity: 1;
   transform: translateX(0);
   transition:
-    opacity var(--duration-normal) var(--ease-out),
-    transform var(--duration-normal) var(--ease-out);
+    opacity var(--duration-normal) var(--ygf-ease-out),
+    transform var(--duration-normal) var(--ygf-ease-out);
 }
 .menu-open li:nth-child(1) {
   transition-delay: 0.05s;

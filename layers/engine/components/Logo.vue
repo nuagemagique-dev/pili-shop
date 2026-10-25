@@ -3,7 +3,7 @@
     <NuxtLinkLocale
       :to="to"
       :aria-label="ariaLabel || alt"
-      class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
     >
       <!-- Container with overflow-visible -->
       <div
@@ -19,7 +19,7 @@
         <!-- Tooltip positioned below -->
         <span
           v-if="tooltipText"
-          class="absolute pointer-events-none left-1/2 top-full -translate-x-1/2 mt-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition whitespace-nowrap z-50 min-w-max"
+          class="absolute pointer-events-none left-1/2 top-full -translate-x-1/2 mt-2 px-2 py-1 bg-black text-white text-xs rounded-sm opacity-0 group-hover:opacity-100 transition whitespace-nowrap z-50 min-w-max"
         >
           {{ tooltipText }}
         </span>

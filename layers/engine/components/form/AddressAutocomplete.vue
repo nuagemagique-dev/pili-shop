@@ -22,7 +22,7 @@
           :class="
             selectedAddress
               ? 'sr-only'
-              : 'w-full px-3.5 py-2.5 pr-10 bg-white/60 backdrop-blur-sm border border-neutral-200/80 rounded-xl text-neutral-900 placeholder-neutral-500 focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-ring focus-visible:outline-none transition-all duration-300'
+              : 'w-full px-3.5 py-2.5 pr-10 bg-white/60 backdrop-blur-xs border border-neutral-200/80 rounded-xl text-neutral-900 placeholder:text-neutral-600 focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-ring focus-visible:outline-hidden transition-all duration-300'
           "
           :readonly="Boolean(selectedAddress)"
           :tabindex="selectedAddress ? -1 : undefined"
@@ -87,7 +87,7 @@
             type="button"
             data-testid="address-clear"
             :aria-label="$t('form.address.clear')"
-            class="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-xl text-neutral-600 hover:text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            class="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-xl text-neutral-600 hover:text-neutral-900 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             @click="clearAddress"
           >
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">

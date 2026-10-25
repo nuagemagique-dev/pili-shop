@@ -1,5 +1,6 @@
 import { defineNuxtConfig } from 'nuxt/config'
 import { fileURLToPath } from 'node:url'
+import tailwindcss from '@tailwindcss/vite'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Tokyo Sushi Bar app; the main app. Extends the shared engine layer and owns
@@ -30,14 +31,21 @@ export default defineNuxtConfig({
   },
 
   css: [
+    // Tailwind: theme tokens, base layer and the component vocabulary; must come first.
+    '~/assets/css/tailwind.css',
     '~/assets/css/main.css',
     // Brand display font (@font-face Channel) + html background.
     '~/assets/css/brand.css',
   ],
 
-  // Modules that are UI/brand concerns (theme + fonts). Engine registers the
+  // Modules that are UI/brand concerns (fonts). Engine registers the
   // Rest (i18n, pinia, sitemap, sentry); module arrays concat across layers.
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/google-fonts'],
+  modules: ['@nuxtjs/google-fonts'],
+
+  // Tailwind 4 runs as a Vite plugin; the theme lives in assets/css/tailwind.css.
+  vite: {
+    plugins: [tailwindcss()],
+  },
 
   $meta: {
     title: 'Tokyo Sushi Bar',

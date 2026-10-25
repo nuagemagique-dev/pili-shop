@@ -27,7 +27,7 @@
             type="button"
             data-testid="reorder-cancel"
             :class="secondaryClass"
-            class="min-h-11 rounded-xl px-4 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+            class="min-h-11 rounded-xl px-4 py-2 text-sm font-medium focus:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2"
             @click="resolve(null)"
           >
             {{ $t('common.cancel') }}
@@ -36,7 +36,7 @@
             type="button"
             data-testid="reorder-replace"
             :class="secondaryClass"
-            class="min-h-11 rounded-xl px-4 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+            class="min-h-11 rounded-xl px-4 py-2 text-sm font-medium focus:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2"
             @click="resolve('replace')"
           >
             {{ $t('reorder.replace') }}
@@ -45,7 +45,7 @@
             type="button"
             data-testid="reorder-merge"
             :class="primaryClass"
-            class="min-h-11 rounded-xl px-4 py-2 text-sm font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+            class="min-h-11 rounded-xl px-4 py-2 text-sm font-semibold focus:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2"
             @click="resolve('merge')"
           >
             {{ $t('reorder.add') }}

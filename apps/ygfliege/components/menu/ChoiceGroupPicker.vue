@@ -7,7 +7,7 @@
       type="button"
       :data-testid="`${prefix}-choice-${choice.id}`"
       :aria-pressed="api.quantityOf(choice) > 0"
-      class="card card-interactive text-left overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      class="card card-interactive text-left overflow-hidden focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
       :class="{ 'card-selected': api.quantityOf(choice) > 0 }"
       @click="api.selectExclusive(choice)"
     >
@@ -63,7 +63,7 @@
       type="button"
       :data-testid="`${prefix}-choice-${choice.id}`"
       :aria-pressed="api.quantityOf(choice) > 0"
-      class="chip min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      class="chip min-h-11 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
       @click="api.selectExclusive(choice)"
     >
       <span translate="no">{{ choice.name }}</span>

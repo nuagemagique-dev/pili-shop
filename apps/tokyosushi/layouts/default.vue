@@ -15,7 +15,7 @@
         <NuxtLoadingIndicator color="hsl(var(--primary))" :height="2" />
         <a
           href="#main-content"
-          class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:text-neutral-900 focus:px-4 focus:py-2 focus:rounded-md focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+          class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:text-neutral-900 focus:px-4 focus:py-2 focus:rounded-md focus:shadow-lg focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2"
         >
           {{ $t('common.skipToContent') }}
         </a>
@@ -33,7 +33,7 @@
           <footer class="p-4 sm:ml-[142px] text-xs text-neutral-600">
             <!-- Decorative seigaiha wave divider -->
             <div class="flex items-center justify-center gap-3 mb-4" aria-hidden="true">
-              <div class="h-px flex-1 max-w-24 bg-gradient-to-r from-transparent to-neutral-200" />
+              <div class="h-px flex-1 max-w-24 bg-linear-to-r from-transparent to-neutral-200" />
               <svg class="w-6 h-6 text-primary-300/60" viewBox="0 0 100 50" fill="none">
                 <path
                   d="M0 50 C25 50 25 20 50 20 C75 20 75 50 100 50"
@@ -56,7 +56,7 @@
                   opacity="0.5"
                 />
               </svg>
-              <div class="h-px flex-1 max-w-24 bg-gradient-to-l from-transparent to-neutral-200" />
+              <div class="h-px flex-1 max-w-24 bg-linear-to-l from-transparent to-neutral-200" />
             </div>
 
             <div class="flex items-center justify-center gap-3">

@@ -33,6 +33,11 @@ updates:
         patterns:
           - 'vite-plus'
           - '@voidzero-dev/*'
+      # tailwindcss and @tailwindcss/vite must stay on the same release (the plugin drives the compiler of the same version).
+      tailwind:
+        patterns:
+          - 'tailwindcss'
+          - '@tailwindcss/*'
       # Every other non-major bump in one daily PR: one CI run instead of one per
       # package. Majors still get their own PR. Groups above take precedence.
       minor-and-patch:

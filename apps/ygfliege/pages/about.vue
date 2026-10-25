@@ -54,7 +54,7 @@ useSeoMeta({
 <template>
   <div>
     <!-- ── Hero ── -->
-    <section class="bg-gradient-to-b from-ygf-bg to-white">
+    <section class="bg-linear-to-b from-ygf-bg to-white">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-10 text-center">
         <h1 v-reveal class="font-display font-black text-4xl sm:text-5xl text-ygf-black">
           {{ $t('mkt.about.title') }}

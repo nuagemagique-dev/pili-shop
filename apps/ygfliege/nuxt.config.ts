@@ -1,5 +1,6 @@
 import { defineNuxtConfig } from 'nuxt/config'
 import { fileURLToPath } from 'node:url'
+import tailwindcss from '@tailwindcss/vite'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Yangguofu Malatang Liège app; the main app for ygfliege.be. Extends the
@@ -31,17 +32,21 @@ export default defineNuxtConfig({
   },
 
   css: [
-    // Main.css @imports components.css; the commerce vocabulary needs to
-    // Share a PostCSS pass with the @tailwind directives, and every entry
-    // In this array is compiled independently.
+    // Tailwind: theme tokens, base layer, utilities, and (imported) the commerce component vocabulary; must come first.
+    '~/assets/css/tailwind.css',
     '~/assets/css/main.css',
     // YGF design tokens (--ygf-* custom properties) + page background.
     '~/assets/css/brand.css',
   ],
 
-  // Modules that are UI/brand concerns (theme + fonts). Engine registers the
+  // Modules that are UI/brand concerns (fonts). Engine registers the
   // Rest (i18n, pinia, sitemap, sentry); module arrays concat across layers.
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/google-fonts'],
+  modules: ['@nuxtjs/google-fonts'],
+
+  // Tailwind 4 runs as a Vite plugin; the theme lives in assets/css/tailwind.css.
+  vite: {
+    plugins: [tailwindcss()],
+  },
 
   $meta: {
     title: 'Yangguofu Malatang Liège',

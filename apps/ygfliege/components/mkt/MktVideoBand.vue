@@ -20,7 +20,7 @@
       <source data-src="/videos/ingredients-loop.mp4" type="video/mp4" />
     </video>
     <div
-      class="absolute inset-0 bg-gradient-to-t from-ygf-black/70 via-transparent to-ygf-black/40"
+      class="absolute inset-0 bg-linear-to-t from-ygf-black/70 via-transparent to-ygf-black/40"
       aria-hidden="true"
     />
     <div v-reveal class="relative max-w-4xl mx-auto text-center px-4 py-24 sm:py-32">
@@ -39,7 +39,7 @@
       v-if="motionAllowed"
       type="button"
       data-testid="video-toggle"
-      class="absolute bottom-4 right-4 z-10 inline-flex min-h-11 items-center gap-2 rounded-full bg-ygf-black/70 px-4 text-sm font-semibold text-white hover:bg-ygf-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ygf-black"
+      class="absolute bottom-4 right-4 z-10 inline-flex min-h-11 items-center gap-2 rounded-full bg-ygf-black/70 px-4 text-sm font-semibold text-white hover:bg-ygf-black focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ygf-black"
       @click="toggle"
     >
       <svg

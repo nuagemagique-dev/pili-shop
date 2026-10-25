@@ -39,7 +39,7 @@
         </UiButton>
         <NuxtLinkLocale
           to="/menu"
-          class="flex-1 flex min-h-11 items-center justify-center px-4 py-3 rounded-xl border border-neutral-200 bg-white hover:bg-tsb-four/50 text-sm font-semibold text-neutral-700 transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+          class="flex-1 flex min-h-11 items-center justify-center px-4 py-3 rounded-xl border border-neutral-200 bg-white hover:bg-tsb-four/50 text-sm font-semibold text-neutral-700 transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2"
         >
           {{ $t('orderCompleted.backToMenu', 'Back to menu') }}
         </NuxtLinkLocale>
@@ -78,13 +78,13 @@
       <div class="mt-8 w-full flex flex-col sm:flex-row gap-3">
         <a
           :href="phoneHref"
-          class="flex-1 flex min-h-11 items-center justify-center px-4 py-3 rounded-xl bg-primary-600 hover:bg-primary-700 text-sm font-semibold text-white transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+          class="flex-1 flex min-h-11 items-center justify-center px-4 py-3 rounded-xl bg-primary-600 hover:bg-primary-700 text-sm font-semibold text-white transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2"
         >
           {{ $t('orderCompleted.payment.callUs') }}
         </a>
         <NuxtLinkLocale
           to="/menu"
-          class="flex-1 flex min-h-11 items-center justify-center px-4 py-3 rounded-xl border border-neutral-200 bg-white hover:bg-tsb-four/50 text-sm font-semibold text-neutral-700 transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+          class="flex-1 flex min-h-11 items-center justify-center px-4 py-3 rounded-xl border border-neutral-200 bg-white hover:bg-tsb-four/50 text-sm font-semibold text-neutral-700 transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2"
         >
           {{ $t('orderCompleted.backToMenu', 'Back to menu') }}
         </NuxtLinkLocale>
@@ -323,7 +323,7 @@
         </UiButton>
         <NuxtLinkLocale
           to="/"
-          class="flex-1 flex min-h-11 items-center justify-center px-4 py-3 rounded-xl border border-neutral-200 bg-white hover:bg-tsb-four/50 text-sm font-semibold text-neutral-700 transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+          class="flex-1 flex min-h-11 items-center justify-center px-4 py-3 rounded-xl border border-neutral-200 bg-white hover:bg-tsb-four/50 text-sm font-semibold text-neutral-700 transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2"
         >
           {{ $t('orderCompleted.returnHome') }}
         </NuxtLinkLocale>
@@ -568,6 +568,8 @@ watch(liveUpdate, (val) => {
 </script>
 
 <style scoped>
+@reference "#brand/assets/css/tailwind.css";
+
 /* ── Bag entrance + perpetual float ── */
 .oc-bag-wrapper {
   position: relative;
@@ -634,7 +636,7 @@ watch(liveUpdate, (val) => {
 .oc-petal-1 {
   width: 12px;
   height: 12px;
-  background: theme('colors.tsb.three.DEFAULT');
+  background: --theme(--color-tsb-three inline);
   top: -5%;
   left: 10%;
   animation: oc-petal-fall-left 5s ease-in-out 0s infinite;
@@ -642,7 +644,7 @@ watch(liveUpdate, (val) => {
 .oc-petal-2 {
   width: 9px;
   height: 9px;
-  background: theme('colors.tsb.four.DEFAULT');
+  background: --theme(--color-tsb-four inline);
   top: -8%;
   left: 55%;
   animation: oc-petal-fall-right 4.5s ease-in-out 0.8s infinite;
@@ -650,7 +652,7 @@ watch(liveUpdate, (val) => {
 .oc-petal-3 {
   width: 14px;
   height: 14px;
-  background: theme('colors.tsb.three.DEFAULT');
+  background: --theme(--color-tsb-three inline);
   top: -3%;
   left: 80%;
   animation: oc-petal-fall-left 5.5s ease-in-out 1.6s infinite;
@@ -658,7 +660,7 @@ watch(liveUpdate, (val) => {
 .oc-petal-4 {
   width: 8px;
   height: 8px;
-  background: theme('colors.primary.200');
+  background: --theme(--color-primary-200 inline);
   top: -6%;
   left: 30%;
   animation: oc-petal-fall-right 4.8s ease-in-out 2.4s infinite;
@@ -666,7 +668,7 @@ watch(liveUpdate, (val) => {
 .oc-petal-5 {
   width: 10px;
   height: 10px;
-  background: theme('colors.tsb.four.DEFAULT');
+  background: --theme(--color-tsb-four inline);
   top: -4%;
   left: 70%;
   animation: oc-petal-fall-left 5.2s ease-in-out 3.2s infinite;
@@ -674,7 +676,7 @@ watch(liveUpdate, (val) => {
 .oc-petal-6 {
   width: 7px;
   height: 7px;
-  background: theme('colors.tsb.three.DEFAULT');
+  background: --theme(--color-tsb-three inline);
   top: -7%;
   left: 45%;
   animation: oc-petal-fall-right 4.6s ease-in-out 4s infinite;
@@ -682,7 +684,7 @@ watch(liveUpdate, (val) => {
 .oc-petal-7 {
   width: 11px;
   height: 11px;
-  background: theme('colors.primary.200');
+  background: --theme(--color-primary-200 inline);
   top: -5%;
   left: 20%;
   animation: oc-petal-fall-right 5.3s ease-in-out 0.5s infinite;
@@ -690,7 +692,7 @@ watch(liveUpdate, (val) => {
 .oc-petal-8 {
   width: 8px;
   height: 8px;
-  background: theme('colors.tsb.three.DEFAULT');
+  background: --theme(--color-tsb-three inline);
   top: -9%;
   left: 90%;
   animation: oc-petal-fall-left 4.4s ease-in-out 1.2s infinite;
@@ -698,7 +700,7 @@ watch(liveUpdate, (val) => {
 .oc-petal-9 {
   width: 13px;
   height: 13px;
-  background: theme('colors.tsb.four.DEFAULT');
+  background: --theme(--color-tsb-four inline);
   top: -6%;
   left: 5%;
   animation: oc-petal-fall-right 5.8s ease-in-out 2s infinite;
@@ -706,7 +708,7 @@ watch(liveUpdate, (val) => {
 .oc-petal-10 {
   width: 6px;
   height: 6px;
-  background: theme('colors.primary.200');
+  background: --theme(--color-primary-200 inline);
   top: -4%;
   left: 62%;
   animation: oc-petal-fall-left 4.2s ease-in-out 3.5s infinite;
@@ -714,7 +716,7 @@ watch(liveUpdate, (val) => {
 .oc-petal-11 {
   width: 10px;
   height: 10px;
-  background: theme('colors.tsb.three.DEFAULT');
+  background: --theme(--color-tsb-three inline);
   top: -8%;
   left: 38%;
   animation: oc-petal-fall-left 5s ease-in-out 1s infinite;
@@ -722,7 +724,7 @@ watch(liveUpdate, (val) => {
 .oc-petal-12 {
   width: 9px;
   height: 9px;
-  background: theme('colors.tsb.four.DEFAULT');
+  background: --theme(--color-tsb-four inline);
   top: -3%;
   left: 85%;
   animation: oc-petal-fall-right 4.7s ease-in-out 2.8s infinite;

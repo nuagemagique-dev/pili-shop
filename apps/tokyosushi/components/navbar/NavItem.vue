@@ -5,7 +5,7 @@
       :to="to"
       :aria-label="ariaLabel || tooltipText"
       :aria-current="isActive ? 'page' : undefined"
-      class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
     >
       <!-- Container with dynamic colors based on active route -->
       <div
@@ -34,7 +34,7 @@
         <!-- Tooltip positioned below -->
         <span
           v-if="tooltipText"
-          class="absolute left-1/2 top-full -translate-x-1/2 mt-2 px-2 py-1 text-xs rounded opacity-0 group-hover:opacity-100 transition-all duration-150 ease-out translate-y-1 group-hover:translate-y-0 whitespace-nowrap z-50 min-w-max bg-black text-white pointer-events-none"
+          class="absolute left-1/2 top-full -translate-x-1/2 mt-2 px-2 py-1 text-xs rounded-sm opacity-0 group-hover:opacity-100 transition-all duration-150 ease-out translate-y-1 group-hover:translate-y-0 whitespace-nowrap z-50 min-w-max bg-black text-white pointer-events-none"
         >
           {{ tooltipText }}
         </span>

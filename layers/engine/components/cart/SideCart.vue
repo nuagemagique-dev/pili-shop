@@ -9,7 +9,7 @@
       <h2
         ref="headingRef"
         tabindex="-1"
-        class="text-xl font-bold focus:outline-none text-neutral-900"
+        class="text-xl font-bold focus:outline-hidden text-neutral-900"
       >
         {{ $t('cart.title') }}
       </h2>
@@ -35,10 +35,10 @@
             option.disabled ? `${option.label} (${$t('delivery.comingSoon')})` : undefined
           "
           :class="[
-            'flex min-h-11 items-center gap-1 whitespace-nowrap px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+            'flex min-h-11 items-center gap-1 whitespace-nowrap px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-300 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
             option.disabled ? 'cursor-not-allowed opacity-40' : '',
             cartStore.collectionOption === option.value
-              ? 'bg-white text-neutral-900 shadow-sm'
+              ? 'bg-white text-neutral-900 shadow-xs'
               : 'text-neutral-600 hover:bg-tsb-four/40',
           ]"
           @click="handleOrderType(option.value)"
@@ -71,7 +71,7 @@
           <!-- Product Image -->
           <button
             type="button"
-            class="w-12 h-12 rounded-lg overflow-hidden bg-neutral-100 flex items-center justify-center cursor-pointer active:scale-95 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            class="w-12 h-12 rounded-lg overflow-hidden bg-neutral-100 flex items-center justify-center cursor-pointer active:scale-95 transition-transform focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             :aria-label="$t('common.viewPhoto', { name: item.product.name })"
             aria-haspopup="dialog"
             @click="openLightbox(item.product?.id, item.product.name)"
@@ -122,7 +122,7 @@
                   {{ item.product.pieceCount === 1 ? $t('menu.pc') : $t('menu.pcs') }}
                 </span>
               </div>
-              <span class="text-sm font-medium whitespace-nowrap flex-shrink-0 self-start">
+              <span class="text-sm font-medium whitespace-nowrap shrink-0 self-start">
                 {{ formatCents(getItemLineTotalCents(item)) }}
               </span>
             </div>
@@ -165,7 +165,7 @@
                 data-testid="cart-item-remove"
                 data-cart-remove
                 :aria-label="$t('cart.removeNamed', { name: item.product.name })"
-                class="min-h-11 rounded-lg px-2 text-xs font-medium text-neutral-600 hover:text-red-800 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                class="min-h-11 rounded-lg px-2 text-xs font-medium text-neutral-600 hover:text-red-800 transition-colors duration-300 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 @click="removeWithUndo(item)"
               >
                 {{ $t('cart.removeItem') }}
@@ -203,7 +203,7 @@
             <button
               type="button"
               data-testid="cart-out-of-zone-switch-to-pickup"
-              class="underline min-h-11 px-1 hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-current rounded"
+              class="underline min-h-11 px-1 hover:opacity-80 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-current rounded-sm"
               @click="switchToPickup"
             >
               {{ $t('delivery.modal.switchToPickup') }}
@@ -263,7 +263,7 @@
         <button
           type="button"
           data-testid="cart-switch-to-pickup"
-          class="mt-1 min-h-11 px-3 font-medium underline hover:text-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-lg"
+          class="mt-1 min-h-11 px-3 font-medium underline hover:text-primary-700 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-lg"
           @click="switchToPickup"
         >
           {{ $t('delivery.modal.switchToPickup') }}

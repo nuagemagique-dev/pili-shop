@@ -13,7 +13,7 @@
 /* Metric-matched stand-ins for the swap (audit PR 6.3, P13): until a web font has arrived the text is set in local Arial (or its metric twins Liberation Sans / Arimo)
    scaled to the web font's width, ascent and descent, so the swap changes the letter shapes but not the line breaks or the
    height of anything. Numbers: fontaine's getMetricsForFamily('Montserrat') / readMetrics(channel.ttf) against Arial.
-   They are listed after the web font in the font stacks (tailwind.config.ts). */
+   They are listed after the web font in the font stacks (tailwind.css). */
 @font-face {
   font-family: 'Montserrat Fallback';
   src: local('Arial'), local('Liberation Sans'), local('Arimo');

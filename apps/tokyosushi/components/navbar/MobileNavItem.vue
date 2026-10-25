@@ -4,7 +4,7 @@
     <NuxtLinkLocale
       :to="to"
       active-class="bg-tsb-four text-primary-hover"
-      class="flex min-h-11 items-center justify-center space-x-2 rounded-xl px-4 py-3 transition-colors hover:bg-tsb-one focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      class="flex min-h-11 items-center justify-center space-x-2 rounded-xl px-4 py-3 transition-colors hover:bg-tsb-one focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
     >
       <NavIcon v-if="icon" :src="icon" class="w-6 h-6" />
       <span class="text-sm font-medium">{{ label }}</span>

@@ -100,7 +100,7 @@ useSeoMeta({
             :href="googleMapsLink"
             target="_blank"
             rel="noopener noreferrer"
-            class="mt-4 inline-flex min-h-11 items-center gap-1.5 text-xs font-medium text-gray-900 hover:text-ygf-orange-900 transition group/link rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            class="mt-4 inline-flex min-h-11 items-center gap-1.5 text-xs font-medium text-gray-900 hover:text-ygf-orange-900 transition group/link rounded-md focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
             {{ $t('contact.viewLargerMap') }}
             <svg
@@ -120,7 +120,7 @@ useSeoMeta({
       <div class="bento-phone bento-cell" style="--delay: 4">
         <a
           :href="telHref(brand.phone)"
-          class="block h-full rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          class="block h-full rounded-2xl focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
           <div
             class="bg-ygf-cream rounded-2xl p-6 sm:p-8 h-full flex flex-col hover:bg-ygf-orange-100/40 transition-colors duration-300"
@@ -151,7 +151,7 @@ useSeoMeta({
       <div class="bento-email bento-cell" style="--delay: 5">
         <a
           :href="`mailto:${brand.email}`"
-          class="block h-full rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          class="block h-full rounded-2xl focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
           <div
             class="bg-ygf-cream rounded-2xl p-6 sm:p-8 h-full flex flex-col hover:bg-ygf-orange-100/40 transition-colors duration-300"
@@ -211,7 +211,7 @@ useSeoMeta({
               :href="brand.socials.instagram"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 min-h-11 pl-1.5 pr-4 rounded-full bg-white hover:bg-ygf-orange-100 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              class="inline-flex items-center gap-2 min-h-11 pl-1.5 pr-4 rounded-full bg-white hover:bg-ygf-orange-100 transition-colors duration-300 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               <img
                 src="/images/icons/social-instagram.svg"
@@ -225,7 +225,7 @@ useSeoMeta({
               :href="brand.socials.tiktok"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 min-h-11 pl-1.5 pr-4 rounded-full bg-white hover:bg-ygf-orange-100 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              class="inline-flex items-center gap-2 min-h-11 pl-1.5 pr-4 rounded-full bg-white hover:bg-ygf-orange-100 transition-colors duration-300 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               <img
                 src="/images/icons/social-tiktok.svg"
@@ -239,7 +239,7 @@ useSeoMeta({
               :href="brand.socials.rednote"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 min-h-11 pl-1.5 pr-4 rounded-full bg-white hover:bg-ygf-orange-100 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              class="inline-flex items-center gap-2 min-h-11 pl-1.5 pr-4 rounded-full bg-white hover:bg-ygf-orange-100 transition-colors duration-300 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               <img
                 src="/images/icons/social-rednote.svg"

@@ -11,7 +11,7 @@
  * only primitives that repeat across dozens of components live here. Layout,
  * spacing and one-off styling belong in utilities at the call site.
  *
- * Tokens (--ygf-*, --shadow-*, --border-*, --radius-*, --ease-out) come from
+ * Tokens (--ygf-*, --ygf-shadow-*, --border-*, --ygf-radius-*, --ygf-ease-out) come from
  * brand.css, which nuxt.config.ts loads before this file.
  */
 
@@ -24,7 +24,7 @@
     gap: 0.5rem;
     padding: 0.875rem 2rem;
     border: 2px solid transparent;
-    border-radius: var(--radius-btn);
+    border-radius: var(--ygf-radius-btn);
     font-weight: 600;
     font-size: 1rem;
     line-height: 1.2;
@@ -33,10 +33,10 @@
     white-space: nowrap;
     cursor: pointer;
     transition:
-      background-color var(--duration-normal) var(--ease-out),
-      border-color var(--duration-normal) var(--ease-out),
-      color var(--duration-normal) var(--ease-out),
-      opacity var(--duration-normal) var(--ease-out);
+      background-color var(--duration-normal) var(--ygf-ease-out),
+      border-color var(--duration-normal) var(--ygf-ease-out),
+      color var(--duration-normal) var(--ygf-ease-out),
+      opacity var(--duration-normal) var(--ygf-ease-out);
   }
 
   /* Keyboard focus for the shared control primitives. Templates that add their
@@ -125,7 +125,7 @@
     text-decoration: underline;
     text-underline-offset: 4px;
     cursor: pointer;
-    transition: color var(--duration-normal) var(--ease-out);
+    transition: color var(--duration-normal) var(--ygf-ease-out);
   }
 
   @media (hover: hover) {
@@ -138,13 +138,13 @@
   .card {
     background: var(--ygf-white);
     border: var(--border-subtle);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-sm);
+    border-radius: var(--ygf-radius-md);
+    box-shadow: var(--ygf-shadow-sm);
     overflow: hidden;
     transition:
-      transform var(--duration-normal) var(--ease-out),
-      box-shadow var(--duration-normal) var(--ease-out),
-      border-color var(--duration-normal) var(--ease-out);
+      transform var(--duration-normal) var(--ygf-ease-out),
+      box-shadow var(--duration-normal) var(--ygf-ease-out),
+      border-color var(--duration-normal) var(--ygf-ease-out);
   }
 
   /* Lift only where the whole card is a control; opt in with .card-interactive
@@ -152,7 +152,7 @@
   @media (hover: hover) {
     .card-interactive:hover {
       transform: translateY(-4px);
-      box-shadow: var(--shadow-lg);
+      box-shadow: var(--ygf-shadow-lg);
     }
   }
 
@@ -161,12 +161,12 @@
   .card.card-selected {
     border: var(--border-strong);
     border-color: var(--ygf-orange);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--ygf-shadow-md);
   }
 
   @media (hover: hover) {
     .card.card-selected:hover {
-      box-shadow: var(--shadow-lg);
+      box-shadow: var(--ygf-shadow-lg);
     }
   }
 
@@ -184,14 +184,14 @@
     width: 100%;
     padding: 0.75rem 1rem;
     border: var(--border-default);
-    border-radius: var(--radius-md);
+    border-radius: var(--ygf-radius-md);
     background: var(--ygf-white);
     color: var(--ygf-black);
     font-size: 1rem;
     line-height: 1.5;
     transition:
-      border-color var(--duration-normal) var(--ease-out),
-      box-shadow var(--duration-normal) var(--ease-out);
+      border-color var(--duration-normal) var(--ygf-ease-out),
+      box-shadow var(--duration-normal) var(--ygf-ease-out);
   }
 
   /* Placeholder text needs 4.5:1 too: #999 is 2.85:1, #666 is 5.74:1. */
@@ -230,7 +230,7 @@
     gap: 0.375rem;
     padding: 0.4375rem 0.875rem;
     border: var(--border-default);
-    border-radius: var(--radius-btn);
+    border-radius: var(--ygf-radius-btn);
     background: var(--ygf-white);
     color: var(--ygf-black);
     font-size: 0.875rem;
@@ -239,9 +239,9 @@
     white-space: nowrap;
     cursor: pointer;
     transition:
-      background-color var(--duration-normal) var(--ease-out),
-      border-color var(--duration-normal) var(--ease-out),
-      color var(--duration-normal) var(--ease-out);
+      background-color var(--duration-normal) var(--ygf-ease-out),
+      border-color var(--duration-normal) var(--ygf-ease-out),
+      color var(--duration-normal) var(--ygf-ease-out);
   }
 
   /* Unselected hover only. `.chip:hover` outweighs `.chip[aria-pressed]`
@@ -286,7 +286,7 @@
     flex-shrink: 0;
     padding: 0.4375rem 0.875rem;
     border: var(--border-default);
-    border-radius: var(--radius-btn);
+    border-radius: var(--ygf-radius-btn);
     background: var(--ygf-white);
     color: var(--ygf-black);
     font-size: 0.875rem;
@@ -301,7 +301,7 @@
     align-items: center;
     gap: 0.25rem;
     border: var(--border-default);
-    border-radius: var(--radius-btn);
+    border-radius: var(--ygf-radius-btn);
     background: var(--ygf-white);
     padding: 0.1875rem;
   }
@@ -321,8 +321,8 @@
     line-height: 1;
     cursor: pointer;
     transition:
-      background-color var(--duration-fast) var(--ease-out),
-      color var(--duration-fast) var(--ease-out);
+      background-color var(--duration-fast) var(--ygf-ease-out),
+      color var(--duration-fast) var(--ygf-ease-out);
   }
 
   @media (hover: hover) {
@@ -450,7 +450,7 @@
   }
 
   .section-title {
-    font-family: var(--font-sans), var(--font-chinese);
+    font-family: var(--ygf-font-sans), var(--font-chinese);
     font-weight: 700;
     line-height: 1.25;
     letter-spacing: -0.02em;

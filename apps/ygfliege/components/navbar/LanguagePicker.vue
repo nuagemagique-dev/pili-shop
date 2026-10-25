@@ -5,7 +5,7 @@
       ref="buttonRef"
       type="button"
       data-testid="language-picker"
-      class="min-h-11 min-w-11 w-11 h-11 bg-white border border-ygf-orange-100 flex items-center justify-center rounded-full hover:bg-ygf-orange-50 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      class="min-h-11 min-w-11 w-11 h-11 bg-white border border-ygf-orange-100 flex items-center justify-center rounded-full hover:bg-ygf-orange-50 transition-colors cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
       :aria-expanded="open"
       :aria-controls="open ? panelId : undefined"
       :aria-label="label"
@@ -29,7 +29,7 @@
           :hreflang="loc.code"
           :aria-current="loc.current ? 'true' : undefined"
           :data-testid="'language-option-' + loc.code"
-          class="flex min-h-11 items-center gap-2 px-4 py-2 text-ygf-black hover:bg-ygf-orange-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
+          class="flex min-h-11 items-center gap-2 px-4 py-2 text-ygf-black hover:bg-ygf-orange-50 transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
           :class="loc.current ? 'font-semibold text-ygf-orange-800' : ''"
           @click="choose(loc.code)"
         >

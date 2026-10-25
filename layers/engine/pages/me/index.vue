@@ -383,7 +383,7 @@ const updateNotificationPref = async (
           <h2 class="font-semibold text-neutral-900 text-base">{{ fullName }}</h2>
           <button
             type="button"
-            class="mt-4 inline-flex min-h-11 items-center gap-1.5 rounded-lg px-2 text-xs font-medium text-neutral-600 hover:text-primary-700 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            class="mt-4 inline-flex min-h-11 items-center gap-1.5 rounded-lg px-2 text-xs font-medium text-neutral-600 hover:text-primary-700 transition focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             @click="openModal"
           >
             <svg
@@ -473,7 +473,7 @@ const updateNotificationPref = async (
           <a
             v-if="user?.phoneNumber"
             :href="`tel:${user.phoneNumber}`"
-            class="inline-flex min-h-11 items-center text-sm text-neutral-900 mt-1 hover:text-primary-700 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md"
+            class="inline-flex min-h-11 items-center text-sm text-neutral-900 mt-1 hover:text-primary-700 transition focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md"
           >
             {{ user.phoneNumber }}
           </a>
@@ -519,7 +519,7 @@ const updateNotificationPref = async (
           <span v-else class="text-sm text-neutral-600 mt-1 min-h-10">–</span>
           <button
             type="button"
-            class="mt-2 min-h-11 text-sm text-primary-700 hover:text-primary-900 transition text-left rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            class="mt-2 min-h-11 text-sm text-primary-700 hover:text-primary-900 transition text-left rounded-md focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             @click="openAddressModal"
           >
             {{ user?.address ? t('me.profile.editAddress') : t('me.profile.addAddress') }}
@@ -558,12 +558,12 @@ const updateNotificationPref = async (
                 :aria-checked="notifyMarketing"
                 aria-labelledby="me-notifyMarketing-label"
                 aria-describedby="me-notifyMarketing-desc"
-                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2"
                 :class="notifyMarketing ? 'bg-primary-600' : 'bg-neutral-200'"
                 @click="toggleNotifyMarketing"
               >
                 <span
-                  class="pointer-events-none inline-block h-4 w-4 rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
+                  class="pointer-events-none inline-block h-4 w-4 rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"
                   :class="notifyMarketing ? 'translate-x-[22px]' : 'translate-x-0.5'"
                 />
               </button>
@@ -585,12 +585,12 @@ const updateNotificationPref = async (
                 :aria-checked="notifyOrderUpdates"
                 aria-labelledby="me-notifyOrderUpdates-label"
                 aria-describedby="me-notifyOrderUpdates-desc"
-                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2"
                 :class="notifyOrderUpdates ? 'bg-primary-600' : 'bg-neutral-200'"
                 @click="toggleNotifyOrderUpdates"
               >
                 <span
-                  class="pointer-events-none inline-block h-4 w-4 rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
+                  class="pointer-events-none inline-block h-4 w-4 rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"
                   :class="notifyOrderUpdates ? 'translate-x-[22px]' : 'translate-x-0.5'"
                 />
               </button>
@@ -633,7 +633,7 @@ const updateNotificationPref = async (
               :to="switchLocalePath(lang.code)"
               :aria-current="locale === lang.code ? 'true' : undefined"
               :class="[
-                'inline-flex min-h-11 items-center justify-center px-3 py-1.5 text-sm rounded-full transition-all active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+                'inline-flex min-h-11 items-center justify-center px-3 py-1.5 text-sm rounded-full transition-all active:scale-[0.97] focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
                 locale === lang.code
                   ? 'bg-primary-600 text-white font-medium'
                   : 'bg-white text-neutral-600 hover:bg-neutral-100',
@@ -649,7 +649,7 @@ const updateNotificationPref = async (
       <div class="bento-logout bento-cell self-start" style="--delay: 9">
         <button
           type="button"
-          class="bg-tsb-two rounded-2xl p-6 w-full flex flex-col text-left hover:bg-primary-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          class="bg-tsb-two rounded-2xl p-6 w-full flex flex-col text-left hover:bg-primary-50 transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           @click="handleLogout"
         >
           <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center mb-3">
@@ -681,7 +681,7 @@ const updateNotificationPref = async (
     <div class="mt-8 text-center bento-cell" style="--delay: 11">
       <button
         type="button"
-        class="inline-flex min-h-11 items-center text-xs text-neutral-600 hover:text-primary-700 transition rounded-md px-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        class="inline-flex min-h-11 items-center text-xs text-neutral-600 hover:text-primary-700 transition rounded-md px-2 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         @click="openDeleteModal"
       >
         {{ t('me.profile.deleteAccount') }}
@@ -742,7 +742,7 @@ const updateNotificationPref = async (
             <input
               v-model="acceptDelete"
               type="checkbox"
-              class="mt-0.5 h-4 w-4 shrink-0 rounded border-neutral-300 accent-primary-600 text-primary-600 focus:ring-2 focus:ring-ring focus:ring-offset-2"
+              class="mt-0.5 h-4 w-4 shrink-0 rounded-sm border-neutral-300 accent-primary-600 text-primary-600 focus:ring-2 focus:ring-ring focus:ring-offset-2"
             />
             <span class="text-sm text-neutral-600">{{
               t('me.profile.deleteConfirmCheckbox')

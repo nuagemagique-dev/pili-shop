@@ -35,7 +35,7 @@
     <!-- Delivery/Pickup Options -->
     <div
       v-else
-      class="flex gap-3 sm:gap-4 mb-6"
+      class="flex gap-3 sm:gap-4"
       role="radiogroup"
       :aria-label="$t('checkout.collection')"
       @keydown="onRadioKeydown"
@@ -58,7 +58,7 @@
         :disabled="option.disabled"
         @click="setDeliveryOption(option.value as 'DELIVERY' | 'PICKUP')"
         :class="[
-          'flex-1 min-w-0 border rounded-lg p-3 sm:p-4 flex flex-col items-center transition-all text-left focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-none',
+          'flex-1 min-w-0 border rounded-lg p-3 sm:p-4 flex flex-col items-center transition-all text-left focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-hidden',
           option.disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer hover:shadow-md',
           cartStore.collectionOption === option.value
             ? 'border-primary bg-tsb-four'
@@ -94,12 +94,12 @@
       </h3>
       <div
         v-if="cartStore.address"
-        class="flex flex-col text-neutral-700 bg-neutral-50 rounded p-3"
+        class="flex flex-col text-neutral-700 bg-neutral-50 rounded-sm p-3"
       >
         <span class="whitespace-pre-line">{{ formatAddress(cartStore.address) }}</span>
         <button
           @click="openAddressModal"
-          class="min-h-11 inline-flex items-center self-start mt-2 px-3 -ml-3 text-sm font-medium text-primary-700 hover:text-primary-900 rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-none transition-colors"
+          class="min-h-11 inline-flex items-center self-start mt-2 px-3 -ml-3 text-sm font-medium text-primary-700 hover:text-primary-900 rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:outline-hidden transition-colors"
         >
           {{ $t('checkout.editAddress', 'Edit Address') }}
         </button>
@@ -170,7 +170,7 @@
     <CheckoutPhoneCapture />
 
     <!-- Preferred Time / Status -->
-    <div class="mt-4">
+    <div>
       <!-- Ordering disabled -->
       <p v-if="isOrderingDisabled" class="text-amber-800 font-semibold">
         {{ $t('checkout.orderDisabled', 'Ordering is temporarily disabled.') }}

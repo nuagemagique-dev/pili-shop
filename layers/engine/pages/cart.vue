@@ -17,7 +17,7 @@
     >
       <div class="h-[88px] rounded-2xl bg-black/5" />
       <div class="h-[88px] rounded-2xl bg-black/5" />
-      <div class="mt-2 h-[120px] rounded-2xl bg-black/5" />
+      <div class="h-[120px] rounded-2xl bg-black/5" />
     </div>
 
     <!-- ═══ ITEMS LIST ═══ -->
@@ -139,7 +139,7 @@
               <button
                 type="button"
                 :aria-label="$t('cart.decreaseQtyOf', { name: item.product.name })"
-                class="w-11 h-11 flex items-center justify-center rounded-full text-neutral-700 active:bg-neutral-200 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-40 disabled:cursor-not-allowed disabled:active:bg-transparent"
+                class="w-11 h-11 flex items-center justify-center rounded-full text-neutral-700 active:bg-neutral-200 transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-40 disabled:cursor-not-allowed disabled:active:bg-transparent"
                 :disabled="!canChangeQuantity(item)"
                 :title="!canChangeQuantity(item) ? $t('cart.customizedItemHint') : undefined"
                 @click="handleDecrementQuantity(item)"
@@ -163,7 +163,7 @@
               <button
                 type="button"
                 :aria-label="$t('cart.increaseQtyOf', { name: item.product.name })"
-                class="w-11 h-11 flex items-center justify-center rounded-full text-neutral-700 active:bg-neutral-200 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-40 disabled:cursor-not-allowed disabled:active:bg-transparent"
+                class="w-11 h-11 flex items-center justify-center rounded-full text-neutral-700 active:bg-neutral-200 transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-40 disabled:cursor-not-allowed disabled:active:bg-transparent"
                 :disabled="!canChangeQuantity(item)"
                 :title="!canChangeQuantity(item) ? $t('cart.customizedItemHint') : undefined"
                 @click="handleIncrementQuantity(item)"
@@ -187,7 +187,7 @@
               type="button"
               :aria-label="$t('cart.removeNamed', { name: item.product.name })"
               data-cart-remove
-              class="w-11 h-11 flex items-center justify-center rounded-full text-neutral-600 hover:text-primary-700 hover:bg-primary-50 active:bg-primary-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              class="w-11 h-11 flex items-center justify-center rounded-full text-neutral-600 hover:text-primary-700 hover:bg-primary-50 active:bg-primary-100 transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               @click="handleRemoveItem(item)"
             >
               <svg
@@ -233,7 +233,7 @@
             <button
               type="button"
               data-testid="cart-out-of-zone-switch-to-pickup"
-              class="underline min-h-11 px-1 hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-current rounded"
+              class="underline min-h-11 px-1 hover:opacity-80 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-current rounded-sm"
               @click="switchToPickup"
             >
               {{ $t('delivery.modal.switchToPickup') }}
@@ -262,9 +262,7 @@
           <span>{{ $t('cart.onlineFee') }}</span>
           <span class="tabular-nums">{{ formatCents(onlineFeeCents) }}</span>
         </div>
-        <div
-          class="flex justify-between items-baseline gap-3 pt-2 mt-1 border-t border-neutral-100"
-        >
+        <div class="flex justify-between items-baseline gap-3 pt-2 border-t border-neutral-100">
           <span class="font-bold text-neutral-900">{{ $t('cart.total') }}</span>
           <span class="inline-flex flex-wrap items-baseline justify-end gap-x-2 text-right"
             ><QuoteUpdatingHint /><span
@@ -287,7 +285,7 @@
         <button
           type="button"
           data-testid="cart-switch-to-pickup"
-          class="mt-1 min-h-11 px-3 font-medium underline hover:text-red-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-lg"
+          class="mt-1 min-h-11 px-3 font-medium underline hover:text-red-800 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-lg"
           @click="switchToPickup"
         >
           {{ $t('delivery.modal.switchToPickup') }}

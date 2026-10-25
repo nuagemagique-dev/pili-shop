@@ -20,7 +20,7 @@
         <!-- theme-ok: Google sign-in branding guidelines -->
         <button
           :disabled="loading"
-          class="w-full min-h-11 inline-flex items-center justify-center gap-3 rounded-xl border border-[#747775] bg-white px-4 text-sm font-medium text-[#1F1F1F] transition-colors duration-300 hover:bg-[#F8FAFD] disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          class="w-full min-h-11 inline-flex items-center justify-center gap-3 rounded-xl border border-[#747775] bg-white px-4 text-sm font-medium text-[#1F1F1F] transition-colors duration-300 hover:bg-[#F8FAFD] disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           type="button"
           @click="loginWithProvider('google')"
         >
@@ -31,7 +31,7 @@
         <!-- theme-ok: Sign in with Apple branding guidelines -->
         <button
           :disabled="loading"
-          class="w-full min-h-11 inline-flex items-center justify-center gap-3 rounded-xl border border-black bg-black px-4 text-sm font-medium text-white transition-colors duration-300 hover:bg-[#1D1D1F] disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          class="w-full min-h-11 inline-flex items-center justify-center gap-3 rounded-xl border border-black bg-black px-4 text-sm font-medium text-white transition-colors duration-300 hover:bg-[#1D1D1F] disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           type="button"
           @click="loginWithProvider('apple')"
         >
@@ -45,7 +45,7 @@
       </div>
 
       <!-- OR Divider -->
-      <div class="relative my-6">
+      <div class="relative">
         <div class="absolute inset-0 flex items-center">
           <div class="w-full border-t border-neutral-300/50" />
         </div>
@@ -167,7 +167,7 @@
 
       <div class="flex items-center justify-between text-sm">
         <button
-          class="inline-flex min-h-11 items-center text-neutral-600 hover:text-neutral-700 transition-colors duration-300 rounded-md px-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          class="inline-flex min-h-11 items-center text-neutral-600 hover:text-neutral-700 transition-colors duration-300 rounded-md px-1 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           type="button"
           @click="backToEmail"
         >
@@ -175,7 +175,7 @@
         </button>
         <button
           :disabled="isResendDisabled(resendCooldown, loading)"
-          class="inline-flex min-h-11 items-center text-primary-700 font-medium hover:text-primary-800 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed rounded-md px-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          class="inline-flex min-h-11 items-center text-primary-700 font-medium hover:text-primary-800 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed rounded-md px-1 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           type="button"
           @click="resendCode"
         >

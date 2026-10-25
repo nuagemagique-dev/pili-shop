@@ -5,7 +5,7 @@
  *
  * Two rules over layers/engine/**\/*.{vue,ts,css}:
  *
- *  1. Theme contract. Engine UI colors come from tokens each brand maps in its tailwind config:
+ *  1. Theme contract. Engine UI colors come from tokens each brand maps in the @theme of its assets/css/tailwind.css:
  *     primary-*, neutral-*, tsb-*, the shadcn tokens, white/black. A few hues are allowed because
  *     they carry the same meaning in every brand:
  *       red     errors and destructive actions
