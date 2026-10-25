@@ -43,3 +43,7 @@ CLAUDE.md
 /coverage
 # The `setups.@nuxt/test-utils` marker that @nuxt/test-utils writes in the app it boots
 apps/*/.nuxtrc
+
+# Local tooling: git worktrees, Claude Code, editors, macOS
+.worktrees/
+.claude/

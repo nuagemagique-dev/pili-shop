@@ -10,3 +10,9 @@
 **/playwright-report
 **/test-results
 **/*.md
+**/coverage
+.worktrees
+.claude
+.idea
+.vscode
+**/.DS_Store
