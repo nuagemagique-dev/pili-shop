@@ -52,7 +52,7 @@ const csp = `${[
   `script-src 'self' 'unsafe-inline' ${umamiHost} ${turnstile}`,
   "style-src 'self' 'unsafe-inline'",
   `img-src 'self' data: ${osmTiles}${s3Url ? ` ${s3Url}` : ''}`,
-  "font-src 'self' https://fonts.gstatic.com",
+  "font-src 'self'",
   `connect-src 'self' ${apiOrigin} ${wsOrigin}${zitadelOrigin ? ` ${zitadelOrigin}` : ''} ${osm} ${umamiHost} ${turnstile} ${sentryHost}`,
   `frame-src 'self' ${osm}${zitadelOrigin ? ` ${zitadelOrigin}` : ''} ${turnstile}`,
   "worker-src 'self' blob:",

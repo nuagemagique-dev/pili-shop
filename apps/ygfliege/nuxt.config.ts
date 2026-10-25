@@ -41,7 +41,7 @@ export default defineNuxtConfig({
 
   // Modules that are UI/brand concerns (fonts). Engine registers the
   // Rest (i18n, pinia, sitemap, sentry); module arrays concat across layers.
-  modules: ['@nuxtjs/google-fonts'],
+  modules: ['@nuxt/fonts'],
 
   // Tailwind 4 runs as a Vite plugin; the theme lives in assets/css/tailwind.css.
   vite: {
@@ -84,15 +84,29 @@ export default defineNuxtConfig({
   // Family under one file name, so ~100 rules per weight (500 KB of the stylesheet) pointed at a single slice and most
   // Glyphs came from the visitor's own font anyway, at the price of a 75 KB download. The CJK glyphs are set in the
   // System's CJK font (see --font-chinese in brand.css); the accents use a 24 KB subset of Noto Serif SC, family 'YGF Accent Serif' (brand.css).
-  googleFonts: {
-    families: {
-      Inter: [400, 500, 600, 700],
+  // Inter is fetched from Google at build time and self-hosted (same origin, no runtime request to Google). The size-adjusted
+  // Fallback faces are hand-written in assets/css/brand.css, so the module's generated ones are switched off (fallbacks: []).
+  fonts: {
+    // The module resolves every family named in a font stack: 'none' keeps Noto Sans SC (--font-chinese) a system font.
+    families: [
+      {
+        name: 'Inter',
+        provider: 'google',
+        global: true,
+        preload: true,
+        fallbacks: [],
+        weights: [400, 500, 600, 700],
+        styles: ['normal'],
+      },
+      { name: 'Noto Sans SC', provider: 'none' },
+    ],
+    defaults: {
+      weights: [400, 500, 600, 700],
+      styles: ['normal'],
+      subsets: ['latin', 'latin-ext'],
     },
-    display: 'swap',
-    download: true,
-    preload: true,
-    inject: true,
-    overwriting: true,
+    // Url-only sources, as before: no local() lookup of a same-named installed font.
+    experimental: { disableLocalFallbacks: true },
   },
 
   /*
