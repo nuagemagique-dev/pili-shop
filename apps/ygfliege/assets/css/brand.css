@@ -1,6 +1,7 @@
 /* Yangguofu Malatang Liège brand tokens; ported from the official guide
-   (malatang GUIDELINES.md / tokens.css). Tailwind utilities cover most usage;
-   these custom properties exist for ported marketing-page CSS and for values
+   (malatang GUIDELINES.md / tokens.css) and retuned for the 2026 webshop redesign (the design canvas "Yangguofu
+   Webshop Redesign"): the logo's own orange #EB6202, a cream page with peach surfaces, ink text, Archivo for display.
+   Tailwind utilities cover most usage; these custom properties exist for ported marketing-page CSS and for values
    utilities can't express (warm borders, eases). */
 /* Metric-matched stand-in for the swap (audit PR 6.3, P13): until Inter has arrived the text is set in local Arial scaled to
    Inter's width, ascent and descent, so the swap changes the letter shapes but not the line breaks or the height of anything.
@@ -22,6 +23,45 @@
   size-adjust: 107.3546%;
   ascent-override: 90.2384%;
   descent-override: 22.4686%;
+  line-gap-override: 0%;
+}
+
+/* Archivo, the display face of the redesign (headings, prices, the big figures): the variable font with its width axis,
+   self-hosted (assets/fonts, the latin and latin-ext slices of Google Fonts' Archivo v25, 90 KB + 86 KB, only the slice a
+   page needs is fetched). Headings set it wide (font-stretch 112-125 %) and heavy (800-900); the axis is what the module
+   cannot request, hence the local faces (nuxt.config.ts lists the family with provider 'none'). Body text stays Inter. */
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  src: url('../fonts/archivo-latin.woff2') format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  src: url('../fonts/archivo-latin-ext.woff2') format('woff2');
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+/* Until Archivo has arrived, headings are set in local Arial Black / Arial bold scaled to Archivo's width, so the swap
+   changes the letter shapes but barely the line breaks (Archivo is a wide grotesque; Arial scaled up 6 % matches its
+   measure within a few percent). */
+@font-face {
+  font-family: 'Archivo Fallback';
+  src: local('Arial'), local('Liberation Sans'), local('Arimo'), local('Roboto');
+  size-adjust: 106%;
+  ascent-override: 88%;
+  descent-override: 22%;
   line-gap-override: 0%;
 }
 
@@ -56,34 +96,39 @@
 
 :root {
   /* --nav-h (the fixed navbar height) is set on `html` in main.css: a :root declaration here would beat its 640px override. */
-  /* Primary colors */
-  --ygf-orange: #f58220;
-  --ygf-orange-light: #fdba74;
-  --ygf-orange-dark: #d96a10;
-  --ygf-orange-bg: #fff7ed;
+  /* Primary colors: the orange of the logo (#EB6202, the franchisor's kit) since the 2026 redesign; GUIDELINES.md's
+     #F58220 is gone. Spelled once more in tailwind.css (--color-ygf and the orange-500 steps) and in the theme-color meta
+     of nuxt.config.ts; the loading bar reads this variable. */
+  --ygf-orange: #eb6202;
+  --ygf-orange-light: #ff9a4d;
+  --ygf-orange-dark: #b44a00;
+  /* The hover of an orange fill with ink text: brighter, never darker (ink needs 4.5:1, #D85A00 is 4.46). */
+  --ygf-orange-hover: #f0700f;
+  --ygf-orange-bg: #fff6ec;
 
   /* Accessibility-corrected variants of the brand orange.
      *
-     * GUIDELINES.md §4.3 specifies white text on #F58220, but that measures
-     * 2.59:1 against white; below the 4.5:1 WCAG AA minimum the same guide
-     * asks for in §8.4 (Lighthouse Accessibility 100). These two tokens
-     * resolve that conflict without abandoning the palette: both are existing
-     * steps of the official orange scale, not invented colors.
-     *
-     * Use --ygf-orange-on-white for any fill that carries white label text
-     * (buttons, selected chips, badges). Decorative orange (large surfaces,
-     * borders, icons, imagery, hover washes) stays #F58220.
+     * Ink (#1A1A1A) on #EB6202 is 5.2:1, so an orange fill carries INK text (buttons, chips, badges); white on it is
+     * 3.3:1 and never used for text. Where a fill must carry white (the engine's primary-600/700 buttons), it is the
+     * deeper #C2570C step (4.5:1). Orange TEXT on cream, peach and the selected tint is #A64300 (4.9:1 on the selected
+     * #FFE1C7, 6.1:1 on white).
      */
   --ygf-orange-on-white: #c2570c; /* white text: 4.50:1, AA */
   --ygf-orange-on-white-hover: #9a3412; /* white text: 7.31:1 */
-  --ygf-orange-text: #9a3412; /* orange text on cream: 6.88:1, AA */
+  --ygf-orange-text: #a64300; /* orange text on every surface of the brand, AA */
   /* Keyboard-focus indicator colour (WCAG 1.4.11, >= 3:1 on white and the
-       orange tints). Mirrors the `focus` colour in tailwind.css. */
+       orange tints). Mirrors the `ring` colour in tailwind.css. */
   --ygf-focus: var(--ygf-orange-on-white);
 
   --ygf-black: #1a1a1a;
+  /* The dark surfaces of the redesign (the phone menu, the footer): a warm near-black, not pure black. */
+  --ygf-night: #0b0908;
   --ygf-white: #ffffff;
-  --ygf-cream: #fdf5ec;
+  /* Surfaces: the page is cream, containers are peach, a selected thing is the deeper apricot. */
+  --ygf-cream: #fff1e2;
+  --ygf-peach: #fff1e2;
+  --ygf-selected: #ffe1c7;
+  --ygf-selected-hover: #ffd4ad;
   --ygf-wood: #c49a6c;
 
   /* Functional colors */
@@ -92,36 +137,40 @@
   --ygf-success-dark: #1f7a4a; /* success text/fill that passes AA (the success token) */
   --ygf-error: #d32f2f;
 
-  /* Warm neutrals: the guide's body/secondary text grays. */
-  --ygf-gray-100: #f5f5f5;
-  --ygf-gray-200: #e5e5e5;
-  --ygf-gray-400: #999999;
-  --ygf-gray-600: #666666; /* secondary text: 5.74:1 on white. Use this, not gray-400, for text. */
+  /* Warm neutrals: the guide's body/secondary text grays, warmed to the redesign's ink family. */
+  --ygf-gray-100: #f5f1ec;
+  --ygf-gray-200: #e9dccb;
+  --ygf-gray-400: #8c8079;
+  --ygf-gray-600: #6b5e55; /* secondary text: 6.2:1 on white, 5:1 on the selected tint. Use this, not gray-400, for text. */
 
   /* Typography */
   --ygf-font-sans:
     'Inter', 'Inter Fallback', 'Inter Fallback Roboto', 'Noto Sans', system-ui, sans-serif;
+  /* Display: Archivo, wide and heavy (the faces above). */
+  --ygf-font-display:
+    'Archivo', 'Archivo Fallback', 'Inter', 'Inter Fallback', 'Inter Fallback Roboto', system-ui,
+    sans-serif;
   /* Chinese text is set in the visitor's own CJK font (Noto Sans SC where installed, else PingFang / Microsoft YaHei):
      the hosted Noto Sans SC is not shipped any more (see nuxt.config.ts). */
   --font-chinese: 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   --font-serif-chinese: 'YGF Accent Serif', serif;
 
-  /* Radii */
-  --ygf-radius-sm: 6px;
-  --ygf-radius-md: 12px;
+  /* Radii: tiles and cards are rounder than the guide's 12px since the redesign (16px), large surfaces 24px, pills 48px. */
+  --ygf-radius-sm: 8px;
+  --ygf-radius-md: 16px;
   --ygf-radius-lg: 24px;
   --ygf-radius-btn: 48px;
 
   /* Warm shadows (never cold gray) */
-  --ygf-shadow-sm: 0 2px 8px rgba(242, 123, 32, 0.06);
-  --ygf-shadow-md: 0 4px 20px rgba(242, 123, 32, 0.08);
-  --ygf-shadow-lg: 0 8px 40px rgba(242, 123, 32, 0.12);
-  --ygf-shadow-glow: 0 0 60px rgba(245, 130, 32, 0.08);
+  --ygf-shadow-sm: 0 2px 8px rgba(235, 98, 2, 0.06);
+  --ygf-shadow-md: 0 4px 20px rgba(235, 98, 2, 0.08);
+  --ygf-shadow-lg: 0 8px 40px rgba(235, 98, 2, 0.12);
+  --ygf-shadow-glow: 0 0 60px rgba(235, 98, 2, 0.1);
 
   /* Warm borders */
-  --border-subtle: 1px solid rgba(242, 123, 32, 0.08);
-  --border-default: 1px solid rgba(242, 123, 32, 0.12);
-  --border-strong: 1px solid rgba(242, 123, 32, 0.18);
+  --border-subtle: 1px solid rgba(235, 98, 2, 0.08);
+  --border-default: 1px solid rgba(235, 98, 2, 0.14);
+  --border-strong: 1px solid rgba(235, 98, 2, 0.22);
 
   /* Motion */
   --ygf-ease-out: cubic-bezier(0.16, 1, 0.3, 1);

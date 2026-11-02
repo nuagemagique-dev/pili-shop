@@ -156,12 +156,15 @@ const cartLabel = computed(() =>
   t('cart.buttonLabel', { count: cartStore.totalItems }, cartStore.totalItems),
 )
 
-// The menu entry stays while the shop is switched off: /menu then shows the static menu (utils/shopGate.ts).
+// The menu entry stays while the shop is switched off: /menu then shows the static menu (utils/shopGate.ts); "Composer"
+// opens the bowl composer and only exists with the shop on. The six destinations of the redesign's header.
 const navItems = computed(() => [
   ...(menuOpen ? [{ to: 'menu', label: t('nav.menu') }] : []),
+  ...(shopEnabled ? [{ to: '/menu?compose', label: t('mkt.nav.compose') }] : []),
   { to: 'concept', label: t('mkt.nav.concept') },
   { to: 'about', label: t('mkt.nav.about') },
   { to: 'contact', label: t('nav.contact') },
+  { to: 'faq', label: t('mkt.nav.faq') },
 ])
 
 const isActive = (to: string) => {

@@ -2,7 +2,7 @@
   <nav
     ref="navRef"
     @keydown.esc.capture="onEscape"
-    class="mobile-only bg-white text-gray-700 fixed z-50 h-20 w-full"
+    class="mobile-only bg-white text-ygf-black fixed z-50 h-20 w-full"
   >
     <div class="relative px-4 flex items-center h-full mx-auto">
       <!-- Logo with its name (never the circle alone, GUIDELINES.md §2.2) -->
@@ -19,14 +19,14 @@
         </div>
 
         <!-- Hamburger Menu -->
-        <div class="flex flex-col items-center ml-6">
+        <div class="flex flex-col items-center ml-4">
           <button
             ref="hamburgerRef"
             type="button"
             :aria-label="$t('nav.toggleMenu')"
             :aria-expanded="isMenuOpen"
             aria-controls="mobile-menu"
-            class="hamburger inline-flex h-11 w-11 items-center justify-center cursor-pointer rounded-lg border border-gray-200 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            class="hamburger inline-flex h-11 w-11 items-center justify-center cursor-pointer rounded-full border border-ygf-border bg-white focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             :class="{ 'hamburger-active': isMenuOpen }"
             @click="toggleMenu"
           >
@@ -35,65 +35,99 @@
             <span></span>
           </button>
 
-          <!-- Mobile Sidebar Menu -->
+          <!-- The phone menu: the redesign's full-screen night overlay, the six destinations as big lines with their
+               Chinese accents, the account, the languages and the address under them. -->
           <div
             id="mobile-menu"
             ref="menuRef"
             :inert="!isMenuOpen"
             :class="isMenuOpen ? 'menu-open' : 'menu-closed'"
-            class="fixed top-[var(--nav-h)] left-0 w-full h-[calc(100dvh-var(--nav-h))] p-4 overflow-y-auto"
+            class="fixed top-[var(--nav-h)] left-0 w-full h-[calc(100dvh-var(--nav-h))] px-6 pt-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))] overflow-y-auto"
           >
-            <!-- Top Section -->
-            <div class="flex flex-col items-center space-y-6 mt-4">
-              <ul class="flex flex-col items-center space-y-6 w-full">
-                <li>
-                  <Logo
-                    :aria-label="$t('nav.home')"
-                    class="mb-6"
-                    icon="/images/logos/logo-white.svg"
-                    to="/"
-                    @click="closeMenu"
-                  />
-                </li>
-                <!-- Login and account are gone while the shop is switched off (utils/shopGate.ts); the menu stays,
-                     showing the static menu. -->
-                <MobileNavItem
-                  v-if="menuOpen"
-                  :label="$t('nav.menu')"
-                  to="/menu"
-                  @click="closeMenu"
-                />
-                <!-- Concept and About were reachable only from
-                                     the footer on mobile; the guide asks for the
-                                     same 5–6 destinations as desktop. -->
-                <MobileNavItem :label="$t('mkt.nav.concept')" to="/concept" @click="closeMenu" />
-                <MobileNavItem :label="$t('mkt.nav.about')" to="/about" @click="closeMenu" />
-                <MobileNavItem :label="$t('nav.contact')" to="/contact" @click="closeMenu" />
-                <ClientOnly v-if="shopEnabled">
-                  <MobileNavItem
-                    v-if="!authStore.user"
-                    :label="$t('nav.login')"
-                    to="/auth/login"
-                    @click="closeMenu"
-                  />
-                  <MobileNavItem
-                    v-if="authStore.user"
-                    :label="$t('nav.myAccount')"
-                    to="/me"
-                    @click="closeMenu"
-                  />
-                </ClientOnly>
+            <ul class="flex flex-col w-full">
+              <!-- Login and account are gone while the shop is switched off (utils/shopGate.ts); the menu stays,
+                   showing the static menu. -->
+              <MobileNavItem
+                v-if="menuOpen"
+                :label="$t('nav.menu')"
+                zh="菜单"
+                to="/menu"
+                @click="closeMenu"
+              />
+              <MobileNavItem
+                v-if="shopEnabled"
+                :label="$t('mkt.nav.compose')"
+                zh="自选搭配"
+                to="/menu?compose"
+                @click="closeMenu"
+              />
+              <MobileNavItem
+                :label="$t('mkt.nav.concept')"
+                zh="理念"
+                to="/concept"
+                @click="closeMenu"
+              />
+              <MobileNavItem
+                :label="$t('mkt.nav.about')"
+                zh="我们的故事"
+                to="/about"
+                @click="closeMenu"
+              />
+              <MobileNavItem
+                :label="$t('nav.contact')"
+                zh="联系我们"
+                to="/contact"
+                @click="closeMenu"
+              />
+              <MobileNavItem
+                :label="$t('mkt.nav.faq')"
+                zh="常见问题"
+                to="/faq"
+                @click="closeMenu"
+              />
+            </ul>
 
-                <LanguagePicker
-                  :label="$t('nav.language')"
-                  class="justify-center"
-                  icon="/icons/translate-icon.svg"
-                />
+            <ClientOnly v-if="shopEnabled">
+              <NuxtLinkLocale
+                v-if="!authStore.user"
+                to="/auth/login"
+                class="btn btn-primary w-full mt-6"
+                data-testid="mobile-menu-login"
+                @click="closeMenu"
+              >
+                {{ $t('nav.login') }}
+              </NuxtLinkLocale>
+              <NuxtLinkLocale
+                v-else
+                to="/me"
+                class="btn btn-primary w-full mt-6"
+                data-testid="mobile-menu-account"
+                @click="closeMenu"
+              >
+                {{ $t('nav.myAccount') }}
+              </NuxtLinkLocale>
+            </ClientOnly>
+
+            <!-- The language: the current one by name, and the brand's picker (the disclosure every page shares, listing
+                 the four languages in their own names) -->
+            <div class="mt-6 flex items-center justify-between gap-4">
+              <span class="text-sm text-white/70">
+                {{ $t('nav.language') }}<span class="sr-only">:</span>
+                <strong class="ml-1 font-semibold text-white">{{ currentLanguage.label }}</strong>
+              </span>
+              <ul class="flex">
+                <LanguagePicker :label="$t('nav.language')" icon="/icons/translate-icon.svg" />
               </ul>
             </div>
 
-            <!-- Bottom Section -->
-            <ul class="flex flex-col items-center space-y-6 mt-auto pb-6 w-full"></ul>
+            <address class="mt-8 not-italic text-sm leading-relaxed text-white/60">
+              {{ brand.address.street }}, {{ brand.address.postal }} {{ brand.address.city }}<br />
+              <a
+                :href="telHref(brand.phone)"
+                class="inline-flex min-h-11 items-center text-white/80 hover:text-white transition-colors"
+                >{{ brand.phone }}</a
+              >
+            </address>
           </div>
         </div>
       </div>
@@ -107,10 +141,12 @@ import BrandLockup from './BrandLockup.vue'
 import CartButton from '#engine/components/cart/CartButton.vue'
 import LanguagePicker from './LanguagePicker.vue'
 import MobileNavItem from './MobileNavItem.vue'
+import { telHref } from '#engine/utils/phone'
 import { useAuthStore } from '#engine/stores/auth'
 import { useBodyScrollLock } from '#engine/composables/useBodyScrollLock'
 import { useCartStore } from '#engine/stores/cart'
 import { useFocusTrap } from '#engine/composables/useFocusTrap'
+import { useLanguagePicker } from '#engine/composables/useLanguagePicker'
 import { useMediaQuery, useMounted } from '@vueuse/core'
 import { useMenuOpen, useShopEnabled } from '#engine/composables/useShopEnabled'
 
@@ -118,8 +154,11 @@ const authStore = useAuthStore()
 const cartStore = useCartStore()
 const shopEnabled = useShopEnabled()
 const menuOpen = useMenuOpen()
+const { brand } = useAppConfig()
 // Cart store rehydrates from localStorage post-mount; defer the totalItems read.
 const isMounted = useMounted()
+// The name of the current language, shown beside the picker.
+const { current: currentLanguage } = useLanguagePicker()
 
 const isMenuOpen = ref(false)
 
@@ -148,16 +187,9 @@ useFocusTrap(
   },
 )
 
-// Escape closes the menu, except while the language dropdown is open: it closes itself first (read in the capture phase, before it does).
-const onEscape = (event: KeyboardEvent) => {
-  if (!isMenuOpen.value) return
-  const target = event.target as HTMLElement | null
-  if (
-    target?.closest('[data-language-panel]') ||
-    (target !== hamburgerRef.value && target?.getAttribute('aria-expanded') === 'true')
-  )
-    return
-  closeMenu()
+// Escape closes the menu.
+const onEscape = () => {
+  if (isMenuOpen.value) closeMenu()
 }
 
 /*
@@ -187,19 +219,19 @@ watch(
 /* Hamburger lines */
 .hamburger {
   position: relative;
-  color: #374151;
+  color: var(--ygf-black);
 }
 
 .hamburger span {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 24px;
+  width: 20px;
   height: 2px;
   border-radius: 9999px;
   background-color: currentColor;
   /* The bars move with transform only (the old top transition animated layout). */
-  transform: translate(-50%, calc(-50% - 8px));
+  transform: translate(-50%, calc(-50% - 6px));
   transition:
     transform 0.3s ease,
     opacity 0.3s ease;
@@ -210,7 +242,7 @@ watch(
 }
 
 .hamburger span:nth-child(3) {
-  transform: translate(-50%, calc(-50% + 8px));
+  transform: translate(-50%, calc(-50% + 6px));
 }
 
 /* Transform the hamburger into an X when active */
@@ -229,15 +261,12 @@ watch(
 
 /* Mobile Menu Styles */
 #mobile-menu {
-  /* Full-screen orange overlay with white links, per GUIDELINES.md §4.5.
-       The deeper --ygf-orange-on-white step is used rather than #F58220 so the
-       white link text clears WCAG AA (4.50:1 vs 2.59:1). */
-  background-color: var(--ygf-orange-on-white);
+  /* The redesign's night overlay: warm near-black, white lines, the brand orange only on the current page and the CTA. */
+  background-color: var(--ygf-night);
   color: var(--ygf-white);
-  box-shadow: var(--ygf-shadow-md);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   justify-content: flex-start;
   z-index: 40;
 }

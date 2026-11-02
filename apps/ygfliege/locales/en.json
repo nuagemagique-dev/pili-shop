@@ -29,7 +29,9 @@
       "concept": "Concept",
       "menu": "Menu",
       "about": "Our Story",
-      "contact": "Contact"
+      "contact": "Contact",
+      "compose": "Compose",
+      "faq": "FAQ"
     },
     "lang": {
       "fr": "Français",
@@ -45,6 +47,7 @@
       "bowl_alt": "Malatang bowl with beef bone broth and fresh ingredients",
       "order": "Order for takeaway",
       "seeMenu": "See the menu",
+      "eyebrowShort": "Malatang · Liège",
       "counterPrice": "At the counter: {price}",
       "payWhatYouWeigh": "At the counter, you only pay for what you weigh."
     },
@@ -55,35 +58,35 @@
       "vegan_badge": "Vegan",
       "allergens_label": "Allergens",
       "beef_bone": {
-        "name": "Classic Herbal Beef Bone Broth",
+        "name": "Herbal beef bone",
         "chinese": "经典草本骨汤",
         "desc": "Our signature since 2003: beef bones simmered for 8 hours with more than 20 oriental herbs. Pick your heat, from mild to hot.",
         "spice": "Your choice: mild, medium or hot",
         "allergens": "Milk, gluten, sesame, soy"
       },
       "tomato": {
-        "name": "Sweet & Sour Tomato Broth",
+        "name": "Slow-cooked tomato",
         "chinese": "酸甜番茄汤",
         "desc": "Fresh tomatoes slow-simmered, tangy and sweet at once. Gentle on the palate, and 100% plant-based.",
         "spice": "Sweet & sour, not spicy",
         "allergens": "Soy"
       },
       "mala_dry": {
-        "name": "Mala Mix with sesame-peanut sauce",
+        "name": "Mala Mix",
         "chinese": "石磨醇香麻辣拌",
         "desc": "The broth-free exception: your ingredients coated in a fragrant sesame-peanut sauce. Addictive, gently spicy.",
         "spice": "Mildly spicy",
         "allergens": "Gluten, sesame, peanut, soy"
       },
       "tom_yum": {
-        "name": "Thai Tom Yum Broth",
+        "name": "Tom Yum",
         "chinese": "酸辣冬阴功",
         "desc": "A Thai escape: sour, spicy, fragrant with lemongrass. A one-way ticket to Southeast Asia.",
         "spice": "Mildly spicy",
         "allergens": "Fish, crustaceans, soy"
       },
       "mushroom": {
-        "name": "Herbal Mushroom Broth",
+        "name": "Mushroom",
         "chinese": "草本穹顶菌汤",
         "desc": "A gentle broth of mushrooms and herbs, without a hint of spice. Pure comfort, and 100% plant-based.",
         "spice": "Not spicy",
@@ -182,6 +185,11 @@
           "title": "Built by you",
           "desc": "You choose everything, priced by the gram. Your taste, no surprises."
         }
+      },
+      "ingredients": {
+        "label": "At the counter",
+        "title": "Everything that goes in the bowl",
+        "subtitle": "Vegetables, mushrooms, tofu, noodles, meat and seafood: some thirty fresh products, weighed to the gram."
       }
     },
     "cta": {
@@ -389,7 +397,7 @@
       "delivery_soon": "Coming soon",
       "email_intro": "A question or a comment? Drop us an email and we'll get back to you quickly.",
       "phone_title": "Phone",
-      "phone_reservation": "Reservations are taken by phone only."
+      "phone_reservation": "A question, or a big table? Call us."
     },
     "not_found": {
       "title": "Page not found",
@@ -440,7 +448,7 @@
     },
     "estimator": {
       "label": "Priced by weight",
-      "title": "How much is my bowl?",
+      "title": "Estimate your bowl",
       "desc": "At the counter your bowl is weighed: you pay for what you pick. Slide to estimate.",
       "for": "for {weight} · {rate}",
       "rate": "{price} / 100 g",
@@ -451,7 +459,7 @@
     "practical": {
       "title": "Practical info",
       "openInMaps": "Open in Maps",
-      "bookingsByPhone": "Bookings are by phone only."
+      "bookingsByPhone": "A question, or a big table? Call us."
     },
     "actionBar": {
       "label": "Quick actions",
@@ -459,6 +467,34 @@
       "call": "Call",
       "order": "Order",
       "menu": "Menu"
+    },
+    "recipes": {
+      "label": "Our recipes",
+      "title": "Out of ideas?",
+      "subtitle": "Our illustrated recipes: take them as they are, or make them your own.",
+      "cta": "Build this bowl",
+      "items": {
+        "seafood": {
+          "name": "Beef & seafood",
+          "desc": "Beef bone broth, shrimp, squid, fish balls, wood ear and enoki mushrooms.",
+          "alt": "Illustrated poster: beef and seafood"
+        },
+        "tomato": {
+          "name": "Tomato braised beef",
+          "desc": "Tomato broth, beef slices, potato, sweet potato noodles and Chinese cabbage.",
+          "alt": "Illustrated poster: tomato braised beef"
+        },
+        "mix": {
+          "name": "Light Mala Mix",
+          "desc": "No broth, mild sesame-peanut sauce: pak choi, Chinese cabbage, broccoli, beef and shrimp.",
+          "alt": "Illustrated poster: light Mala Mix"
+        },
+        "japanese": {
+          "name": "Japanese-style tomato",
+          "desc": "Tomato broth, udon, spinach, beef, surimi and enoki.",
+          "alt": "Illustrated poster: Japanese-style tomato"
+        }
+      }
     }
   },
   "faq": {
@@ -476,19 +512,19 @@
         "answer": "No problem! Our counter is full of vegetables, mushrooms, tofu and noodles, so you can easily build a 100% plant-based bowl. Just ask us which broth to go for."
       },
       "hours": {
-        "question": "What are your opening hours?",
+        "question": "Your opening hours?",
         "answer": "We are open every day, Monday to Sunday, from 11:30 AM to 10:00 PM."
       },
       "delivery": {
-        "question": "Do you deliver? What is the delivery area?",
+        "question": "Do you deliver?",
         "answer": "For now, orders are takeaway only, from our restaurant at Rue de la Cathédrale 51, Liège. Delivery is coming soon!"
       },
       "payment": {
-        "question": "What payment methods do you accept?",
+        "question": "Which payment methods?",
         "answer": "We accept secure online payment (bank card, Bancontact) and cash when you pick up your order at the restaurant."
       },
       "allergens": {
-        "question": "Do you have allergen information?",
+        "question": "What about allergens?",
         "answer": "Our dishes may contain <strong>sesame</strong>, <strong>peanuts</strong>, <strong>gluten</strong>, <strong>soy</strong> and <strong>shellfish</strong>. Please mention any allergy in your order comments or contact us directly for detailed information."
       }
     }
@@ -539,6 +575,12 @@
       "meat": "Meat",
       "seafood": "Fish & seafood",
       "other": "Other"
+    },
+    "recipes": {
+      "label": "A recipe to start from",
+      "apply": "Build this bowl",
+      "applied": "Recipe “{name}” loaded: {count} ingredients in the bowl, change them as you like.",
+      "unavailable": "The ingredients of this recipe are not available today."
     }
   },
   "nav": {

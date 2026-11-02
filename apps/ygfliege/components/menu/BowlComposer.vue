@@ -140,7 +140,7 @@
                   class="broth-card text-left flex flex-col gap-1.5 p-2.5 pb-3 rounded-ygf-card border-2 shadow-ygf-sm focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   :class="
                     pickedBrothSlug === broth.slug
-                      ? 'border-primary bg-ygf-bg'
+                      ? 'border-ygf bg-ygf-selected'
                       : 'border-transparent bg-white'
                   "
                   @click="pickBroth(broth)"
@@ -186,6 +186,59 @@
                 <p class="text-sm text-ygf-gray-600 mt-1">
                   {{ $t('composer.ingredientsSubtitle') }}
                 </p>
+                <!-- The illustrated recipes (data/recipes.ts): one tap fills the bowl, broth and heat included, as a start -->
+                <div v-if="recipes.length > 0" class="mt-4" data-testid="bowl-composer-recipes">
+                  <p class="text-xs font-semibold uppercase tracking-[0.12em] text-ygf-orange-text">
+                    {{ $t('composer.recipes.label') }}
+                  </p>
+                  <div
+                    class="mt-2 -mx-5 px-5 lg:mx-0 lg:px-0 flex gap-2.5 overflow-x-auto no-scrollbar snap-x lg:flex-wrap"
+                  >
+                    <button
+                      v-for="recipe in recipes"
+                      :key="recipe.key"
+                      type="button"
+                      :data-testid="`bowl-composer-recipe-${recipe.key}`"
+                      :aria-pressed="appliedRecipe === recipe.key"
+                      class="recipe-chip snap-start shrink-0 flex items-center gap-3 pl-1.5 pr-4 py-1.5 rounded-ygf-card border-[1.5px] text-left focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      :class="
+                        appliedRecipe === recipe.key
+                          ? 'border-ygf bg-ygf-selected'
+                          : 'border-ygf-orange/15 bg-white hover:bg-ygf-bg'
+                      "
+                      @click="applyRecipe(recipe)"
+                    >
+                      <MktPicture
+                        :src="recipe.image"
+                        :widths="RECIPE_IMAGE.widths"
+                        :fallback-width="RECIPE_IMAGE.fallbackWidth"
+                        :fallback-height="RECIPE_IMAGE.fallbackHeight"
+                        alt=""
+                        sizes="72px"
+                        class="block w-[72px] shrink-0"
+                        img-class="w-[72px] h-[51px] object-cover rounded-[10px]"
+                      />
+                      <span class="min-w-0">
+                        <span
+                          class="block text-sm font-semibold leading-tight text-ygf-black whitespace-nowrap"
+                        >
+                          {{ $t(`mkt.recipes.items.${recipe.key}.name`) }}
+                        </span>
+                        <span class="block text-xs text-ygf-gray-600 whitespace-nowrap mt-0.5">
+                          {{ $t('composer.recipes.apply') }}
+                        </span>
+                      </span>
+                    </button>
+                  </div>
+                  <p
+                    v-if="recipeNotice"
+                    class="mt-2 text-sm text-ygf-orange-text"
+                    aria-live="polite"
+                    data-testid="bowl-composer-recipe-notice"
+                  >
+                    {{ recipeNotice }}
+                  </p>
+                </div>
               </div>
               <div
                 :ref="(el) => setIngredientsHeader(el)"
@@ -264,6 +317,7 @@
                     {{ categoryLabel(category) }}
                   </h4>
                   <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 lg:gap-3">
+                    <!-- A tile: the ingredient's illustration (data/ingredientIcons.ts) over its name and price; selected = the apricot tint with an orange rim -->
                     <div
                       v-for="choice in category.choices"
                       :key="choice.id"
@@ -272,9 +326,12 @@
                       class="ingredient-tile relative min-h-[5.25rem] lg:min-h-24 rounded-ygf-card border-[1.5px]"
                       :class="[
                         quantityOf(choice) > 0
-                          ? 'border-primary bg-ygf-bg'
+                          ? 'border-ygf bg-ygf-selected'
                           : 'border-ygf-orange/15 bg-white',
-                        { 'is-popped': popped === choice.id },
+                        {
+                          'is-popped': popped === choice.id,
+                          'min-h-[7.5rem] lg:min-h-[8.25rem]': iconOf(choice),
+                        },
                       ]"
                     >
                       <button
@@ -289,12 +346,29 @@
                         class="relative pointer-events-none flex flex-col justify-between h-full gap-2 p-3 lg:p-3.5"
                       >
                         <span
-                          translate="no"
-                          class="text-sm lg:text-[0.9375rem] font-semibold leading-snug text-ygf-black break-words pr-8"
+                          v-if="iconOf(choice)"
+                          class="food-icon"
+                          :class="quantityOf(choice) > 0 ? 'bg-white' : ''"
+                          aria-hidden="true"
                         >
-                          {{ choice.name }}
+                          <img
+                            :src="iconOf(choice)!.src"
+                            alt=""
+                            width="34"
+                            height="34"
+                            loading="lazy"
+                            decoding="async"
+                          />
                         </span>
-                        <span class="text-xs text-ygf-gray-600">{{ priceLabel(choice) }}</span>
+                        <span class="flex flex-col gap-0.5">
+                          <span
+                            translate="no"
+                            class="text-sm lg:text-[0.9375rem] font-semibold leading-snug text-ygf-black break-words pr-8"
+                          >
+                            {{ choice.name }}
+                          </span>
+                          <span class="text-xs text-ygf-gray-600">{{ priceLabel(choice) }}</span>
+                        </span>
                       </span>
                       <span
                         :data-testid="`bowl-composer-choice-qty-${choice.id}`"
@@ -349,7 +423,7 @@
                   class="flex items-center justify-between gap-3 min-h-16 px-4.5 py-3 rounded-ygf-card border-2 text-left transition-colors duration-200 lg:flex-col lg:items-start lg:justify-start lg:p-4.5 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   :class="
                     quantityOf(choice) > 0
-                      ? 'border-primary bg-ygf-bg'
+                      ? 'border-ygf bg-ygf-selected'
                       : 'border-ygf-orange/15 bg-white hover:bg-ygf-bg'
                   "
                   @click="selectExclusive(choice)"
@@ -551,8 +625,10 @@ import { useCartItemEdit } from '#engine/composables/useCartItemEdit'
 import { useCartStore } from '#engine/stores/cart'
 import { useEventBus } from '@vueuse/core'
 import { useFocusTrap } from '#engine/composables/useFocusTrap'
-import { useGqlQuery } from '#imports'
+import { useGqlQuery, useRoute } from '#imports'
 import { useI18n } from 'vue-i18n'
+import { foodIconFor, foodIconKey } from '~/data/ingredientIcons'
+import { RECIPES, RECIPE_IMAGE, type Recipe, recipeByKey } from '~/data/recipes'
 import { useProductChoices } from '#engine/composables/useProductChoices'
 import { useTracking } from '#engine/composables/useTracking'
 
@@ -820,6 +896,70 @@ const modifierLabel = (choice: ProductChoice) =>
 const priceLabel = (choice: ProductChoice) =>
   toCents(choice.priceModifier) === 0 ? t('composer.included') : modifierLabel(choice)
 
+/** The illustration of an ingredient, from its name (none for a name the icon set does not know). */
+const iconOf = (choice: ProductChoice) => foodIconFor(choice.name)
+
+// ── Recipes ──────────────────────────────────────────────────────────────────
+
+/** The recipes this composer can build: its own (the dry mix), or those whose broth is one of its broth cards. */
+const recipes = computed(() =>
+  RECIPES.filter(
+    (recipe) =>
+      recipe.composerSlug === p?.slug ||
+      brothChoices.value.some((broth) => broth.slug === recipe.broth),
+  ),
+)
+const appliedRecipe = ref<string | null>(null)
+const recipeNotice = ref('')
+
+/**
+ * Loads a recipe as the bowl's starting point: its broth at its heat, then its ingredients in place of whatever was in
+ * the bowl, each found by what its name says (data/ingredientIcons.ts) so the live catalogue's ids never matter. An
+ * ingredient the shop does not have is skipped; the group maximum is respected.
+ */
+const applyRecipe = (recipe: Recipe) => {
+  const broth = brothChoices.value.find((item) => item.slug === recipe.broth)
+  if (broth) {
+    const variant =
+      broth.variants.find((choice) => heatLevel(choice.name) === recipe.heat) ?? broth.variants[0]!
+    selectExclusive(variant)
+  }
+
+  const groups = ingredientGroups.value
+  const ingredientIds = new Set(groups.flatMap((group) => group.choices.map((choice) => choice.id)))
+  selectedChoiceQuantities.value = Object.fromEntries(
+    Object.entries(selectedChoiceQuantities.value).filter(([id]) => !ingredientIds.has(id)),
+  )
+  const choices = groups.flatMap((group) => group.choices)
+  let added = 0
+  for (const [key, wanted] of Object.entries(recipe.ingredients)) {
+    const choice = choices.find((item) => foodIconKey(item.name) === key)
+    if (!choice) continue
+    for (let n = 0; n < (wanted ?? 0) && canIncrement(choice); n++) {
+      incrementChoice(choice)
+      added++
+    }
+  }
+
+  appliedRecipe.value = added > 0 ? recipe.key : null
+  recipeNotice.value =
+    added > 0
+      ? t('composer.recipes.applied', {
+          name: t(`mkt.recipes.items.${recipe.key}.name`),
+          count: added,
+        })
+      : t('composer.recipes.unavailable')
+  const ingredientsStep = steps.value.findIndex((step) => step.kind === 'ingredients')
+  if (ingredientsStep !== -1) goTo(ingredientsStep)
+  trackEvent('composer_recipe_applied', { recipe: recipe.key, added })
+}
+
+// Opened from a "Composer ce bol" of the home page (/menu?compose&recipe=<key>): start from that recipe.
+const route = useRoute()
+const routedRecipe = recipeByKey(route.query.recipe)
+if (p && routedRecipe && !editItem && recipes.value.includes(routedRecipe))
+  applyRecipe(routedRecipe)
+
 // ── Summary ──────────────────────────────────────────────────────────────────
 
 const bowlPhoto = computed(() =>
@@ -989,6 +1129,12 @@ onMounted(() => {
 
 .ingredient-tile.is-popped {
   transform: scale(1.04);
+}
+
+.recipe-chip {
+  transition:
+    background-color 200ms ease-out,
+    border-color 200ms ease-out;
 }
 
 /* Steam over the rail's bowl (as on the home broth selector). */

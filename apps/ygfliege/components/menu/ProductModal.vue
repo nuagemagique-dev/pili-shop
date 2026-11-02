@@ -80,6 +80,21 @@
             "
             :class="brandPhoto.cover ? 'absolute inset-0' : undefined"
           />
+          <!-- A product awaiting photography: its illustration (data/ingredientIcons.ts) instead of the logo placeholder. -->
+          <span
+            v-else-if="showIllustration && illustration"
+            class="w-full h-full flex items-center justify-center p-6"
+            data-testid="product-illustration"
+          >
+            <img
+              :src="illustration.src"
+              :alt="p.name"
+              width="160"
+              height="160"
+              class="w-[70%] aspect-square object-contain"
+              :class="[!p.isAvailable ? 'grayscale' : '']"
+            />
+          </span>
           <picture v-else class="w-full h-full flex justify-center items-center p-4">
             <source :srcset="`${productImageBaseSrc}.avif`" type="image/avif" />
             <source :srcset="`${productImageBaseSrc}.webp`" type="image/webp" />
@@ -89,7 +104,7 @@
               :src="`${productImageBaseSrc}.png`"
               class="object-contain w-full h-full transition-opacity duration-slow"
               :class="[!p.isAvailable ? 'grayscale' : '']"
-              @error="handleProductImageError"
+              @error="onImageError"
             />
           </picture>
         </button>
@@ -253,6 +268,7 @@ import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useGqlQuery, useRuntimeConfig } from '#imports'
 import { PRODUCT_PHOTO_WIDTHS, productPhoto } from '~/data/productPhotos'
 import ChoiceGroupPicker from '~/components/menu/ChoiceGroupPicker.vue'
+import { productIllustration } from '~/data/ingredientIcons'
 import ImageLightbox from '#engine/components/ImageLightbox.vue' // eslint-disable-line typescript-eslint/consistent-type-imports
 import LoadError from '#engine/components/LoadError.vue'
 import MktPicture from '~/components/mkt/MktPicture.vue'
@@ -304,6 +320,13 @@ const productImageBaseSrc = computed(() =>
   productImage.productImageBase(config.public.s3bucketUrl, p?.id),
 )
 const brandPhoto = computed(() => productPhoto(p?.slug))
+// The illustration a product without photography falls back to (shown once its S3 image has failed to load).
+const illustration = computed(() => productIllustration(p?.slug, p?.name ?? ''))
+const showIllustration = ref(false)
+const onImageError = (event: Event) => {
+  if (illustration.value) showIllustration.value = true
+  else handleProductImageError(event)
+}
 
 const openLightbox = (id: string, name: string) => {
   // ImageLightbox appends .avif/.webp/.png itself; the largest brand asset
@@ -408,7 +431,11 @@ const canAddToCart = computed(() => {
 
 // Close modal on escape key
 onMounted(() => {
-  productImage.ensureProductImageFallback(imageElement.value)
+  // Already failed before this ran (no error event replays): same fallbacks as onImageError.
+  const img = imageElement.value
+  if (illustration.value) {
+    if (img?.complete && img.naturalWidth === 0) showIllustration.value = true
+  } else productImage.ensureProductImageFallback(img)
 
   const handleEscape = (e: KeyboardEvent) => {
     if (e.key === 'Escape') emit('close')

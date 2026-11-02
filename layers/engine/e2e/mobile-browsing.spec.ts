@@ -423,16 +423,17 @@ test.describe('allergen notice', () => {
   }) => {
     await page.goto('/fr/menu')
     await waitForNuxtHydration(page)
-    // A brand whose menu keeps a permanent allergen line (a link, never dismissed) instead of the notice
+    // A brand whose menu keeps a permanent allergen line (a link, never dismissed) instead of the notice.
+    // The phone is the page's own (`main`): a phone menu may carry one earlier in the DOM, hidden while closed.
     const permanent = page.getByTestId('menu-allergen-link')
     if ((await permanent.count()) > 0) {
       await expect(permanent).toBeVisible()
-      await expect(page.locator('a[href^="tel:"]').first()).toBeVisible()
+      await expect(page.locator('main a[href^="tel:"]').first()).toBeVisible()
       return
     }
     const notice = page.getByText('Allergies ? Infos :')
     await expect(notice).toBeVisible()
-    await expect(page.locator('a[href^="tel:"]').first()).toBeVisible()
+    await expect(page.locator('main a[href^="tel:"]').first()).toBeVisible()
 
     await notice
       .locator('xpath=ancestor::div[contains(@class,"rounded-2xl")][1]')

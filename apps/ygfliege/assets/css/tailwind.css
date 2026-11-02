@@ -16,122 +16,142 @@
 @source not '../../../../layers/engine/locales';
 @source not '../../../../layers/engine/public';
 
-/* Brand orange. GUIDELINES.md says #F58220; the franchisor's design kit uses #EB6100 and is awaiting a decision, so the
-   value stays this one. It is spelled once here for Tailwind (--color-ygf and --color-ygf-orange-500); brand.css
-   (--ygf-orange) and the theme-color meta in nuxt.config.ts are the only other places, and the loading bar reads the CSS
-   variable. See layers/engine/TOKENS.md. */
+/* Brand orange: the logo's #EB6202 since the 2026 webshop redesign (GUIDELINES.md's #F58220 is retired). It is spelled
+   once here for Tailwind (--color-ygf and --color-ygf-orange-500); brand.css (--ygf-orange) and the theme-color meta in
+   nuxt.config.ts are the only other places, and the loading bar reads the CSS variable. See layers/engine/TOKENS.md. */
 
 /* Yangguofu Malatang Liège theme. Palette, fonts, radii and warm shadows come from the official brand guide (malatang
-   GUIDELINES.md). The shadcn tokens, keyframes and container settings are shared scaffolding (same as the other brand apps).
+   GUIDELINES.md), retuned by the 2026 redesign: cream page (#FFF6EC), peach surfaces (#FFF1E2), apricot selection
+   (#FFE1C7), ink text, Archivo display. The shadcn tokens, keyframes and container settings are shared scaffolding (same
+   as the other brand apps).
 
    The brand's own custom properties (brand.css) are all prefixed --ygf-: Tailwind 4 reads --radius-*, --shadow-*,
    --ease-* and --font-* as its theme, so an unprefixed brand variable would restyle the utilities. */
 @theme {
   /* YGF brand tokens. `ygf` = primary orange scale + supporting neutrals; class names stay stable if hex values evolve. */
-  --color-ygf: #f58220;
-  --color-ygf-light: #fdba74;
-  --color-ygf-dark: #d96a10;
-  --color-ygf-bg: #fff7ed;
+  --color-ygf: #eb6202;
+  --color-ygf-light: #ff9a4d;
+  --color-ygf-dark: #b44a00;
+  --color-ygf-bg: #fff6ec;
   --color-ygf-black: #1a1a1a;
-  --color-ygf-cream: #fdf5ec;
+  --color-ygf-night: #0b0908;
+  --color-ygf-cream: #fff1e2;
+  --color-ygf-peach: #fff1e2;
+  --color-ygf-selected: #ffe1c7;
   --color-ygf-wood: #c49a6c;
   --color-ygf-red: #d42b2b;
   --color-ygf-white: #ffffff;
   --color-ygf-success: #2e8b57;
   /* Success text/fill that passes AA: 5.33:1 on white, 4.65+ on the orange tints; #2E8B57 is 4.25 on white. */
   --color-ygf-success-dark: #1f7a4a;
+  /* The vegetal green of the redesign's "100 % végétal" badges: text on its own tint (#E3F2E8), 6.9:1. */
+  --color-ygf-vegetal: #1f6b41;
+  --color-ygf-vegetal-bg: #e3f2e8;
   --color-ygf-error: #d32f2f;
   /* Warm border tint, same value as --border-default. */
-  --color-ygf-border: rgba(242, 123, 32, 0.12);
+  --color-ygf-border: rgba(235, 98, 2, 0.14);
 
   /* Warm neutrals replace Tailwind's default cool `gray` scale, so a stray gray-* utility reads as part of the brand.
-     400 is decor only (about 2.7:1 on white); 500 passes on white (4.8:1) but not on cream (4.43:1); use 600 and up for text. */
+     400 is decor only (about 2.9:1 on white); 500 passes on white (4.8:1) but not on cream (4.43:1); use 600 and up for text. */
   --color-gray-50: #faf8f5;
   --color-gray-100: #f5f1ec;
-  --color-gray-200: #e8e2da;
+  --color-gray-200: #e9dccb;
   --color-gray-300: #d6cec4;
-  --color-gray-400: #a39a90;
+  --color-gray-400: #8c8079;
   --color-gray-500: #7a7168;
   --color-gray-600: #5f574f;
-  --color-gray-700: #4a433d;
+  --color-gray-700: #4a3f38;
   --color-gray-800: #332e29;
   --color-gray-900: #1a1a1a;
 
   /* Neutral text/surface grays, matching --ygf-gray-* in brand.css (intermediate steps interpolated). */
-  --color-ygf-gray-50: #fafafa;
-  --color-ygf-gray-100: #f5f5f5;
-  --color-ygf-gray-200: #e5e5e5;
-  --color-ygf-gray-300: #d4d4d4;
-  --color-ygf-gray-400: #999999;
-  --color-ygf-gray-500: #808080;
-  --color-ygf-gray-600: #666666;
-  --color-ygf-gray-700: #4d4d4d;
+  --color-ygf-gray-50: #faf8f5;
+  --color-ygf-gray-100: #f5f1ec;
+  --color-ygf-gray-200: #e9dccb;
+  --color-ygf-gray-300: #d6cec4;
+  --color-ygf-gray-400: #8c8079;
+  --color-ygf-gray-500: #7a7168;
+  --color-ygf-gray-600: #6b5e55;
+  --color-ygf-gray-700: #4a3f38;
 
-  --color-ygf-orange: #f58220;
-  --color-ygf-orange-50: #fff7ed;
-  --color-ygf-orange-100: #ffedd5;
-  --color-ygf-orange-200: #fed7aa;
-  --color-ygf-orange-300: #fdba74;
-  --color-ygf-orange-400: #fb923c;
-  --color-ygf-orange-500: #f58220;
-  --color-ygf-orange-600: #d96a10;
+  --color-ygf-orange: #eb6202;
+  --color-ygf-orange-50: #fff6ec;
+  --color-ygf-orange-100: #ffe1c7;
+  --color-ygf-orange-200: #ffc79a;
+  --color-ygf-orange-300: #ff9a4d;
+  --color-ygf-orange-400: #f57a1f;
+  --color-ygf-orange-500: #eb6202;
+  --color-ygf-orange-600: #d85a00;
   --color-ygf-orange-700: #c2570c;
   --color-ygf-orange-800: #9a3412;
   --color-ygf-orange-900: #7c2d12;
-  --color-ygf-orange-bg: #fff7ed;
-  --color-ygf-orange-light: #fdba74;
+  --color-ygf-orange-bg: #fff6ec;
+  --color-ygf-orange-light: #ff9a4d;
   /* Accessibility fills/text, same values as brand.css vars. */
   --color-ygf-orange-on-white: #c2570c;
   --color-ygf-orange-on-white-hover: #9a3412;
-  --color-ygf-orange-text: #9a3412;
+  --color-ygf-orange-text: #a64300;
 
   /* `border-subtle`: faintest warm hairline (--border-subtle). */
-  --color-subtle: rgba(242, 123, 32, 0.08);
+  --color-subtle: rgba(235, 98, 2, 0.08);
 
   /* Theme contract shared with every brand app: the engine layer's components only use these names (primary-N accent
      scale, neutral-N neutrals, tsb-one..four surfaces) and each brand maps them. red-* stays reserved for errors.
      Warm, like `gray`: the shared cart and checkout surfaces (bg-neutral-50/100, hairlines, secondary text) read as cream and
      ink instead of the cold greys of the sushi skin (audit, webshop P2). 500/600 = 6.3:1 on white. */
   --color-neutral-50: #fffbf6;
-  --color-neutral-100: #fdf5ec;
-  --color-neutral-200: #f5e6d6;
-  --color-neutral-300: #ebd6c1;
-  --color-neutral-400: #a39a90;
-  --color-neutral-500: #5f574f;
-  --color-neutral-600: #5f574f;
+  --color-neutral-100: #fff1e2;
+  --color-neutral-200: #f3dfcc;
+  --color-neutral-300: #e9dccb;
+  --color-neutral-400: #8c8079;
+  --color-neutral-500: #6b5e55;
+  --color-neutral-600: #6b5e55;
   --color-neutral-700: #1a1a1a;
   --color-neutral-800: #1a1a1a;
   --color-neutral-900: #1a1a1a;
 
   /* The engine's warnings (amber-*) in the brand's warm tones: cream boxes, orange hairline, deep orange-brown text
      (800 on 50 is 9:1). No cold or off-brand yellow in this skin. */
-  --color-amber-50: #fff7ed;
-  --color-amber-100: #ffedd5;
-  --color-amber-200: #fed7aa;
-  --color-amber-300: #fdba74;
-  --color-amber-400: #fb923c;
-  --color-amber-500: #f58220;
+  --color-amber-50: #fff6ec;
+  --color-amber-100: #ffe1c7;
+  --color-amber-200: #ffc79a;
+  --color-amber-300: #ff9a4d;
+  --color-amber-400: #f57a1f;
+  --color-amber-500: #eb6202;
   --color-amber-600: #c2570c;
   --color-amber-700: #9a3412;
   --color-amber-800: #7c2d12;
   --color-amber-900: #5c2410;
 
-  /* The halal badge (blue-*): ink on cream, the brand bans cold colours. */
-  --color-blue-50: #fdf5ec;
-  --color-blue-100: #fdf5ec;
-  --color-blue-200: #ebd6c1;
+  /* The halal badge (blue-*): ink on peach, the brand bans cold colours. */
+  --color-blue-50: #fff1e2;
+  --color-blue-100: #fff1e2;
+  --color-blue-200: #e9dccb;
   --color-blue-300: #d6c2ae;
-  --color-blue-400: #a39a90;
-  --color-blue-500: #5f574f;
-  --color-blue-600: #4a433d;
+  --color-blue-400: #8c8079;
+  --color-blue-500: #6b5e55;
+  --color-blue-600: #4a3f38;
   --color-blue-700: #1a1a1a;
   --color-blue-800: #1a1a1a;
   --color-blue-900: #1a1a1a;
 
-  --color-tsb-one: #fff7ed; /* Page background */
-  --color-tsb-two: #fdf5ec; /* Container surface (cream) */
-  --color-tsb-three: #fdba74; /* Decorative */
-  --color-tsb-four: #ffedd5; /* Selected / active */
+  /* Diet badges and completed states (emerald-*): the redesign's vegetal green on its own tint (700 on 50 is 6.9:1,
+     on the selected apricot 5.1:1; Tailwind's #007A55 was 4.3:1 there). */
+  --color-emerald-50: #e3f2e8;
+  --color-emerald-100: #d4ecdc;
+  --color-emerald-200: #b7dfc4;
+  --color-emerald-300: #8fcaa4;
+  --color-emerald-400: #5aa97a;
+  --color-emerald-500: #2e8b57;
+  --color-emerald-600: #257a4b;
+  --color-emerald-700: #1f6b41;
+  --color-emerald-800: #1a5a37;
+  --color-emerald-900: #14482c;
+
+  --color-tsb-one: #fff6ec; /* Page background (cream) */
+  --color-tsb-two: #fff1e2; /* Container surface (peach) */
+  --color-tsb-three: #ff9a4d; /* Decorative */
+  --color-tsb-four: #ffe1c7; /* Selected / active (apricot) */
 
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
@@ -144,11 +164,11 @@
      and 800 one step darker so `text-primary-700 hover:text-primary-800` links still react on hover. One value per step: the
      Tailwind 3 theme gave fills and text these values and kept the raw orange scale for borders, rings and accents; a
      Tailwind 4 theme has one colour per name, so those few now take the AA-safe value too. */
-  --color-primary-50: #fff7ed;
-  --color-primary-100: #ffedd5;
-  --color-primary-200: #fed7aa;
-  --color-primary-300: #fdba74;
-  --color-primary-400: #fb923c;
+  --color-primary-50: #fff6ec;
+  --color-primary-100: #ffe1c7;
+  --color-primary-200: #ffc79a;
+  --color-primary-300: #ff9a4d;
+  --color-primary-400: #f57a1f;
   --color-primary-500: #c2570c;
   --color-primary-600: #c2570c;
   --color-primary-700: #9a3412;
@@ -157,14 +177,14 @@
   --color-primary: #c2570c; /* --ygf-orange-on-white */
   --color-primary-foreground: hsl(var(--primary-foreground));
   --color-primary-hover: #9a3412;
-  --color-primary-soft: #ffedd5;
+  --color-primary-soft: #ffe1c7;
 
-  /* Headings: Inter for Latin (as ygfliege.be), the system CJK font for the CJK glyphs (zh headings included).
-     ("Inter Fallback" / "Inter Fallback Roboto" are the size-adjusted stand-ins declared in assets/css/brand.css; the CJK
-     glyphs come from the visitor's own font, see --font-chinese there.) */
+  /* Headings: Archivo, wide and heavy (self-hosted, assets/css/brand.css), then Inter, then the system CJK font for the
+     CJK glyphs (zh headings included). ("Archivo Fallback", "Inter Fallback" / "Inter Fallback Roboto" are the
+     size-adjusted stand-ins declared in brand.css; the CJK glyphs come from the visitor's own font, see --font-chinese there.) */
   --font-display:
-    Inter, 'Inter Fallback', 'Inter Fallback Roboto', 'Noto Sans SC', 'PingFang SC',
-    'Hiragino Sans GB', 'Microsoft YaHei', system-ui, sans-serif;
+    Archivo, 'Archivo Fallback', Inter, 'Inter Fallback', 'Inter Fallback Roboto', 'Noto Sans SC',
+    'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', system-ui, sans-serif;
   /* Body text. */
   --font-body:
     Inter, 'Inter Fallback', 'Inter Fallback Roboto', 'Noto Sans SC', 'PingFang SC',
@@ -198,24 +218,24 @@
   --radius-sm: 0.25rem;
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
-  /* Brand radii per guide: cards 12px, large surfaces 24px, pill buttons 48px. */
-  --radius-ygf-sm: 6px;
-  --radius-ygf-card: 12px;
+  /* Brand radii: tiles and cards 16px (the redesign; the guide said 12), large surfaces 24px, pill buttons 48px. */
+  --radius-ygf-sm: 8px;
+  --radius-ygf-card: 16px;
   --radius-ygf-lg: 24px;
   --radius-ygf-btn: 48px;
 
   /* Warm orange-tinted shadows: the guide forbids cold gray shadows. Tailwind's default scale, re-tinted warm: a stray
      `shadow-md` inherits the brand, never a grey shadow. (Tailwind 4 names: xs was `sm`, sm was the bare `shadow`.) */
-  --shadow-sm: 0 2px 8px rgba(242, 123, 32, 0.08);
-  --shadow-xs: 0 1px 4px rgba(242, 123, 32, 0.06);
-  --shadow-md: 0 4px 20px rgba(242, 123, 32, 0.08);
-  --shadow-lg: 0 8px 30px rgba(242, 123, 32, 0.1);
-  --shadow-xl: 0 12px 40px rgba(242, 123, 32, 0.12);
-  --shadow-2xl: 0 20px 60px rgba(242, 123, 32, 0.16);
-  --shadow-ygf-sm: 0 2px 8px rgba(242, 123, 32, 0.06);
-  --shadow-ygf-md: 0 4px 20px rgba(242, 123, 32, 0.08);
-  --shadow-ygf-lg: 0 8px 40px rgba(242, 123, 32, 0.12);
-  --shadow-ygf-glow: 0 0 60px rgba(245, 130, 32, 0.08);
+  --shadow-sm: 0 2px 8px rgba(235, 98, 2, 0.08);
+  --shadow-xs: 0 1px 4px rgba(235, 98, 2, 0.06);
+  --shadow-md: 0 4px 20px rgba(235, 98, 2, 0.08);
+  --shadow-lg: 0 8px 30px rgba(235, 98, 2, 0.1);
+  --shadow-xl: 0 12px 40px rgba(235, 98, 2, 0.12);
+  --shadow-2xl: 0 20px 60px rgba(235, 98, 2, 0.16);
+  --shadow-ygf-sm: 0 2px 8px rgba(235, 98, 2, 0.06);
+  --shadow-ygf-md: 0 4px 20px rgba(235, 98, 2, 0.08);
+  --shadow-ygf-lg: 0 8px 40px rgba(235, 98, 2, 0.12);
+  --shadow-ygf-glow: 0 0 60px rgba(235, 98, 2, 0.1);
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
@@ -245,7 +265,7 @@
   }
   @keyframes cart-flash {
     0% {
-      background-color: #ffedd5;
+      background-color: #ffe1c7;
     }
     100% {
       background-color: #ffffff;
@@ -364,19 +384,19 @@
    in the app sets the `dark` class. Add one here if that ever changes. */
 @layer base {
   :root {
-    --background: 33.3 100% 96.5%; /* #FFF7ED; warm page cream */
+    --background: 31.6 100% 96.3%; /* #FFF6EC; warm page cream */
     --foreground: 0 0% 10.2%; /* #1A1A1A; brand black */
 
-    --primary: 27.6 91.4% 54.3%; /* #F58220; brand orange */
-    --primary-foreground: 0 0% 100%;
+    --primary: 24.7 98.3% 46.5%; /* #EB6202; brand orange (the logo's) */
+    --primary-foreground: 0 0% 10.2%; /* ink on the orange: white would be 3.3:1 */
 
-    /* #FDE8D4: rgba(242,123,32,.12) flattened over the page cream, so the
+    /* #FCE1CB: rgba(235,98,2,.14) flattened over the page cream, so the
        default border matches --border-default in brand.css. */
-    --border: 29.3 91.2% 91.2%;
-    --input: 29.3 91.2% 91.2%;
+    --border: 26.9 89.1% 89.2%;
+    --input: 26.9 89.1% 89.2%;
     --ring: 24.7 88.3% 40.4%; /* #C2570C: focus ring >= 3:1 on white and the orange tints (WCAG 1.4.11); the brand orange stays --primary */
 
-    --radius: 0.75rem; /* 12px cards, per the guide */
+    --radius: 1rem; /* 16px cards (the redesign) */
   }
 
   /* Tailwind 4 draws borders in currentColor: every border takes the theme's border colour instead (as in Tailwind 3). */
@@ -403,16 +423,23 @@
     color: var(--color-foreground);
   }
 
+  /* Headings: Archivo, wide (112 %) and heavy, tight tracking, the redesign's display voice on every page, the shared
+     engine pages included (cart, checkout, account). A heading that sets its own font or weight utility keeps it; the
+     hero goes wider still (font-stretch-expanded, 125 %). The family falls back to Inter until Archivo arrives, and to
+     the visitor's CJK font for Chinese characters (Archivo has none). */
   h1,
   h2,
   h3,
   h4 {
+    font-family: var(--font-display);
+    font-stretch: 112%;
+    font-weight: 800;
     letter-spacing: -0.02em;
   }
 
-  /* Body font: Inter, Noto Sans SC for the CJK glyphs. Headings are Inter too, with the vitrine's tight tracking, as on
-     ygfliege.be, and zh headings the same stack (Inter for the Latin letters, the visitor's CJK font for the characters): the
-     calligraphic serif (GUIDELINES.md §3.3, accents chinois) is only the `font-serifzh` accents, never a whole heading. */
+  /* Body font: Inter, Noto Sans SC for the CJK glyphs; zh headings use the same stack for their characters (Archivo for
+     the Latin letters, the visitor's CJK font for the characters): the calligraphic serif (GUIDELINES.md §3.3, accents
+     chinois) is only the `font-serifzh` accents, never a whole heading. */
   html {
     font-family:
       'Inter', 'Inter Fallback', 'Inter Fallback Roboto', var(--font-chinese), system-ui, sans-serif;

@@ -29,7 +29,9 @@
       "concept": "Concept",
       "menu": "Menu",
       "about": "Notre histoire",
-      "contact": "Contact"
+      "contact": "Contact",
+      "compose": "Composer",
+      "faq": "FAQ"
     },
     "lang": {
       "fr": "Français",
@@ -45,6 +47,7 @@
       "bowl_alt": "Bol de malatang au bouillon d'os de bœuf, ingrédients frais en suspension",
       "order": "Commander à emporter",
       "seeMenu": "Voir le menu",
+      "eyebrowShort": "Malatang · Liège",
       "counterPrice": "Au comptoir : {price}",
       "payWhatYouWeigh": "Au comptoir, vous ne payez que ce que vous pesez."
     },
@@ -55,35 +58,35 @@
       "vegan_badge": "Vegan",
       "allergens_label": "Allergènes",
       "beef_bone": {
-        "name": "Bouillon d'os de bœuf épicé",
+        "name": "Os de bœuf aux herbes",
         "chinese": "经典草本骨汤",
         "desc": "Notre signature depuis 2003 : os de bœuf mijotés 8 heures avec plus de 20 herbes orientales. Choisissez votre intensité, de doux à fort.",
         "spice": "Au choix : doux, moyen ou fort",
         "allergens": "Lait, gluten, sésame, soja"
       },
       "tomato": {
-        "name": "Bouillon tomate mijoté",
+        "name": "Tomate mijotée",
         "chinese": "酸甜番茄汤",
         "desc": "Des tomates fraîches longuement mijotées, à la fois acidulées et sucrées. Tout en douceur, et 100 % végétal.",
         "spice": "Aigre-doux, non épicé",
         "allergens": "Soja"
       },
       "mala_dry": {
-        "name": "Mala Mix à la sauce sésame-cacahuète",
+        "name": "Mala Mix",
         "chinese": "石磨醇香麻辣拌",
         "desc": "L'exception sans bouillon : vos ingrédients enrobés d'une sauce parfumée au sésame et à la cacahuète. Envoûtant, légèrement relevé.",
         "spice": "Légèrement relevé",
         "allergens": "Gluten, sésame, arachide, soja"
       },
       "tom_yum": {
-        "name": "Bouillon thaïlandais Tom Yum",
+        "name": "Tom Yum",
         "chinese": "酸辣冬阴功",
         "desc": "L'évasion thaïlandaise : aigre, épicé, parfumé à la citronnelle. Un aller simple pour l'Asie du Sud-Est.",
         "spice": "Légèrement relevé",
         "allergens": "Poisson, crustacés, soja"
       },
       "mushroom": {
-        "name": "Bouillon champignons",
+        "name": "Champignons",
         "chinese": "草本穹顶菌汤",
         "desc": "Un bouillon doux aux champignons et aux herbes, sans la moindre épice. Le réconfort à l'état pur, et 100 % végétal.",
         "spice": "Non épicé",
@@ -182,6 +185,11 @@
           "title": "Composé par vous",
           "desc": "Vous choisissez tout, pesé au gramme. À votre goût, sans surprise."
         }
+      },
+      "ingredients": {
+        "label": "Au comptoir",
+        "title": "Tout ce qui va dans le bol",
+        "subtitle": "Légumes, champignons, tofu, nouilles, viandes et fruits de mer : une trentaine de produits frais, pesés au gramme."
       }
     },
     "cta": {
@@ -389,7 +397,7 @@
       "delivery_soon": "Bientôt disponible",
       "email_intro": "Une question ou une remarque ? Envoyez-nous un email, on vous répond vite.",
       "phone_title": "Téléphone",
-      "phone_reservation": "Les réservations se font uniquement par téléphone."
+      "phone_reservation": "Une question ou une grande tablée ? Appelez-nous."
     },
     "not_found": {
       "title": "Page introuvable",
@@ -440,7 +448,7 @@
     },
     "estimator": {
       "label": "Le prix au poids",
-      "title": "Combien coûte mon bol ?",
+      "title": "Estimez votre bol",
       "desc": "Au comptoir, votre bol est pesé : vous payez ce que vous choisissez. Faites glisser pour estimer.",
       "for": "pour {weight} · {rate}",
       "rate": "{price} / 100 g",
@@ -451,7 +459,7 @@
     "practical": {
       "title": "Infos pratiques",
       "openInMaps": "Ouvrir dans Maps",
-      "bookingsByPhone": "Les réservations se font uniquement par téléphone."
+      "bookingsByPhone": "Une question ou une grande tablée ? Appelez-nous."
     },
     "actionBar": {
       "label": "Actions rapides",
@@ -459,6 +467,34 @@
       "call": "Appeler",
       "order": "Commander",
       "menu": "Menu"
+    },
+    "recipes": {
+      "label": "Nos recettes",
+      "title": "En panne d'idées ?",
+      "subtitle": "Nos recettes illustrées : reprenez-les telles quelles, ou faites-en votre version.",
+      "cta": "Composer ce bol",
+      "items": {
+        "seafood": {
+          "name": "Bœuf & fruits de mer",
+          "desc": "Bouillon d'os de bœuf, crevettes, calamars, boulettes de poisson, champignons noirs et enoki.",
+          "alt": "Affiche illustrée : bœuf et fruits de mer"
+        },
+        "tomato": {
+          "name": "Bœuf braisé à la tomate",
+          "desc": "Bouillon tomate, tranches de bœuf, pomme de terre, vermicelles de patate douce et chou chinois.",
+          "alt": "Affiche illustrée : bœuf braisé à la tomate"
+        },
+        "mix": {
+          "name": "Mala Mix léger",
+          "desc": "Sans bouillon, sauce sésame-cacahuète douce : pak choï, chou chinois, brocoli, bœuf et crevettes.",
+          "alt": "Affiche illustrée : Mala Mix léger"
+        },
+        "japanese": {
+          "name": "Tomate à la japonaise",
+          "desc": "Bouillon tomate, udon, épinards, bœuf, surimi et enoki.",
+          "alt": "Affiche illustrée : tomate à la japonaise"
+        }
+      }
     }
   },
   "faq": {
@@ -476,19 +512,19 @@
         "answer": "Aucun souci ! Notre comptoir regorge de légumes, de champignons, de tofu et de nouilles. Vous pouvez tout à fait composer un bol 100% végétal. N'hésitez pas à nous demander conseil pour le bouillon."
       },
       "hours": {
-        "question": "Quels sont vos horaires d'ouverture ?",
+        "question": "Vos horaires d'ouverture ?",
         "answer": "Nous sommes ouverts tous les jours, du lundi au dimanche, de 11h30 à 22h00."
       },
       "delivery": {
-        "question": "Livrez-vous ? Quelle est la zone de livraison ?",
+        "question": "Livrez-vous ?",
         "answer": "Pour le moment, les commandes sont à emporter uniquement, depuis notre restaurant Rue de la Cathédrale 51 à Liège. La livraison arrive bientôt !"
       },
       "payment": {
-        "question": "Quels modes de paiement acceptez-vous ?",
+        "question": "Quels moyens de paiement ?",
         "answer": "Nous acceptons le paiement en ligne sécurisé (carte bancaire, Bancontact) et le paiement en espèces au retrait de votre commande au restaurant."
       },
       "allergens": {
-        "question": "Avez-vous des informations sur les allergènes ?",
+        "question": "Et les allergènes ?",
         "answer": "Nos plats peuvent contenir du <strong>sésame</strong>, des <strong>arachides</strong>, du <strong>gluten</strong>, du <strong>soja</strong> et des <strong>crustacés</strong>. Indiquez toute allergie dans les commentaires de commande ou contactez-nous directement pour des informations détaillées."
       }
     }
@@ -539,6 +575,12 @@
       "meat": "Viandes",
       "seafood": "Poisson & fruits de mer",
       "other": "Autres"
+    },
+    "recipes": {
+      "label": "Une recette pour démarrer",
+      "apply": "Composer ce bol",
+      "applied": "Recette « {name} » chargée : {count} ingrédients dans le bol, modifiez à votre goût.",
+      "unavailable": "Les ingrédients de cette recette ne sont pas disponibles aujourd'hui."
     }
   },
   "nav": {

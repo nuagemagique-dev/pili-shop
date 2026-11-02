@@ -32,8 +32,8 @@
             <slot />
           </main>
 
-          <!-- Black footer with white logo, per GUIDELINES.md §4.5. -->
-          <footer class="bg-ygf-black text-white/70 mt-12">
+          <!-- Dark footer with the white logo (GUIDELINES.md §4.5), on the redesign's warm night rather than pure black. -->
+          <footer class="bg-ygf-night text-white/70 mt-12">
             <div class="max-w-7xl mx-auto px-6 py-10 sm:py-12">
               <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-8">
                 <div class="space-y-3">
@@ -59,6 +59,11 @@
                 <nav :aria-label="$t('nav.secondary')" class="flex flex-col gap-0 text-sm">
                   <NuxtLinkLocale
                     class="inline-flex min-h-11 items-center hover:text-white transition-colors"
+                    to="/menu"
+                    >{{ $t('nav.menu') }}</NuxtLinkLocale
+                  >
+                  <NuxtLinkLocale
+                    class="inline-flex min-h-11 items-center hover:text-white transition-colors"
                     to="/concept"
                     >{{ $t('mkt.nav.concept') }}</NuxtLinkLocale
                   >
@@ -66,6 +71,16 @@
                     class="inline-flex min-h-11 items-center hover:text-white transition-colors"
                     to="/about"
                     >{{ $t('mkt.nav.about') }}</NuxtLinkLocale
+                  >
+                  <NuxtLinkLocale
+                    class="inline-flex min-h-11 items-center hover:text-white transition-colors"
+                    to="/contact"
+                    >{{ $t('nav.contact') }}</NuxtLinkLocale
+                  >
+                  <NuxtLinkLocale
+                    class="inline-flex min-h-11 items-center hover:text-white transition-colors"
+                    to="/faq"
+                    >{{ $t('mkt.nav.faq') }}</NuxtLinkLocale
                   >
                   <NuxtLinkLocale
                     class="inline-flex min-h-11 items-center hover:text-white transition-colors"

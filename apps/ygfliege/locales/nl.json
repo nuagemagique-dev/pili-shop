@@ -29,7 +29,9 @@
       "concept": "Concept",
       "menu": "Menu",
       "about": "Ons verhaal",
-      "contact": "Contact"
+      "contact": "Contact",
+      "compose": "Samenstellen",
+      "faq": "FAQ"
     },
     "lang": {
       "fr": "Français",
@@ -45,6 +47,7 @@
       "bowl_alt": "Kom malatang met runderbottenbouillon en verse ingrediënten",
       "order": "Bestel om mee te nemen",
       "seeMenu": "Bekijk het menu",
+      "eyebrowShort": "Malatang · Luik",
       "counterPrice": "Aan de toonbank: {price}",
       "payWhatYouWeigh": "Aan de toonbank betaal je alleen wat je weegt."
     },
@@ -55,35 +58,35 @@
       "vegan_badge": "Vegan",
       "allergens_label": "Allergenen",
       "beef_bone": {
-        "name": "Runderbottenbouillon met kruiden",
+        "name": "Runderbot met kruiden",
         "chinese": "经典草本骨汤",
         "desc": "Ons paradepaardje sinds 2003: runderbotten, 8 uur getrokken met meer dan 20 oosterse kruiden. Kies je pittigheid, van mild tot pittig.",
         "spice": "Naar keuze: mild, medium of pittig",
         "allergens": "Melk, gluten, sesam, soja"
       },
       "tomato": {
-        "name": "Gestoofde tomatenbouillon",
+        "name": "Gestoofde tomaat",
         "chinese": "酸甜番茄汤",
         "desc": "Verse tomaten, langzaam gestoofd: licht zuur en zoet tegelijk. Heerlijk mild, en 100% plantaardig.",
         "spice": "Zoetzuur, niet pittig",
         "allergens": "Soja"
       },
       "mala_dry": {
-        "name": "Mala Mix met sesam-pindasaus",
+        "name": "Mala Mix",
         "chinese": "石磨醇香麻辣拌",
         "desc": "De uitzondering zonder bouillon: je ingrediënten omhuld met een geurige sesam-pindasaus. Verslavend, licht pittig.",
         "spice": "Licht pittig",
         "allergens": "Gluten, sesam, pinda's, soja"
       },
       "tom_yum": {
-        "name": "Thaise tomyum-bouillon",
+        "name": "Tom Yum",
         "chinese": "酸辣冬阴功",
         "desc": "Een Thaise uitstap: zuur, pittig en geurig met citroengras. Een enkeltje Zuidoost-Azië.",
         "spice": "Licht pittig",
         "allergens": "Vis, schaaldieren, soja"
       },
       "mushroom": {
-        "name": "Paddenstoelenbouillon met kruiden",
+        "name": "Paddenstoelen",
         "chinese": "草本穹顶菌汤",
         "desc": "Een milde bouillon met paddenstoelen en kruiden, helemaal niet pittig. Puur comfort, en 100% plantaardig.",
         "spice": "Niet pittig",
@@ -182,6 +185,11 @@
           "title": "Door jou samengesteld",
           "desc": "Jij kiest alles, per gram geprijsd. Naar jouw smaak, zonder verrassingen."
         }
+      },
+      "ingredients": {
+        "label": "Aan de toonbank",
+        "title": "Alles wat in de kom gaat",
+        "subtitle": "Groenten, paddenstoelen, tofu, noedels, vlees en zeevruchten: een dertigtal verse producten, gewogen per gram."
       }
     },
     "cta": {
@@ -389,7 +397,7 @@
       "delivery_soon": "Binnenkort beschikbaar",
       "email_intro": "Een vraag of een opmerking? Stuur ons een e-mail, we antwoorden snel.",
       "phone_title": "Telefoon",
-      "phone_reservation": "Reserveren kan uitsluitend telefonisch."
+      "phone_reservation": "Een vraag of een grote tafel? Bel ons."
     },
     "not_found": {
       "title": "Pagina niet gevonden",
@@ -440,7 +448,7 @@
     },
     "estimator": {
       "label": "Prijs per gewicht",
-      "title": "Hoeveel kost mijn kom?",
+      "title": "Schat je kom",
       "desc": "Aan de toonbank wordt je kom gewogen: je betaalt wat je kiest. Schuif om te schatten.",
       "for": "voor {weight} · {rate}",
       "rate": "{price} / 100 g",
@@ -451,7 +459,7 @@
     "practical": {
       "title": "Praktische info",
       "openInMaps": "Openen in Maps",
-      "bookingsByPhone": "Reserveren kan alleen telefonisch."
+      "bookingsByPhone": "Een vraag of een grote tafel? Bel ons."
     },
     "actionBar": {
       "label": "Snelle acties",
@@ -459,6 +467,34 @@
       "call": "Bellen",
       "order": "Bestellen",
       "menu": "Menu"
+    },
+    "recipes": {
+      "label": "Onze recepten",
+      "title": "Geen inspiratie?",
+      "subtitle": "Onze geïllustreerde recepten: neem ze zo over, of maak er je eigen versie van.",
+      "cta": "Deze kom samenstellen",
+      "items": {
+        "seafood": {
+          "name": "Rund & zeevruchten",
+          "desc": "Runderbottenbouillon, garnalen, inktvis, visballetjes, judasoor en enoki.",
+          "alt": "Geïllustreerde affiche: rund en zeevruchten"
+        },
+        "tomato": {
+          "name": "Gestoofd rund met tomaat",
+          "desc": "Tomatenbouillon, rundvlees, aardappel, zoete-aardappelnoedels en Chinese kool.",
+          "alt": "Geïllustreerde affiche: gestoofd rund met tomaat"
+        },
+        "mix": {
+          "name": "Lichte Mala Mix",
+          "desc": "Zonder bouillon, zachte sesam-pindasaus: paksoi, Chinese kool, broccoli, rund en garnalen.",
+          "alt": "Geïllustreerde affiche: lichte Mala Mix"
+        },
+        "japanese": {
+          "name": "Tomaat op Japanse wijze",
+          "desc": "Tomatenbouillon, udon, spinazie, rund, surimi en enoki.",
+          "alt": "Geïllustreerde affiche: tomaat op Japanse wijze"
+        }
+      }
     }
   },
   "faq": {
@@ -476,19 +512,19 @@
         "answer": "Geen probleem! Onze toonbank ligt vol groenten, paddenstoelen, tofu en noedels: je kunt perfect een 100% plantaardige kom samenstellen. Vraag ons gerust welke bouillon daarbij past."
       },
       "hours": {
-        "question": "Wat zijn jullie openingsuren?",
+        "question": "Jullie openingsuren?",
         "answer": "We zijn elke dag open, van maandag tot zondag, van 11u30 tot 22u00."
       },
       "delivery": {
-        "question": "Leveren jullie? Wat is de leveringszone?",
+        "question": "Leveren jullie?",
         "answer": "Voorlopig zijn bestellingen enkel om af te halen, bij ons restaurant, Rue de la Cathédrale 51 in Luik. Levering komt er binnenkort aan!"
       },
       "payment": {
-        "question": "Welke betaalmethoden accepteren jullie?",
+        "question": "Welke betaalmethodes?",
         "answer": "We accepteren veilige onlinebetaling (bankkaart, Bancontact) en contante betaling wanneer je je bestelling in het restaurant afhaalt."
       },
       "allergens": {
-        "question": "Hebben jullie allergenen-informatie?",
+        "question": "En allergenen?",
         "answer": "Onze gerechten kunnen <strong>sesam</strong>, <strong>pinda's</strong>, <strong>gluten</strong>, <strong>soja</strong> en <strong>schaaldieren</strong> bevatten. Vermeld elke allergie in de opmerkingen bij je bestelling of neem rechtstreeks contact met ons op."
       }
     }
@@ -539,6 +575,12 @@
       "meat": "Vlees",
       "seafood": "Vis & zeevruchten",
       "other": "Overige"
+    },
+    "recipes": {
+      "label": "Een recept om mee te beginnen",
+      "apply": "Deze kom samenstellen",
+      "applied": "Recept ‘{name}’ geladen: {count} ingrediënten in de kom, pas aan naar smaak.",
+      "unavailable": "De ingrediënten van dit recept zijn vandaag niet beschikbaar."
     }
   },
   "nav": {
