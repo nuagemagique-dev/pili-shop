@@ -476,7 +476,7 @@
       "items": {
         "seafood": {
           "name": "Bœuf & fruits de mer",
-          "desc": "Bouillon d'os de bœuf, crevettes, calamars, boulettes de poisson, champignons noirs et enoki.",
+          "desc": "Bouillon d'os de bœuf, crevettes, calamars, boulettes de poisson, champignons noirs, racine de lotus et enoki.",
           "alt": "Affiche illustrée : bœuf et fruits de mer"
         },
         "tomato": {
@@ -486,12 +486,12 @@
         },
         "mix": {
           "name": "Mala Mix léger",
-          "desc": "Sans bouillon, sauce sésame-cacahuète douce : pak choï, chou chinois, brocoli, bœuf et crevettes.",
+          "desc": "Sans bouillon, sauce sésame-cacahuète douce : pak choï, chou chinois, brocoli, bœuf, crevettes et boulettes.",
           "alt": "Affiche illustrée : Mala Mix léger"
         },
         "japanese": {
           "name": "Tomate à la japonaise",
-          "desc": "Bouillon tomate, udon, épinards, bœuf, surimi et enoki.",
+          "desc": "Bouillon tomate, udon, œufs de caille, épinards, bœuf, surimi et enoki.",
           "alt": "Affiche illustrée : tomate à la japonaise"
         }
       }

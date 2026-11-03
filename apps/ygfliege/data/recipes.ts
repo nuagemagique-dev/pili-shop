@@ -29,14 +29,30 @@ export const RECIPES: readonly Recipe[] = [
     image: '/images/recipes/boeuf-fruits-de-mer',
     broth: 'beef-bone',
     heat: 2,
-    ingredients: { shrimp: 2, squid: 1, 'fish-balls': 1, 'wood-ear': 1, enoki: 1 },
+    // Poster: fish fillet, shrimp, squid, wax gourd, wood ear. Fish balls stand for the fillet, lotus root for the gourd.
+    ingredients: {
+      shrimp: 3,
+      squid: 2,
+      'fish-balls': 2,
+      'wood-ear': 2,
+      'lotus-root': 2,
+      enoki: 2,
+      'pak-choi': 1,
+    },
   },
   {
     key: 'tomato',
     image: '/images/recipes/boeuf-braise-tomate',
     broth: 'tomato',
     heat: 1,
-    ingredients: { 'beef-slices': 2, potato: 1, 'sweet-potato-noodles': 1, 'chinese-cabbage': 1 },
+    // Poster: plenty of braised beef and potato chunks over sweet potato noodles.
+    ingredients: {
+      'beef-slices': 4,
+      potato: 3,
+      'sweet-potato-noodles': 2,
+      'chinese-cabbage': 2,
+      enoki: 1,
+    },
   },
   {
     key: 'mix',
@@ -44,14 +60,30 @@ export const RECIPES: readonly Recipe[] = [
     broth: 'mala-dry-mix',
     heat: 1,
     composerSlug: 'mala-mix-personnalise',
-    ingredients: { 'pak-choi': 1, 'chinese-cabbage': 1, broccoli: 1, 'beef-slices': 1, shrimp: 1 },
+    // Poster: pak choi, baby Chinese cabbage, broccoli, beef, shrimp and chicken (not on the menu: beef balls instead).
+    ingredients: {
+      'pak-choi': 2,
+      'chinese-cabbage': 2,
+      broccoli: 2,
+      'beef-slices': 2,
+      shrimp: 2,
+      'beef-balls': 2,
+    },
   },
   {
     key: 'japanese',
     image: '/images/recipes/tomate-japonaise',
     broth: 'tomato',
     heat: 1,
-    ingredients: { udon: 1, spinach: 1, 'beef-slices': 1, surimi: 1, enoki: 1 },
+    // Poster: udon, a fried egg (quail eggs on the menu), spinach, beef rolls and surimi.
+    ingredients: {
+      udon: 2,
+      'quail-eggs': 2,
+      spinach: 2,
+      'beef-slices': 3,
+      surimi: 2,
+      enoki: 1,
+    },
   },
 ]
 
@@ -80,6 +112,9 @@ export const RECIPE_SUBSTITUTES: Partial<Record<IngredientIconKey, readonly Ingr
     spinach: ['pak-choi', 'lettuce', 'chinese-cabbage'],
     broccoli: ['pak-choi', 'bean-sprouts', 'corn'],
     'beef-slices': ['beef-balls', 'pork-belly', 'lamb'],
+    'beef-balls': ['fish-balls', 'sausage', 'beef-slices'],
+    'lotus-root': ['potato', 'corn', 'bean-sprouts'],
+    'quail-eggs': ['silken-tofu', 'tofu-skin'],
     'sweet-potato-noodles': ['rice-vermicelli', 'udon', 'instant-noodles'],
     udon: ['instant-noodles', 'sweet-potato-noodles', 'rice-vermicelli'],
   }

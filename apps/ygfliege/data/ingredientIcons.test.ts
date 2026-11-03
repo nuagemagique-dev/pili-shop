@@ -121,10 +121,10 @@ describe('recipePlan', () => {
   const seafood = recipeByKey('seafood')!
 
   it('keeps the poster ingredients the menu sells, and leaves out one with no substitute on it', () => {
-    // Squid and fish balls fall back to shrimp, wood ear to enoki: the bowl still gets its 6 portions.
+    // Squid and fish balls fall back to shrimp, wood ear to enoki; lotus root and pak choi have nothing to fall back on.
     expect(recipePlan(seafood, new Set(['shrimp', 'enoki']))).toEqual([
-      ['shrimp', 4],
-      ['enoki', 2],
+      ['shrimp', 7],
+      ['enoki', 4],
     ])
     expect(recipePlan(seafood, new Set())).toEqual([])
   })
