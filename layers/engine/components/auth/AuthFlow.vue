@@ -16,36 +16,40 @@
                  Styled per each provider's official branding guidelines:
                  Google is white with a #747775 outline and the multicolour G,
                  Apple is solid black with the white Apple mark. -->
-      <div class="space-y-3">
-        <!-- theme-ok: Google sign-in branding guidelines -->
-        <button
-          :disabled="loading"
-          class="w-full min-h-11 inline-flex items-center justify-center gap-3 rounded-xl border border-[#747775] bg-white px-4 text-sm font-medium text-[#1F1F1F] transition-colors duration-300 hover:bg-[#F8FAFD] disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-          type="button"
-          @click="loginWithProvider('google')"
-        >
-          <img alt="" aria-hidden="true" class="w-5 h-5" src="/icons/google-g.svg" />
-          <span>{{ $t('login.ssoGoogle') }}</span>
-        </button>
+      <div v-if="ssoProviders.size > 0" class="space-y-3">
+        <template v-if="ssoProviders.has('google')">
+          <!-- theme-ok: Google sign-in branding guidelines -->
+          <button
+            :disabled="loading"
+            class="w-full min-h-11 inline-flex items-center justify-center gap-3 rounded-xl border border-[#747775] bg-white px-4 text-sm font-medium text-[#1F1F1F] transition-colors duration-300 hover:bg-[#F8FAFD] disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            type="button"
+            @click="loginWithProvider('google')"
+          >
+            <img alt="" aria-hidden="true" class="w-5 h-5" src="/icons/google-g.svg" />
+            <span>{{ $t('login.ssoGoogle') }}</span>
+          </button>
+        </template>
 
-        <!-- theme-ok: Sign in with Apple branding guidelines -->
-        <button
-          :disabled="loading"
-          class="w-full min-h-11 inline-flex items-center justify-center gap-3 rounded-xl border border-black bg-black px-4 text-sm font-medium text-white transition-colors duration-300 hover:bg-[#1D1D1F] disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-          type="button"
-          @click="loginWithProvider('apple')"
-        >
-          <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-            <path
-              d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"
-            />
-          </svg>
-          <span>{{ $t('login.ssoApple') }}</span>
-        </button>
+        <template v-if="ssoProviders.has('apple')">
+          <!-- theme-ok: Sign in with Apple branding guidelines -->
+          <button
+            :disabled="loading"
+            class="w-full min-h-11 inline-flex items-center justify-center gap-3 rounded-xl border border-black bg-black px-4 text-sm font-medium text-white transition-colors duration-300 hover:bg-[#1D1D1F] disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            type="button"
+            @click="loginWithProvider('apple')"
+          >
+            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"
+              />
+            </svg>
+            <span>{{ $t('login.ssoApple') }}</span>
+          </button>
+        </template>
       </div>
 
       <!-- OR Divider -->
-      <div class="relative">
+      <div v-if="ssoProviders.size > 0" class="relative">
         <div class="absolute inset-0 flex items-center">
           <div class="w-full border-t border-neutral-300/50" />
         </div>
@@ -247,6 +251,13 @@ const { t } = useI18n()
 const { trackEvent } = useTracking()
 const route = useRoute()
 const config = useRuntimeConfig()
+/** The social sign-ins this instance offers (public.ssoProviders): only the IdPs its Zitadel has. */
+const ssoProviders = new Set(
+  String(config.public.ssoProviders)
+    .split(',')
+    .map((provider) => provider.trim())
+    .filter((provider) => provider === 'google' || provider === 'apple'),
+)
 
 const step = ref<AuthStep>('email')
 
