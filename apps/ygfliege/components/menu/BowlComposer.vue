@@ -628,7 +628,14 @@ import { useFocusTrap } from '#engine/composables/useFocusTrap'
 import { useGqlQuery, useRoute } from '#imports'
 import { useI18n } from 'vue-i18n'
 import { foodIconFor, foodIconKey } from '~/data/ingredientIcons'
-import { RECIPES, RECIPE_IMAGE, type Recipe, recipeByKey, recipePlan } from '~/data/recipes'
+import {
+  RECIPES,
+  RECIPE_IMAGE,
+  type Recipe,
+  preferredOver,
+  recipeByKey,
+  recipePlan,
+} from '~/data/recipes'
 import { useProductChoices } from '#engine/composables/useProductChoices'
 import { useTracking } from '#engine/composables/useTracking'
 
@@ -930,11 +937,18 @@ const applyRecipe = (recipe: Recipe) => {
   selectedChoiceQuantities.value = Object.fromEntries(
     Object.entries(selectedChoiceQuantities.value).filter(([id]) => !ingredientIds.has(id)),
   )
-  // The menu's ingredients by icon key (the first choice of a key wins); the plan swaps what is not sold for its closest.
+  // The menu's ingredients by icon key (the first choice of a key wins, or the one the recipe prefers); the plan swaps
+  // what is not sold for its closest.
   const byKey = new Map<string, ProductChoice>()
   for (const choice of groups.flatMap((group) => group.choices)) {
     const key = foodIconKey(choice.name)
-    if (key !== undefined && !byKey.has(key)) byKey.set(key, choice)
+    if (key === undefined) continue
+    const current = byKey.get(key)
+    if (
+      current === undefined ||
+      preferredOver(recipe, key, { candidate: choice.name, current: current.name })
+    )
+      byKey.set(key, choice)
   }
   let added = 0
   for (const [key, wanted] of recipePlan(recipe, new Set(byKey.keys()))) {

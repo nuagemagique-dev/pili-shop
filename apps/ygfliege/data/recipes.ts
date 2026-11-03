@@ -16,11 +16,20 @@ export interface Recipe {
   image: string
   /** The broth of the recipe, as a /images/bowls slug (data/broths.ts): the composer picks that broth's card. */
   broth: 'beef-bone' | 'tomato' | 'mala-dry-mix' | 'tom-yum' | 'mushroom'
-  /** The heat of the broth (data/composerSteps.ts heatLevel): 1 mild, 2 medium, 3 hot. Ignored on a broth without variants. */
-  heat: 1 | 2 | 3
+  /**
+   * The heat of the broth (data/composerSteps.ts heatLevel): 0 not spicy, 1 mild, 2 medium, 3 hot. The broth's first
+   * variant when the menu has no such heat; ignored on a broth without variants.
+   */
+  heat: 0 | 1 | 2 | 3
   /** The composer product this recipe is built in (by slug), when it is not the first composer of the menu. */
   composerSlug?: string
+  /**
+   * How many portions of each ingredient. A portion is the menu's ("Crevettes (3 pcs)", "Bœuf braisé (50 g)"), so a
+   * recipe is sized like the set bowls of the menu (6 to 9 portions).
+   */
   ingredients: Partial<Record<IngredientIconKey, number>>
+  /** When the menu sells several choices of one ingredient (two beefs, two sweet potato noodles), the one the poster shows. */
+  prefer?: Partial<Record<IngredientIconKey, RegExp>>
 }
 
 export const RECIPES: readonly Recipe[] = [
@@ -29,29 +38,32 @@ export const RECIPES: readonly Recipe[] = [
     image: '/images/recipes/boeuf-fruits-de-mer',
     broth: 'beef-bone',
     heat: 2,
-    // Poster: fish fillet, shrimp, squid, wax gourd, wood ear. Fish balls stand for the fillet, lotus root for the gourd.
+    // Poster: fish fillet, shrimp, squid, wax gourd and wood ear (lotus root stands for the gourd, not on the menu).
     ingredients: {
-      shrimp: 3,
-      squid: 2,
-      'fish-balls': 2,
-      'wood-ear': 2,
-      'lotus-root': 2,
-      enoki: 2,
-      'pak-choi': 1,
+      'fish-slices': 2,
+      shrimp: 2,
+      squid: 1,
+      'wood-ear': 1,
+      'lotus-root': 1,
+      enoki: 1,
     },
   },
   {
     key: 'tomato',
     image: '/images/recipes/boeuf-braise-tomate',
     broth: 'tomato',
-    heat: 1,
-    // Poster: plenty of braised beef and potato chunks over sweet potato noodles.
+    heat: 0,
+    // Poster: plenty of braised beef and potato over vermicelli.
     ingredients: {
-      'beef-slices': 4,
-      potato: 3,
-      'sweet-potato-noodles': 2,
-      'chinese-cabbage': 2,
+      'beef-slices': 2,
+      potato: 2,
+      'sweet-potato-noodles': 1,
+      'chinese-cabbage': 1,
       enoki: 1,
+    },
+    prefer: {
+      'beef-slices': /braisé|braised|gestoofd|卤牛/iu,
+      'sweet-potato-noodles': /vermicell|粉丝/iu,
     },
   },
   {
@@ -60,28 +72,28 @@ export const RECIPES: readonly Recipe[] = [
     broth: 'mala-dry-mix',
     heat: 1,
     composerSlug: 'mala-mix-personnalise',
-    // Poster: pak choi, baby Chinese cabbage, broccoli, beef, shrimp and chicken (not on the menu: beef balls instead).
+    // Poster: pak choi, baby Chinese cabbage, broccoli, beef, shrimp and chicken.
     ingredients: {
       'pak-choi': 2,
-      'chinese-cabbage': 2,
-      broccoli: 2,
-      'beef-slices': 2,
-      shrimp: 2,
-      'beef-balls': 2,
+      'chinese-cabbage': 1,
+      broccoli: 1,
+      'beef-slices': 1,
+      shrimp: 1,
+      chicken: 1,
     },
   },
   {
     key: 'japanese',
     image: '/images/recipes/tomate-japonaise',
     broth: 'tomato',
-    heat: 1,
-    // Poster: udon, a fried egg (quail eggs on the menu), spinach, beef rolls and surimi.
+    heat: 0,
+    // Poster: udon, a fried egg, spinach, beef rolls and surimi.
     ingredients: {
-      udon: 2,
-      'quail-eggs': 2,
-      spinach: 2,
-      'beef-slices': 3,
-      surimi: 2,
+      udon: 1,
+      'fried-egg': 1,
+      spinach: 1,
+      'beef-slices': 2,
+      surimi: 1,
       enoki: 1,
     },
   },
@@ -101,9 +113,12 @@ export const recipeByKey = (key: unknown): Recipe | undefined =>
 export const RECIPE_SUBSTITUTES: Partial<Record<IngredientIconKey, readonly IngredientIconKey[]>> =
   {
     squid: ['surimi', 'fish-balls', 'shrimp'],
+    'fish-slices': ['fish-balls', 'surimi', 'shrimp'],
+    chicken: ['beef-balls', 'pork-belly', 'beef-slices'],
+    'fried-egg': ['quail-eggs', 'silken-tofu', 'tofu'],
     shrimp: ['surimi', 'fish-balls'],
     'fish-balls': ['surimi', 'beef-balls', 'shrimp'],
-    surimi: ['fish-balls', 'shrimp'],
+    surimi: ['fish-balls', 'fish-slices', 'shrimp'],
     'wood-ear': ['shiitake', 'kombu', 'enoki'],
     enoki: ['shiitake', 'oyster-mushroom', 'king-oyster', 'bean-sprouts'],
     potato: ['lotus-root', 'corn', 'sweet-potato-noodles'],
@@ -139,4 +154,18 @@ export const recipePlan = (
     if (pick !== undefined) plan.set(pick, (plan.get(pick) ?? 0) + quantity)
   }
   return [...plan]
+}
+
+/**
+ * Whether the menu choice named `candidate` should stand for the recipe's ingredient `key` instead of the one named
+ * `current` (the first of the menu with that key): only when the recipe prefers a name and the candidate has it.
+ */
+export const preferredOver = (
+  recipe: Recipe,
+  key: string,
+  { candidate, current }: { candidate: string; current: string },
+): boolean => {
+  // The menu's key can be any food icon (a dish too): look it up rather than index the recipe's ingredient keys.
+  const prefer = Object.entries(recipe.prefer ?? {}).find(([name]) => name === key)?.[1]
+  return prefer !== undefined && prefer.test(candidate) && !prefer.test(current)
 }

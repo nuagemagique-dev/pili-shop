@@ -11,6 +11,7 @@
 export const INGREDIENT_ICON_KEYS = [
   'fish-balls',
   'beef-balls',
+  'fried-egg',
   'quail-eggs',
   'tofu-skin',
   'fried-tofu',
@@ -29,6 +30,9 @@ export const INGREDIENT_ICON_KEYS = [
   'bean-sprouts',
   'pak-choi',
   'chinese-cabbage',
+  'cabbage',
+  'cauliflower',
+  'carrot',
   'spinach',
   'lettuce',
   'broccoli',
@@ -36,12 +40,14 @@ export const INGREDIENT_ICON_KEYS = [
   'potato',
   'lotus-root',
   'shrimp',
+  'fish-slices',
   'squid',
   'surimi',
   'pork-belly',
   'lamb',
   'sausage',
   'beef-slices',
+  'chicken',
 ] as const
 
 /** The dishes and drinks of the menu that have an illustration instead of a photo (public/images/illustrations). */
@@ -66,7 +72,11 @@ const ICON_KEYWORDS: readonly { key: FoodIconKey; pattern: RegExp }[] = [
   {
     key: 'beef-balls',
     pattern:
-      /boulettes? de (?:bœuf|boeuf|viande|porc)|beef ?balls?|meat ?balls?|gehaktbal|vleesbal|牛肉丸|肉丸|丸子|撒尿/iu,
+      /boulettes? de (?:bœuf|boeuf|viande|porc|poulet|seiche)|(?:beef|meat|chicken|pork) ?balls?|\bballs\b|gehaktbal|vleesbal|balletjes|牛肉丸|肉丸|丸子|撒尿/iu,
+  },
+  {
+    key: 'fried-egg',
+    pattern: /œuf au plat|oeuf au plat|œuf frit|fried egg|spiegelei|煎蛋|荷包蛋/iu,
   },
   // "bœuf" and "boeuf" contain the egg: an egg starts a word.
   {
@@ -89,12 +99,12 @@ const ICON_KEYWORDS: readonly { key: FoodIconKey; pattern: RegExp }[] = [
   {
     key: 'rice-vermicelli',
     pattern:
-      /nouilles? de riz|vermicelles? de riz|rice ?(?:noodle|vermicelli)|rijstnoedel|rijstvermicelli|米粉|米线|河粉/iu,
+      /nouilles? de riz|vermicelles? de riz|rice ?(?:noodle|vermicelli)|rijstnoedel|rijstvermicelli|(?<!玉)米粉|米线|河粉/iu,
   },
   {
     key: 'sweet-potato-noodles',
     pattern:
-      /patate douce|sweet potato|zoete[- ]aardappel|红薯|vermicelle|glass ?noodle|glasnoedel|粉条|粉丝|宽粉|川粉/iu,
+      /patate douce|sweet potato|zoete[- ]aardappel|红薯|vermicell|glass ?noodle|glasnoedel|粉条|粉丝|宽粉|川粉/iu,
   },
   { key: 'udon', pattern: /udon|乌冬/iu },
   { key: 'instant-noodles', pattern: /instantan|instant|方便面|泡面|拉面/iu },
@@ -107,16 +117,26 @@ const ICON_KEYWORDS: readonly { key: FoodIconKey; pattern: RegExp }[] = [
   },
   {
     key: 'wood-ear',
-    pattern: /champignon noir|oreille de judas|wood ?ear|black fungus|judasoor|木耳|银耳/iu,
+    pattern:
+      /champignon noir|oreille de judas|wood ?ear|black fungus|judasoor|zwarte paddenstoel|木耳|银耳/iu,
   },
   { key: 'kombu', pattern: /kombu|algue|seaweed|kelp|zeewier|海带|昆布|裙带/iu },
-  { key: 'bean-sprouts', pattern: /pousses? de soja|germes? de soja|bean ?sprouts?|taug|豆芽/iu },
-  { key: 'pak-choi', pattern: /pak ?cho|bok ?cho|paksoi|油菜|小白菜|青菜|上海青/iu },
+  // The menu's bare "Soja (50 g)" is the sprouts (豆芽 in its Chinese name), not the sauce.
+  {
+    key: 'bean-sprouts',
+    pattern: /pousses? de soja|germes? de soja|^soja\b(?!.*sauce)|bean ?sprouts?|taug|豆芽/iu,
+  },
+  {
+    key: 'pak-choi',
+    pattern: /pak ?cho|bok ?cho|paksoi|chou de shanghai|shanghai|油菜|小白菜|青菜|上海青/iu,
+  },
+  { key: 'cauliflower', pattern: /chou-fleur|chou fleur|cauliflower|bloemkool|花菜|菜花|花椰菜/iu },
   {
     key: 'chinese-cabbage',
-    pattern:
-      /chou chinois|napa|chinese ?cabbage|chinese kool|大白菜|娃娃菜|白菜|\bchou\b|cabbage|kool\b/iu,
+    pattern: /chou chinois|napa|chinese ?cabbage|chinese kool|大白菜|娃娃菜|白菜/iu,
   },
+  { key: 'cabbage', pattern: /\bchou\b|cabbage|\bkool\b|卷心菜|包菜|圆白菜|甘蓝/iu },
+  { key: 'carrot', pattern: /carotte|carrot|(?<!\p{L})wortel|胡萝卜|红萝卜/iu },
   { key: 'spinach', pattern: /épinard|epinard|spinach|spinazie|菠菜/iu },
   { key: 'lettuce', pattern: /laitue|lettuce|\bsla\b|生菜|油麦菜|莴/iu },
   { key: 'broccoli', pattern: /brocoli|broccoli|西兰花|西蓝花/iu },
@@ -124,9 +144,17 @@ const ICON_KEYWORDS: readonly { key: FoodIconKey; pattern: RegExp }[] = [
   { key: 'potato', pattern: /pomme de terre|pommes de terre|potato|aardappel|土豆|马铃薯|薯片/iu },
   { key: 'lotus-root', pattern: /lotus|藕/iu },
   { key: 'shrimp', pattern: /crevette|shrimp|prawn|garnaal|garnalen|虾/iu },
-  { key: 'squid', pattern: /calamar|calmar|squid|inktvis|鱿鱼|鱿|墨鱼/iu },
+  {
+    key: 'fish-slices',
+    pattern:
+      /(?:tranches?|filets?) de poisson|fish (?:slices?|fillets?)|visplak|visfilet|鱼片|鱼柳/iu,
+  },
+  {
+    key: 'squid',
+    pattern: /calamar|calmar|seiche|squid|cuttlefish|inktvis|鱿鱼|鱿|墨鱼/iu,
+  },
   { key: 'surimi', pattern: /surimi|crabe|crab|krab|蟹/iu },
-  { key: 'pork-belly', pattern: /porc|pork|varken|buikspek|五花|猪|午餐肉|luncheon|spam/iu },
+  { key: 'pork-belly', pattern: /porc|pork|varken|buikspek|五花|猪|午餐肉|卤肉|luncheon|spam/iu },
   { key: 'lamb', pattern: /agneau|mouton|lamb|\blam\b|lamsvlees|羊/iu },
   { key: 'sausage', pattern: /saucisse|sausage|worst|香肠|腊肠|火腿|肠/iu },
   { key: 'beef-slices', pattern: /bœuf|boeuf|beef|rund|牛/iu },
@@ -143,6 +171,8 @@ const ICON_KEYWORDS: readonly { key: FoodIconKey; pattern: RegExp }[] = [
   { key: 'plum-juice', pattern: /prune|plum|pruim|酸梅|梅/iu },
   { key: 'soda-can', pattern: /coca|cola|soda|sprite|fanta|limonade|可乐|汽水|雪碧|芬达/iu },
   { key: 'water', pattern: /\beau\b|water|矿泉水|\b水\b/iu },
+  // Last: "Raviolis au poulet" are dumplings and "Boulettes de poulet" balls before they are chicken.
+  { key: 'chicken', pattern: /poulet|chicken|\bkip|鸡/iu },
 ]
 
 const ILLUSTRATIONS = new Set<string>(ILLUSTRATION_KEYS)

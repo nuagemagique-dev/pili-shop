@@ -476,22 +476,22 @@
       "items": {
         "seafood": {
           "name": "Rund & zeevruchten",
-          "desc": "Runderbottenbouillon, garnalen, inktvis, visballetjes, judasoor, lotuswortel en enoki.",
+          "desc": "Runderbottenbouillon, visplakjes, garnalen, inktvis, judasoor, lotuswortel en enoki.",
           "alt": "Geïllustreerde affiche: rund en zeevruchten"
         },
         "tomato": {
           "name": "Gestoofd rund met tomaat",
-          "desc": "Tomatenbouillon, rundvlees, aardappel, zoete-aardappelnoedels en Chinese kool.",
+          "desc": "Tomatenbouillon, gestoofd rundvlees, aardappel, vermicelli, Chinese kool en enoki.",
           "alt": "Geïllustreerde affiche: gestoofd rund met tomaat"
         },
         "mix": {
           "name": "Lichte Mala Mix",
-          "desc": "Zonder bouillon, zachte sesam-pindasaus: paksoi, Chinese kool, broccoli, rund, garnalen en balletjes.",
+          "desc": "Zonder bouillon, zachte sesam-pindasaus: paksoi, Chinese kool, broccoli, rund, garnalen en kip.",
           "alt": "Geïllustreerde affiche: lichte Mala Mix"
         },
         "japanese": {
           "name": "Tomaat op Japanse wijze",
-          "desc": "Tomatenbouillon, udon, kwarteleitjes, spinazie, rund, surimi en enoki.",
+          "desc": "Tomatenbouillon, udon, spiegelei, spinazie, rund, surimi en enoki.",
           "alt": "Geïllustreerde affiche: tomaat op Japanse wijze"
         }
       }

@@ -476,22 +476,22 @@
       "items": {
         "seafood": {
           "name": "Beef & seafood",
-          "desc": "Beef bone broth, shrimp, squid, fish balls, wood ear, lotus root and enoki mushrooms.",
+          "desc": "Beef bone broth, fish slices, shrimp, cuttlefish, wood ear, lotus root and enoki.",
           "alt": "Illustrated poster: beef and seafood"
         },
         "tomato": {
           "name": "Tomato braised beef",
-          "desc": "Tomato broth, beef slices, potato, sweet potato noodles and Chinese cabbage.",
+          "desc": "Tomato broth, braised beef, potato, vermicelli, Chinese cabbage and enoki.",
           "alt": "Illustrated poster: tomato braised beef"
         },
         "mix": {
           "name": "Light Mala Mix",
-          "desc": "No broth, mild sesame-peanut sauce: pak choi, Chinese cabbage, broccoli, beef, shrimp and meatballs.",
+          "desc": "No broth, mild sesame-peanut sauce: pak choi, Chinese cabbage, broccoli, beef, shrimp and chicken.",
           "alt": "Illustrated poster: light Mala Mix"
         },
         "japanese": {
           "name": "Japanese-style tomato",
-          "desc": "Tomato broth, udon, quail eggs, spinach, beef, surimi and enoki.",
+          "desc": "Tomato broth, udon, fried egg, spinach, beef, surimi and enoki.",
           "alt": "Illustrated poster: Japanese-style tomato"
         }
       }

@@ -6,7 +6,7 @@ import {
   productIllustration,
 } from './ingredientIcons'
 import { INGREDIENTS } from './menuIngredients'
-import { RECIPES, RECIPE_SUBSTITUTES, recipeByKey, recipePlan } from './recipes'
+import { RECIPES, RECIPE_SUBSTITUTES, preferredOver, recipeByKey, recipePlan } from './recipes'
 
 describe('foodIconKey', () => {
   it('reads the seed names in the four locales', () => {
@@ -94,6 +94,193 @@ const LIEGE_INGREDIENTS = [
   ['Nouilles instantanées', 'Instant noodles', 'Instantnoedels', '方便面'],
 ] as const
 
+// The fr/en/nl/zh names of the production composer's ingredients (tsb-service seeds/ygfliege_deliveroo_paris.sql,
+// three groups: vegetables, proteins, noodles). Some have no icon (konjac, bamboo, rice, rice cake, youtiao).
+const PRODUCTION_INGREDIENTS = [
+  [
+    'Pomme de terre en tranches (5 pcs)',
+    'Potato slices (5 pcs)',
+    'Aardappelschijfjes (5 st.)',
+    '土豆片（5片）',
+  ],
+  ['Chou-fleur (4 pcs)', 'Cauliflower (4 pcs)', 'Bloemkool (4 st.)', '花菜（4朵）'],
+  ['Brocoli (4 pcs)', 'Broccoli (4 pcs)', 'Broccoli (4 st.)', '西兰花（4朵）'],
+  ['Chou (50 g)', 'Cabbage (50 g)', 'Kool (50 g)', '卷心菜（50克）'],
+  ['Chou chinois (3 pcs)', 'Chinese cabbage (3 pcs)', 'Chinese kool (3 st.)', '大白菜（3片）'],
+  ['Chou de Shanghai (4 pcs)', 'Bok choy (4 pcs)', 'Paksoi (4 st.)', '上海青（4颗）'],
+  ['Soja (50 g)', 'Bean sprouts (50 g)', 'Taugé (50 g)', '豆芽（50克）'],
+  ['Enoki (50 g)', 'Enoki (50 g)', 'Enoki (50 g)', '金针菇（50克）'],
+  ['Carotte (10 pcs)', 'Carrot (10 pcs)', 'Wortel (10 st.)', '胡萝卜（10片）'],
+  ['Tofu (4 pcs)', 'Tofu (4 pcs)', 'Tofu (4 st.)', '豆腐（4块）'],
+  ["Ficelles d'algue (50 g)", 'Kelp strips (50 g)', 'Kelpreepjes (50 g)', '海带丝（50克）'],
+  ['Nœuds de konjac (4 pcs)', 'Konjac knots (4 pcs)', 'Konjacknoopjes (4 st.)', '魔芋结（4个）'],
+  ['Pousses de bambou (50 g)', 'Bamboo shoots (50 g)', 'Bamboescheuten (50 g)', '笋片（50克）'],
+  ['Champignon noir (3 pcs)', 'Black fungus (3 pcs)', 'Zwarte paddenstoel (3 st.)', '木耳（3片）'],
+  ['Tranches de lotus', 'Lotus root slices', 'Lotuswortelschijfjes', '藕片'],
+  ['Œuf dur (1 pc)', 'Boiled egg (1 pc)', 'Gekookt ei (1 st.)', '水煮蛋（1个）'],
+  ['Œuf au plat (1 pc)', 'Fried egg (1 pc)', 'Spiegelei (1 st.)', '煎蛋（1个）'],
+  [
+    'Poulet épicé doux halal (50 g)',
+    'Mildly spicy halal chicken (50 g)',
+    'Licht pikante halal kip (50 g)',
+    '麻辣鸡肉 清真（50克）',
+  ],
+  [
+    'Bœuf épicé doux (50 g)',
+    'Mildly spicy beef (50 g)',
+    'Licht pikant rundvlees (50 g)',
+    '麻辣牛肉（50克）',
+  ],
+  ['Tranches de poisson (3 pcs)', 'Fish slices (3 pcs)', 'Visplakjes (3 st.)', '鱼片（3片）'],
+  ['Crevettes (3 pcs)', 'Shrimp (3 pcs)', 'Garnalen (3 st.)', '虾（3只）'],
+  ['Spam porc (3 pcs)', 'Pork luncheon meat (3 pcs)', 'Varkenslunchvlees (3 st.)', '午餐肉（3片）'],
+  ['Boulettes de poulet', 'Chicken balls', 'Kipballetjes', '鸡肉丸'],
+  ['Bœuf braisé (50 g)', 'Braised beef (50 g)', 'Gestoofd rundvlees (50 g)', '卤牛肉（50克）'],
+  [
+    'Porc braisé aux épices (50 g)',
+    'Spiced braised pork (50 g)',
+    'Gestoofd varkensvlees met specerijen (50 g)',
+    '卤肉（50克）',
+  ],
+  [
+    'Boulettes de seiche et porc (50 g)',
+    'Cuttlefish & pork balls (50 g)',
+    'Inktvis-varkensballetjes (50 g)',
+    '墨鱼猪肉丸（50克）',
+  ],
+  ['Seiche entière (4 pcs)', 'Whole cuttlefish (4 pcs)', 'Hele inktvis (4 st.)', '墨鱼仔（4只）'],
+  [
+    'Poulet frit à la citronnelle',
+    'Lemongrass fried chicken',
+    'Gefrituurde kip met citroengras',
+    '香茅炸鸡',
+  ],
+  ['Œufs de caille (5 pcs)', 'Quail eggs (5 pcs)', 'Kwarteleitjes (5 st.)', '鹌鹑蛋（5个）'],
+  [
+    'Raviolis au poulet (3 pcs)',
+    'Chicken dumplings (3 pcs)',
+    'Kipdumplings (3 st.)',
+    '鸡肉饺子（3个）',
+  ],
+  ['Un bol de riz (100 g)', 'A bowl of rice (100 g)', 'Een kom rijst (100 g)', '米饭（100克）'],
+  ['Nouilles de maïs (50 g)', 'Corn noodles (50 g)', 'Maïsnoedels (50 g)', '玉米粉（50克）'],
+  [
+    'Nouilles larges de patate douce (4 pcs)',
+    'Wide sweet potato noodles (4 pcs)',
+    'Brede zoete-aardappelnoedels (4 st.)',
+    '火锅宽粉（4片）',
+  ],
+  ['Pâte de riz (8 pcs)', 'Rice cake (8 pcs)', 'Rijstcake (8 st.)', '年糕（8片）'],
+  ['Vermicelles (80 g)', 'Vermicelli (80 g)', 'Vermicelli (80 g)', '粉丝（80克）'],
+  [
+    'Beignet chinois salé (4 pcs)',
+    'Chinese fried dough stick (4 pcs)',
+    'Chinese gefrituurde deegstengel (4 st.)',
+    '油条（4段）',
+  ],
+  [
+    'Nouilles instantanées (100 g)',
+    'Instant noodles (100 g)',
+    'Instantnoedels (100 g)',
+    '方便面（100克）',
+  ],
+  ['Nouilles udon (50 g)', 'Udon noodles (50 g)', 'Udon-noedels (50 g)', '乌冬面（50克）'],
+] as const
+
+describe('the production menu', () => {
+  it('reads one ingredient in all four locales', () => {
+    for (const names of PRODUCTION_INGREDIENTS) {
+      expect(new Set(names.map((name) => foodIconKey(name))).size, names[0]).toBe(1)
+    }
+  })
+
+  it('tells the look-alikes apart', () => {
+    expect(foodIconKey('Chou-fleur (4 pcs)')).toBe('cauliflower')
+    expect(foodIconKey('Chou (50 g)')).toBe('cabbage')
+    expect(foodIconKey('Chou chinois (3 pcs)')).toBe('chinese-cabbage')
+    expect(foodIconKey('Chou de Shanghai (4 pcs)')).toBe('pak-choi')
+    expect(foodIconKey('Soja (50 g)')).toBe('bean-sprouts')
+    expect(foodIconKey('Sauce soja')).toBeUndefined()
+    expect(foodIconKey('Œuf au plat (1 pc)')).toBe('fried-egg')
+    expect(foodIconKey('Œuf dur (1 pc)')).toBe('quail-eggs')
+    expect(foodIconKey('Boulettes de seiche et porc (50 g)')).toBe('beef-balls')
+    expect(foodIconKey('Seiche entière (4 pcs)')).toBe('squid')
+    expect(foodIconKey('Raviolis au poulet (3 pcs)')).toBe('dumplings')
+    expect(foodIconKey('Poulet frit à la citronnelle')).toBe('chicken')
+    expect(foodIconKey('Lotuswortelschijfjes')).toBe('lotus-root')
+    expect(foodIconKey('Wortel (10 st.)')).toBe('carrot')
+    expect(foodIconKey('玉米粉（50克）')).toBe('corn')
+  })
+
+  it('fills every recipe with its full count, on the poster ingredients where the menu has them', () => {
+    const menu = new Set(
+      PRODUCTION_INGREDIENTS.map(([fr]) => foodIconKey(fr)).filter((key) => key !== undefined),
+    )
+    for (const recipe of RECIPES) {
+      const wanted = Object.values(recipe.ingredients).reduce((sum, qty) => sum + qty, 0)
+      const plan = recipePlan(recipe, menu)
+      expect(
+        plan.reduce((sum, [, qty]) => sum + qty, 0),
+        recipe.key,
+      ).toBe(wanted)
+      // Sized like the menu's set bowls.
+      expect(wanted, recipe.key).toBeGreaterThanOrEqual(6)
+      expect(wanted, recipe.key).toBeLessThanOrEqual(9)
+    }
+    expect(recipePlan(recipeByKey('seafood')!, menu).map(([key]) => key)).toEqual([
+      'fish-slices',
+      'shrimp',
+      'squid',
+      'wood-ear',
+      'lotus-root',
+      'enoki',
+    ])
+  })
+})
+
+describe('preferredOver', () => {
+  const tomato = recipeByKey('tomato')!
+
+  it('takes the choice the poster shows when the menu sells two of an ingredient', () => {
+    expect(
+      preferredOver(tomato, 'beef-slices', {
+        candidate: 'Bœuf braisé (50 g)',
+        current: 'Bœuf épicé doux (50 g)',
+      }),
+    ).toBe(true)
+    expect(
+      preferredOver(tomato, 'beef-slices', {
+        candidate: 'Bœuf épicé doux (50 g)',
+        current: 'Bœuf braisé (50 g)',
+      }),
+    ).toBe(false)
+    expect(
+      preferredOver(tomato, 'sweet-potato-noodles', {
+        candidate: '粉丝（80克）',
+        current: '火锅宽粉（4片）',
+      }),
+    ).toBe(true)
+  })
+
+  it('keeps the first choice otherwise', () => {
+    expect(
+      preferredOver(tomato, 'beef-slices', {
+        candidate: 'Bœuf braisé',
+        current: 'Bœuf braisé maison',
+      }),
+    ).toBe(false)
+    expect(
+      preferredOver(tomato, 'potato', { candidate: 'Pomme de terre', current: 'Pommes de terre' }),
+    ).toBe(false)
+    expect(
+      preferredOver(recipeByKey('seafood')!, 'shrimp', {
+        candidate: 'Crevettes',
+        current: 'Crevettes royales',
+      }),
+    ).toBe(false)
+  })
+})
+
 describe('the Liège menu', () => {
   it('names one ingredient in all four locales', () => {
     for (const names of LIEGE_INGREDIENTS) {
@@ -121,10 +308,10 @@ describe('recipePlan', () => {
   const seafood = recipeByKey('seafood')!
 
   it('keeps the poster ingredients the menu sells, and leaves out one with no substitute on it', () => {
-    // Squid and fish balls fall back to shrimp, wood ear to enoki; lotus root and pak choi have nothing to fall back on.
+    // Fish slices and squid fall back to shrimp, wood ear to enoki; lotus root has nothing to fall back on.
     expect(recipePlan(seafood, new Set(['shrimp', 'enoki']))).toEqual([
-      ['shrimp', 7],
-      ['enoki', 4],
+      ['shrimp', 5],
+      ['enoki', 2],
     ])
     expect(recipePlan(seafood, new Set())).toEqual([])
   })
