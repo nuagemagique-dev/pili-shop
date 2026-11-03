@@ -109,8 +109,27 @@
           "
           :class="brandPhoto.cover ? 'absolute inset-3' : undefined"
         />
+        <!-- A product awaiting photography (the S3 image is missing): its illustration (data/ingredientIcons.ts) instead of the logo placeholder. -->
+        <span
+          v-if="showIllustration && illustration"
+          class="relative w-full h-full flex items-center justify-center"
+          data-testid="product-illustration"
+        >
+          <img
+            :src="illustration.src"
+            :alt="product.name"
+            width="140"
+            height="140"
+            loading="lazy"
+            class="w-[58%] max-w-[140px] aspect-square object-contain"
+            :class="!product.isAvailable ? 'grayscale' : ''"
+          />
+        </span>
         <!-- Visible from the first paint, with or without JavaScript (it used to be opacity-0 until onMounted saw it loaded, which kept it out of the LCP): the shimmer is only a background behind it, hence "relative" so the image paints over it. -->
-        <picture v-if="!brandPhoto" class="relative w-full h-full flex justify-center items-start">
+        <picture
+          v-else-if="!brandPhoto"
+          class="relative w-full h-full flex justify-center items-start"
+        >
           <source :srcset="`${productImageBaseSrc}.avif`" type="image/avif" />
           <source :srcset="`${productImageBaseSrc}.webp`" type="image/webp" />
           <!-- The thumbnails are square (320 x 320): the box is reserved square (attributes and aspect-square) so the card does not grow when the picture lands, which moved the add button under it by ~45 px (CLS 0.035 on a phone). -->
@@ -232,6 +251,7 @@ import * as productImage from '#engine/utils/productImage'
 import { MAX_ITEM_QUANTITY, useCartStore } from '#engine/stores/cart'
 import { PRODUCT_PHOTO_WIDTHS, productPhoto } from '~/data/productPhotos'
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { productIllustration } from '~/data/ingredientIcons'
 import MktPicture from '~/components/mkt/MktPicture.vue'
 import { useEventBus, useMounted } from '@vueuse/core'
 import type { Product } from '#engine/types'
@@ -279,6 +299,9 @@ const productImageBaseSrc = computed(() =>
   productImage.productImageBase(config.public.s3bucketUrl, product?.id),
 )
 const brandPhoto = computed(() => productPhoto(product?.slug))
+// The illustration a product without photography falls back to (shown once its S3 image has failed to load).
+const illustration = computed(() => productIllustration(product?.slug, product?.name ?? ''))
+const showIllustration = ref(false)
 
 // SSR-safe: cart store hydrates from localStorage post-mount, so render as empty until then.
 // The add button is disabled (and dimmed) until then too: Vue replays no event, so a tap on the server-rendered button
@@ -362,13 +385,22 @@ const imageElement = ref<HTMLImageElement | null>(null)
 // Track whether the image has loaded
 const loaded = ref(false)
 const handleImageError = (event: Event) => {
-  handleProductImageError(event)
+  // No S3 image: the illustration when the product has one, else the engine's logo placeholder.
+  if (illustration.value) showIllustration.value = true
+  else handleProductImageError(event)
   loaded.value = true
 }
 
 onMounted(() => {
   if (imageElement.value) {
-    productImage.ensureProductImageFallback(imageElement.value)
+    // Already failed before hydration (no error event replays): same fallbacks as handleImageError.
+    if (illustration.value) {
+      if (imageElement.value.complete && imageElement.value.naturalWidth === 0) {
+        showIllustration.value = true
+        loaded.value = true
+        return
+      }
+    } else productImage.ensureProductImageFallback(imageElement.value)
 
     // Check if the image is already loaded (e.g., cached)
     if (imageElement.value.complete) {

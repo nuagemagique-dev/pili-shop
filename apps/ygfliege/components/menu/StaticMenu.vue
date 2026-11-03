@@ -148,36 +148,37 @@
             :key="filter"
             type="button"
             :aria-pressed="filter === activeFilter"
-            class="min-h-11 px-4 py-3 rounded-ygf-btn border text-sm font-medium transition-all duration-300 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-            :class="
-              filter === activeFilter
-                ? 'bg-ygf border-ygf text-ygf-black'
-                : 'bg-white border-ygf-orange/10 text-gray-600 hover:bg-ygf hover:border-ygf hover:text-ygf-black'
-            "
+            class="chip"
             data-testid="static-menu-filter"
             @click="activeFilter = filter"
           >
             {{ $t(`mkt.menu.categories.${filter}`) }}
           </button>
         </div>
+        <!-- One illustrated tile per ingredient (data/ingredientIcons.ts): the icons of the composer, so the counter and the shop read as one. -->
         <TransitionGroup
           tag="ul"
           name="ingredient"
-          class="flex flex-wrap justify-center gap-x-3 gap-y-2"
+          class="relative grid grid-cols-2 min-[420px]:grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-2.5 sm:gap-3"
           aria-live="polite"
         >
           <li
             v-for="ingredient in shownIngredients"
             :key="ingredient.key"
-            class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-ygf-btn transition-colors duration-300 hover:border-ygf/45 hover:bg-ygf-bg"
+            class="flex flex-col items-center gap-2.5 px-2 py-4 bg-white border border-ygf-border rounded-ygf-card text-center transition-colors duration-300 hover:border-ygf/45 hover:bg-ygf-bg"
             data-testid="static-menu-ingredient"
           >
-            <span
-              class="block w-4 h-4 text-ygf [&>svg]:w-full [&>svg]:h-full"
-              aria-hidden="true"
-              v-html="CATEGORY_ICONS[ingredient.category]"
-            />
-            <span class="text-sm font-medium text-ygf-black whitespace-nowrap">{{
+            <span class="food-icon food-icon-lg" aria-hidden="true">
+              <img
+                :src="ingredientIconSrc(ingredient)"
+                alt=""
+                width="46"
+                height="46"
+                loading="lazy"
+                decoding="async"
+              />
+            </span>
+            <span class="text-sm font-semibold text-ygf-black leading-tight text-balance">{{
               $t(`mkt.menu.ingredients.${ingredient.key}`)
             }}</span>
           </li>
@@ -261,30 +262,15 @@ import { usePopInOnView } from '~/composables/useMktMotion'
 import { BROTHS } from '~/data/broths'
 import {
   INGREDIENT_FILTERS,
-  type IngredientCategory,
   type IngredientFilter,
+  ingredientIconSrc,
   ingredientsFor,
 } from '~/data/menuIngredients'
 // Phosphor icons (same set as the old site); raw SVGs, tinted via currentColor.
 import arrowRightIcon from '~/assets/icons/arrow-right.svg?raw'
-import bowlFoodIcon from '~/assets/icons/bowl-food.svg?raw'
-import carrotIcon from '~/assets/icons/carrot.svg?raw'
-import cowIcon from '~/assets/icons/cow.svg?raw'
 import creditCardIcon from '~/assets/icons/credit-card.svg?raw'
-import cubeIcon from '~/assets/icons/cube.svg?raw'
-import fishIcon from '~/assets/icons/fish.svg?raw'
 import packageIcon from '~/assets/icons/package.svg?raw'
-import plantIcon from '~/assets/icons/plant.svg?raw'
 import scalesIcon from '~/assets/icons/scales.svg?raw'
-
-const CATEGORY_ICONS: Record<IngredientCategory, string> = {
-  vegetables: carrotIcon,
-  mushrooms: plantIcon,
-  meat: cowIcon,
-  seafood: fishIcon,
-  tofu: cubeIcon,
-  noodles: bowlFoodIcon,
-}
 
 const PRICING_STEPS = [
   { label: 'mkt.menu.pricing_step1', icon: packageIcon },

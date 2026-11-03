@@ -29,7 +29,9 @@
       "concept": "概念",
       "menu": "菜单",
       "about": "关于我们",
-      "contact": "联系"
+      "contact": "联系",
+      "compose": "自选搭配",
+      "faq": "常见问题"
     },
     "lang": {
       "fr": "Français",
@@ -45,6 +47,7 @@
       "bowl_alt": "草本骨汤麻辣烫与新鲜食材",
       "order": "外带点餐",
       "seeMenu": "查看菜单",
+      "eyebrowShort": "麻辣烫 · 列日",
       "counterPrice": "柜台价：{price}",
       "payWhatYouWeigh": "在柜台，按称重付款。"
     },
@@ -182,6 +185,11 @@
           "title": "由你搭配",
           "desc": "你选你爱，按克计价，合你口味，没有意外。"
         }
+      },
+      "ingredients": {
+        "label": "自选食材",
+        "title": "碗里可以放什么",
+        "subtitle": "蔬菜、菌菇、豆制品、面食、肉类和海鲜：三十余种新鲜食材，按克计价。"
       }
     },
     "cta": {
@@ -389,7 +397,7 @@
       "delivery_soon": "敬请期待",
       "email_intro": "有问题或建议？给我们发邮件，我们会尽快回复。",
       "phone_title": "电话",
-      "phone_reservation": "预订仅限电话。"
+      "phone_reservation": "有问题或多人聚餐？请来电。"
     },
     "not_found": {
       "title": "页面未找到",
@@ -440,7 +448,7 @@
     },
     "estimator": {
       "label": "按重量计价",
-      "title": "我的一碗多少钱？",
+      "title": "估算你的一碗",
       "desc": "在柜台称重计价：选多少，付多少。拖动滑块估算价格。",
       "for": "{weight} · {rate}",
       "rate": "{price} / 100 克",
@@ -451,7 +459,7 @@
     "practical": {
       "title": "实用信息",
       "openInMaps": "在地图中打开",
-      "bookingsByPhone": "仅接受电话预订。"
+      "bookingsByPhone": "有问题或多人聚餐？请来电。"
     },
     "actionBar": {
       "label": "快捷操作",
@@ -459,6 +467,34 @@
       "call": "致电",
       "order": "点餐",
       "menu": "菜单"
+    },
+    "recipes": {
+      "label": "招牌搭配",
+      "title": "不知道选什么？",
+      "subtitle": "四款招牌搭配：照单全收，或改成你的版本。",
+      "cta": "照这碗来一份",
+      "items": {
+        "seafood": {
+          "name": "牛骨海鲜煲",
+          "desc": "牛骨汤底，鱼片、虾、墨鱼、木耳、藕片和金针菇。",
+          "alt": "插画海报：牛骨海鲜煲"
+        },
+        "tomato": {
+          "name": "番茄牛肉煲",
+          "desc": "番茄汤底，卤牛肉、土豆、粉丝、大白菜和金针菇。",
+          "alt": "插画海报：番茄牛肉煲"
+        },
+        "mix": {
+          "name": "低卡麻辣拌",
+          "desc": "无汤，微辣芝麻花生酱：油菜、大白菜、西兰花、牛肉、虾和鸡肉。",
+          "alt": "插画海报：低卡麻辣拌"
+        },
+        "japanese": {
+          "name": "日式番茄锅",
+          "desc": "番茄汤底，乌冬、煎蛋、菠菜、牛肉、蟹柳和金针菇。",
+          "alt": "插画海报：日式番茄锅"
+        }
+      }
     }
   },
   "faq": {
@@ -476,19 +512,19 @@
         "answer": "没问题！我们的柜台有丰富的蔬菜、菌菇、豆制品和面条，完全可以搭配一碗纯素麻辣烫。汤底怎么选，欢迎随时问我们。"
       },
       "hours": {
-        "question": "你们的营业时间是？",
+        "question": "营业时间？",
         "answer": "我们每天营业，周一至周日 11:30–22:00。"
       },
       "delivery": {
-        "question": "你们提供外送吗？配送范围是？",
+        "question": "送外卖吗？",
         "answer": "目前仅支持自取，取餐地址为列日 Rue de la Cathédrale 51。外送服务即将上线！"
       },
       "payment": {
-        "question": "你们接受哪些支付方式？",
+        "question": "支持哪些支付方式？",
         "answer": "我们接受安全的在线支付（银行卡、Bancontact），也可以在餐厅自取时现金支付。"
       },
       "allergens": {
-        "question": "有过敏原信息吗？",
+        "question": "过敏原呢？",
         "answer": "我们的菜品可能含有<strong>芝麻</strong>、<strong>花生</strong>、<strong>麸质</strong>、<strong>大豆</strong>和<strong>甲壳类</strong>。请在订单备注中注明任何过敏情况，或直接与我们联系了解详情。"
       }
     }
@@ -539,6 +575,12 @@
       "meat": "肉类",
       "seafood": "鱼类和海鲜",
       "other": "其他"
+    },
+    "recipes": {
+      "label": "从招牌搭配开始",
+      "apply": "照这碗来一份",
+      "applied": "已载入「{name}」：碗里有 {count} 样食材，可随意调整。",
+      "unavailable": "这款搭配的食材今天没有。"
     }
   },
   "nav": {

@@ -4,15 +4,16 @@
     class="hidden sm:block sticky top-0 z-40 bg-ygf-bg/95 backdrop-blur-sm border-b border-ygf-orange-100"
   >
     <div
-      class="max-w-7xl mx-auto px-3 md:px-4 lg:px-8 h-16 flex items-center gap-1 md:gap-2 lg:gap-8"
+      class="max-w-7xl 2xl:max-w-[90rem] mx-auto px-3 md:px-4 lg:px-8 h-16 flex items-center gap-1 md:gap-2 lg:gap-8"
     >
       <!-- Logo with its name, left-aligned per GUIDELINES.md §4.5 (the circle is never shown without it, §2.2) -->
       <BrandLockup />
 
       <!-- Primary destinations. Text labels, not icons: an icon-only rail
                  hides where things are, and the guide asks for 5–6 clear items. -->
-      <ul class="flex min-w-0 items-center lg:gap-1">
-        <li v-for="item in navItems" :key="item.to">
+      <!-- Never shrinks (a squeezed list ran under the controls): the items that do not fit are left out instead. -->
+      <ul class="flex shrink-0 items-center lg:gap-1">
+        <li v-for="item in navItems" :key="item.to" :class="item.from">
           <NuxtLinkLocale
             :to="item.to"
             :aria-current="isActive(item.to) ? 'page' : undefined"
@@ -36,11 +37,11 @@
       <div class="flex-1 min-w-0" />
 
       <div class="flex shrink-0 items-center gap-1 lg:gap-2">
-        <!-- Delivery zone (or, takeaway only, the pickup address): ordering-wide state, so it lives here from xl up;
-                     below, the row has no room for it and the menu page carries the chip beside its search. -->
+        <!-- Delivery zone (or, takeaway only, the pickup address): ordering-wide state, so it lives here from 2xl up;
+                     below, the six links leave no room for it and the menu page carries the chip beside its search. -->
         <template v-if="shopEnabled">
-          <PickupChip v-if="deliveryHidden" class="hidden xl:inline-flex max-w-[16rem]" />
-          <DeliveryZoneChip v-else class="hidden xl:inline-flex" />
+          <PickupChip v-if="deliveryHidden" class="hidden 2xl:inline-flex max-w-[16rem]" />
+          <DeliveryZoneChip v-else class="hidden 2xl:inline-flex" />
         </template>
 
         <!-- Cart, on every page once the cart has items. Tablet: opens the cart drawer. -->
@@ -156,12 +157,16 @@ const cartLabel = computed(() =>
   t('cart.buttonLabel', { count: cartStore.totalItems }, cartStore.totalItems),
 )
 
-// The menu entry stays while the shop is switched off: /menu then shows the static menu (utils/shopGate.ts).
+// The menu entry stays while the shop is switched off: /menu then shows the static menu (utils/shopGate.ts); "Composer"
+// opens the bowl composer and only exists with the shop on. The six destinations of the redesign's header; `from` hides
+// the secondary ones where the row has no room for them (the footer lists all six on every width).
 const navItems = computed(() => [
-  ...(menuOpen ? [{ to: 'menu', label: t('nav.menu') }] : []),
-  { to: 'concept', label: t('mkt.nav.concept') },
-  { to: 'about', label: t('mkt.nav.about') },
-  { to: 'contact', label: t('nav.contact') },
+  ...(menuOpen ? [{ to: 'menu', label: t('nav.menu'), from: '' }] : []),
+  ...(shopEnabled ? [{ to: '/menu?compose', label: t('mkt.nav.compose'), from: '' }] : []),
+  { to: 'concept', label: t('mkt.nav.concept'), from: 'hidden md:block' },
+  { to: 'about', label: t('mkt.nav.about'), from: 'hidden lg:block' },
+  { to: 'contact', label: t('nav.contact'), from: '' },
+  { to: 'faq', label: t('mkt.nav.faq'), from: 'hidden lg:block' },
 ])
 
 const isActive = (to: string) => {

@@ -25,11 +25,11 @@
     padding: 0.875rem 2rem;
     border: 2px solid transparent;
     border-radius: var(--ygf-radius-btn);
-    font-weight: 600;
+    /* Sentence case since the redesign (the vitrine shouted its buttons in capitals): bold, no tracking. */
+    font-weight: 700;
     font-size: 1rem;
     line-height: 1.2;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
+    letter-spacing: 0;
     white-space: nowrap;
     cursor: pointer;
     transition:
@@ -54,30 +54,46 @@
     cursor: not-allowed;
   }
 
+  /* The brand orange with INK text (5.2:1), as every CTA of the redesign: white on this orange is 3.3:1. */
   .btn-primary {
-    background: var(--ygf-orange-on-white);
-    border-color: var(--ygf-orange-on-white);
-    color: var(--ygf-white);
+    background: var(--ygf-orange);
+    border-color: var(--ygf-orange);
+    color: var(--ygf-black);
+    box-shadow: 0 10px 24px rgba(235, 98, 2, 0.22);
   }
 
   @media (hover: hover) {
     .btn-primary:not(:disabled):hover {
-      background: var(--ygf-orange-on-white-hover);
-      border-color: var(--ygf-orange-on-white-hover);
+      background: var(--ygf-orange-hover);
+      border-color: var(--ygf-orange-hover);
     }
   }
 
   .btn-secondary {
-    background: transparent;
+    background: var(--ygf-white);
     border-color: var(--ygf-orange);
     color: var(--ygf-orange-text);
   }
 
   @media (hover: hover) {
     .btn-secondary:not(:disabled):hover {
-      background: var(--ygf-orange-on-white);
-      border-color: var(--ygf-orange-on-white);
-      color: var(--ygf-white);
+      background: var(--ygf-selected);
+      border-color: var(--ygf-orange);
+      color: var(--ygf-black);
+    }
+  }
+
+  /* Ink button: the dark CTA of the redesign (the phone menu's "Mon compte", a secondary action next to an orange one). */
+  .btn-ink {
+    background: var(--ygf-black);
+    border-color: var(--ygf-black);
+    color: var(--ygf-white);
+  }
+
+  @media (hover: hover) {
+    .btn-ink:not(:disabled):hover {
+      background: #2a211c;
+      border-color: #2a211c;
     }
   }
 
@@ -108,7 +124,7 @@
 
   @media (hover: hover) {
     .btn-ghost:not(:disabled):hover {
-      background: var(--ygf-orange-bg);
+      background: var(--ygf-peach);
     }
   }
 
@@ -252,25 +268,27 @@
     .chip:not(:disabled):not([aria-pressed='true']):not([aria-selected='true']):not(
         .chip-selected
       ):hover {
-      background: var(--ygf-orange-bg);
+      background: var(--ygf-peach);
       border-color: var(--ygf-orange-light);
     }
   }
 
+  /* Selected: the apricot tint with an orange rim and ink text (the redesign's selected state everywhere). */
   .chip[aria-pressed='true'],
   .chip[aria-selected='true'],
   .chip-selected {
-    background: var(--ygf-orange-on-white);
-    border-color: var(--ygf-orange-on-white);
-    color: var(--ygf-white);
+    background: var(--ygf-selected);
+    border-color: var(--ygf-orange);
+    color: var(--ygf-black);
+    font-weight: 600;
   }
 
   @media (hover: hover) {
     .chip[aria-pressed='true']:not(:disabled):hover,
     .chip[aria-selected='true']:not(:disabled):hover,
     .chip-selected:not(:disabled):hover {
-      background: var(--ygf-orange-on-white-hover);
-      border-color: var(--ygf-orange-on-white-hover);
+      background: var(--ygf-selected-hover);
+      border-color: var(--ygf-orange);
     }
   }
 
@@ -315,7 +333,7 @@
     height: 2.75rem;
     border: none;
     border-radius: 9999px;
-    background: var(--ygf-orange-bg);
+    background: var(--ygf-peach);
     color: var(--ygf-orange-text);
     font-size: 1.125rem;
     line-height: 1;
@@ -327,8 +345,8 @@
 
   @media (hover: hover) {
     .stepper-btn:not(:disabled):hover {
-      background: var(--ygf-orange-on-white);
-      color: var(--ygf-white);
+      background: var(--ygf-orange);
+      color: var(--ygf-black);
     }
   }
 
@@ -449,11 +467,52 @@
     color: var(--ygf-orange-text);
   }
 
+  /* Archivo, wide and heavy: the display voice of the redesign (the base layer gives every heading the same). */
   .section-title {
-    font-family: var(--ygf-font-sans), var(--font-chinese);
-    font-weight: 700;
-    line-height: 1.25;
+    font-family: var(--ygf-font-display), var(--font-chinese);
+    font-weight: 800;
+    font-stretch: 112%;
+    line-height: 1.1;
     letter-spacing: -0.02em;
     color: var(--ygf-black);
+  }
+
+  /* The eyebrow of the redesign with its short orange rule: `<span class="section-label section-label-rule">`. */
+  .section-label-rule {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  .section-label-rule::before {
+    content: '';
+    width: 1.5rem;
+    height: 2px;
+    border-radius: 9999px;
+    background: var(--ygf-orange);
+  }
+
+  /* ===== FOOD ICON TILE ===== */
+  /* An illustrated ingredient (data/ingredientIcons.ts) on its peach disc: the composer tiles, the static menu, the
+       home page band. The icon keeps its own colours (never tinted). */
+  .food-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    flex: none;
+    border-radius: 9999px;
+    background: var(--ygf-peach);
+  }
+
+  .food-icon > img {
+    width: 72%;
+    height: 72%;
+    object-fit: contain;
+  }
+
+  .food-icon-lg {
+    width: 4rem;
+    height: 4rem;
   }
 }

@@ -208,6 +208,11 @@ export default defineNuxtConfig({
        * shop before a brand opens: its routes redirect home and the brand UI hides their links (utils/shopGate.ts).
        */
       shopEnabled: true,
+      /*
+       * Runtime switch (`NUXT_PUBLIC_SSO_PROVIDERS`, comma-separated, read at container start): the social sign-in
+       * buttons the login shows. An instance whose Zitadel has no Google or Apple IdP sets `none` and keeps email only.
+       */
+      ssoProviders: 'google,apple',
     },
   },
 

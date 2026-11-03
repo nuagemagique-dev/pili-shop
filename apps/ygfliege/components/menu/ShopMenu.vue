@@ -398,6 +398,7 @@ import {
 } from '#engine/utils/menuCatalog'
 import { composerHero, isBowlComposer } from '~/data/composer'
 import { productPhotoUrls } from '~/data/productPhotos'
+import { recipeByKey } from '~/data/recipes'
 import { categoryCardOffsets } from '#engine/utils/menuImagePriority'
 import { telHref } from '#engine/utils/phone'
 import { useMenuCategoryScrollspy } from '#engine/composables/useMenuCategoryScrollspy'
@@ -602,14 +603,21 @@ const allProducts = computed<Product[]>(() => flattenProducts(baseCategories.val
 // The build-your-own bowls are the products of the composer category (see data/composer.ts), each with its own hero card.
 const composerProducts = computed(() => allProducts.value.filter(isBowlComposer))
 
-// "Commander à emporter" (home page) links to /menu?compose, or ?compose=<slug>: open that composer (else the first one)
-// as soon as the menu is known, on the same history entry.
+// "Composer mon bol" (home page) links to /menu?compose, or ?compose=<slug>: open that composer (else the first one)
+// as soon as the menu is known, on the same history entry. `&recipe=<key>` (a "Composer ce bol" of the home page,
+// data/recipes.ts) is kept for the composer, which starts from that recipe, in the composer the recipe is built in.
 watch(
   [() => route.query.compose, composerProducts],
   ([compose, composers]) => {
     if (!import.meta.client || compose === undefined || composers.length === 0) return
-    const wanted = composers.find((composer) => composer.slug === compose) ?? composers[0]!
-    void router.replace({ query: { product: wanted.id } })
+    const recipe = recipeByKey(route.query.recipe)
+    const wanted =
+      composers.find((composer) => composer.slug === compose) ??
+      composers.find((composer) => composer.slug === recipe?.composerSlug) ??
+      composers[0]!
+    void router.replace({
+      query: recipe ? { product: wanted.id, recipe: recipe.key } : { product: wanted.id },
+    })
   },
   { immediate: true },
 )

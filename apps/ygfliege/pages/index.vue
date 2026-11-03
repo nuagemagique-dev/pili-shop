@@ -3,9 +3,12 @@ import { computed, ref } from 'vue'
 import { BRAND_FIGURES } from '~/data/brandFigures'
 import { COMPOSER_CATEGORY_SLUG } from '~/data/composer'
 import { COUNTER_PRICE_PER_100G_CENTS } from '~/data/estimator'
+import { INGREDIENTS, ingredientIconSrc } from '~/data/menuIngredients'
+import { RECIPES, RECIPE_IMAGE } from '~/data/recipes'
 import MktEstimator from '~/components/mkt/MktEstimator.vue'
 import MktIcon from '~/components/mkt/MktIcon.vue'
 import MktOpenStatus from '~/components/mkt/MktOpenStatus.vue'
+import MktPicture from '~/components/mkt/MktPicture.vue'
 import MktPracticalInfo from '~/components/mkt/MktPracticalInfo.vue'
 import { formatCents, formatPrice } from '#engine/lib/price'
 import { toCents } from '#engine/utils/money'
@@ -17,9 +20,10 @@ import bowlSteamIcon from '~/assets/icons/bowl-steam.svg?raw'
 import leafIcon from '~/assets/icons/leaf.svg?raw'
 import scalesIcon from '~/assets/icons/scales.svg?raw'
 
-// Marketing homepage (audit 1a/1b/1c): hero with live status and price, how it works, the broths, the price estimator,
-// the video band, why Yangguofu with the brand's figures, practical info with the map. Every ordering affordance shows
-// only while the shop is on; with the shop off it is a complete showcase (menu, directions, call, hours).
+// Marketing homepage (the 2026 redesign, "Main" board of the design canvas): hero with live status and price, how it
+// works, the broths, the illustrated recipes ("Composer ce bol"), everything that goes in the bowl, the price
+// estimator, the video band, why Yangguofu with the brand's figures, practical info with the map. Every ordering
+// affordance shows only while the shop is on; with the shop off it is a complete showcase (menu, directions, call, hours).
 definePageMeta({
   public: true,
   sitemap: { priority: 1, changefreq: 'weekly' },
@@ -69,6 +73,10 @@ const counterPrice = computed(() =>
   t('mkt.estimator.rate', { price: formatCents(COUNTER_PRICE_PER_100G_CENTS) }),
 )
 
+/** "Composer ce bol" opens the composer on that recipe; with the shop off the poster leads to the (static) menu. */
+const recipeLink = (key: string): string =>
+  shopEnabled ? `/menu?compose&recipe=${key}` : menuOpen ? '/menu' : '/concept'
+
 // Motion of the old site (client only, none under reduced motion): hero bowl pop-in and scroll parallax, magnetic CTA.
 // The bowl's levitation is the CSS animation below.
 const hero = ref<HTMLElement | null>(null)
@@ -105,14 +113,18 @@ useSeoMeta({
           ref="heroContent"
           class="relative z-[2] text-center lg:text-left order-2 lg:order-none"
         >
-          <span class="section-label">{{ $t('mkt.home.broth_hero.label') }}</span>
+          <!-- One line always: the short eyebrow on a phone, the full tagline from 640px -->
+          <span class="section-label section-label-rule whitespace-nowrap">
+            <span class="sm:hidden">{{ $t('mkt.hero.eyebrowShort') }}</span>
+            <span class="hidden sm:inline">{{ $t('home.heroTagline') }}</span>
+          </span>
           <h1
-            class="font-display font-bold text-[2.75rem] sm:text-5xl lg:text-6xl text-ygf-black leading-[1.02] tracking-tight text-balance"
+            class="font-display font-black font-stretch-expanded text-[2.75rem] sm:text-6xl lg:text-7xl text-ygf-black leading-[0.95] tracking-tight text-balance"
           >
             {{ $t('mkt.hero.slogan') }}
           </h1>
           <p
-            class="mt-4 text-gray-600 text-base sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 text-pretty"
+            class="mt-5 text-gray-600 text-base sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 text-pretty"
           >
             {{ $t('mkt.hero.subtitle') }}
           </p>
@@ -133,7 +145,7 @@ useSeoMeta({
           </p>
 
           <div
-            class="mt-5 grid grid-cols-1 gap-2.5 sm:flex sm:flex-wrap sm:items-center sm:justify-center lg:justify-start sm:gap-4"
+            class="mt-6 grid grid-cols-1 gap-2.5 sm:flex sm:flex-wrap sm:items-center sm:justify-center lg:justify-start sm:gap-3"
           >
             <!-- Magnetic on desktop: drifts toward the pointer (useMagnetic). -->
             <span ref="heroCta" class="inline-flex">
@@ -141,16 +153,16 @@ useSeoMeta({
                 v-if="shopEnabled"
                 to="/menu?compose"
                 data-testid="hero-order"
-                class="hero-btn hero-btn-primary w-full"
+                class="btn btn-primary w-full"
               >
-                {{ $t('mkt.hero.order') }}
+                {{ $t('composer.open') }}
                 <MktIcon name="arrow-right" :size="18" />
               </NuxtLinkLocale>
               <NuxtLinkLocale
                 v-else
                 :to="menuOpen ? '/menu' : '/concept'"
                 data-testid="hero-menu"
-                class="hero-btn hero-btn-primary w-full"
+                class="btn btn-primary w-full"
               >
                 {{ menuOpen ? $t('mkt.hero.cta') : $t('mkt.hero.ctaConcept') }}
               </NuxtLinkLocale>
@@ -158,7 +170,7 @@ useSeoMeta({
             <NuxtLinkLocale
               v-if="shopEnabled"
               to="/menu"
-              class="hero-btn hero-btn-secondary"
+              class="btn btn-secondary"
               data-testid="hero-see-menu"
             >
               {{ $t('mkt.hero.seeMenu') }}
@@ -168,7 +180,7 @@ useSeoMeta({
               :href="brand.mapsUrl"
               target="_blank"
               rel="noopener"
-              class="hero-btn hero-btn-secondary"
+              class="btn btn-secondary"
               data-testid="hero-directions"
             >
               <MktIcon name="map-pin" :size="18" />
@@ -182,9 +194,7 @@ useSeoMeta({
           >
             <MktOpenStatus />
             <span class="inline-flex items-center gap-1.5">
-              <span class="text-ygf-orange-on-white"
-                ><MktIcon name="map-pin-fill" :size="16"
-              /></span>
+              <span class="text-ygf-orange-text"><MktIcon name="map-pin-fill" :size="16" /></span>
               {{ brand.address.street }}, {{ brand.address.city }}
             </span>
           </div>
@@ -223,7 +233,7 @@ useSeoMeta({
     <section class="bg-white">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-24">
         <div v-reveal class="mb-6 sm:mb-10 sm:text-center">
-          <h2 class="font-display font-bold text-3xl sm:text-4xl text-ygf-black tracking-tight">
+          <h2 class="section-title text-3xl sm:text-4xl">
             {{ $t('mkt.home.steps.title') }}
           </h2>
           <p class="mt-2 text-gray-600">{{ $t('mkt.home.steps.subtitle') }}</p>
@@ -241,7 +251,7 @@ useSeoMeta({
       <div class="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-24">
         <div v-reveal class="text-center mb-8 sm:mb-10">
           <span class="section-label">{{ $t('mkt.broths.label') }}</span>
-          <h2 class="font-display font-bold text-3xl sm:text-4xl text-ygf-black tracking-tight">
+          <h2 class="section-title text-3xl sm:text-4xl">
             {{ $t('mkt.broths.title') }}
           </h2>
           <p class="mt-3 text-gray-600 max-w-2xl mx-auto">{{ $t('mkt.broths.subtitle') }}</p>
@@ -250,25 +260,123 @@ useSeoMeta({
       </div>
     </section>
 
-    <!-- ── 4 · How much is my bowl? (the counter's price by weight) ── -->
+    <!-- ── 4 · The illustrated recipes: a bowl in one tap, then yours to change ── -->
+    <section class="bg-white">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-24">
+        <div v-reveal class="mb-6 sm:mb-10 max-w-2xl">
+          <span class="section-label section-label-rule">{{ $t('mkt.recipes.label') }}</span>
+          <h2 class="section-title text-3xl sm:text-4xl">{{ $t('mkt.recipes.title') }}</h2>
+          <p class="mt-3 text-gray-600">{{ $t('mkt.recipes.subtitle') }}</p>
+        </div>
+        <!-- A swipe row on a phone, a grid from 640px -->
+        <ul
+          class="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-px-4 no-scrollbar swipe-row -mx-4 px-4 pb-3 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-5 sm:overflow-visible"
+          data-testid="home-recipes"
+        >
+          <li
+            v-for="(recipe, i) in RECIPES"
+            :key="recipe.key"
+            v-reveal="i + 1"
+            class="shrink-0 basis-[17.5rem] snap-start sm:basis-auto card flex flex-col"
+          >
+            <MktPicture
+              :src="recipe.image"
+              :widths="RECIPE_IMAGE.widths"
+              :fallback-width="RECIPE_IMAGE.fallbackWidth"
+              :fallback-height="RECIPE_IMAGE.fallbackHeight"
+              :alt="$t(`mkt.recipes.items.${recipe.key}.alt`)"
+              sizes="(min-width: 1024px) 280px, (min-width: 640px) 45vw, 280px"
+              img-class="w-full aspect-[640/452] object-cover"
+            />
+            <div class="p-4 sm:p-5 flex flex-col gap-1.5 flex-1">
+              <h3 class="text-lg leading-tight">
+                {{ $t(`mkt.recipes.items.${recipe.key}.name`) }}
+              </h3>
+              <p class="text-sm text-gray-600 leading-relaxed">
+                {{ $t(`mkt.recipes.items.${recipe.key}.desc`) }}
+              </p>
+              <NuxtLinkLocale
+                :to="recipeLink(recipe.key)"
+                class="btn btn-secondary btn-sm mt-3 self-start"
+                :data-testid="`home-recipe-${recipe.key}`"
+              >
+                {{ shopEnabled ? $t('mkt.recipes.cta') : $t('mkt.hero.seeMenu') }}
+                <MktIcon name="arrow-right" :size="16" />
+              </NuxtLinkLocale>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ── 5 · Everything that goes in the bowl: the illustrated ingredients of the counter ── -->
+    <section class="bg-ygf-cream">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
+        <div v-reveal class="text-center mb-8">
+          <span class="section-label">{{ $t('mkt.home.ingredients.label') }}</span>
+          <h2 class="section-title text-3xl sm:text-4xl">
+            {{ $t('mkt.home.ingredients.title') }}
+          </h2>
+          <p class="mt-3 text-gray-600 max-w-2xl mx-auto">
+            {{ $t('mkt.home.ingredients.subtitle') }}
+          </p>
+        </div>
+        <!-- Two rows that scroll sideways on a phone, a grid from 640px -->
+        <ul
+          class="grid grid-flow-col grid-rows-2 auto-cols-[6.5rem] gap-2.5 overflow-x-auto no-scrollbar swipe-row -mx-4 px-4 pb-2 sm:mx-0 sm:px-0 sm:grid-flow-row sm:[grid-template-rows:none] sm:[grid-auto-columns:auto] sm:grid-cols-4 lg:grid-cols-6 sm:gap-3 sm:overflow-visible"
+          data-testid="home-ingredients"
+        >
+          <li
+            v-for="ingredient in INGREDIENTS"
+            :key="ingredient.key"
+            class="flex flex-col items-center gap-2 bg-white rounded-ygf-card border border-ygf-border px-2 py-4 text-center"
+          >
+            <span class="food-icon" aria-hidden="true">
+              <img
+                :src="ingredientIconSrc(ingredient)"
+                alt=""
+                width="34"
+                height="34"
+                loading="lazy"
+                decoding="async"
+              />
+            </span>
+            <span
+              class="text-[13px] sm:text-sm font-semibold leading-tight text-ygf-black text-balance"
+            >
+              {{ $t(`mkt.menu.ingredients.${ingredient.key}`) }}
+            </span>
+          </li>
+        </ul>
+        <p v-if="menuOpen" class="text-center mt-8">
+          <NuxtLinkLocale
+            :to="shopEnabled ? '/menu?compose' : '/menu'"
+            class="btn btn-primary"
+            data-testid="home-ingredients-cta"
+          >
+            {{ shopEnabled ? $t('composer.open') : $t('mkt.hero.cta') }}
+            <MktIcon name="arrow-right" :size="18" />
+          </NuxtLinkLocale>
+        </p>
+      </div>
+    </section>
+
+    <!-- ── 6 · How much is my bowl? (the counter's price by weight) ── -->
     <section class="bg-white">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-24">
         <MktEstimator />
       </div>
     </section>
 
-    <!-- ── 5 · Cinematic ingredient loop ── -->
+    <!-- ── 7 · Cinematic ingredient loop ── -->
     <MktVideoBand />
 
-    <!-- ── 6 · Why Yangguofu, with the brand's figures ── -->
+    <!-- ── 8 · Why Yangguofu, with the brand's figures ── -->
     <section class="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-24">
-      <p v-reveal class="text-center font-serifzh text-ygf-orange-text mb-2">
+      <p v-reveal class="text-center font-serifzh text-ygf-orange-text mb-2 text-sm sm:text-base">
         {{ $t('mkt.home.stats.slogan') }}
       </p>
-      <h2
-        v-reveal="1"
-        class="text-center font-display font-bold text-3xl sm:text-4xl text-ygf-black mb-10"
-      >
+      <h2 v-reveal="1" class="text-center section-title text-3xl sm:text-4xl mb-10">
         {{ $t('mkt.home.why.title') }}
       </h2>
       <div class="grid gap-6 sm:grid-cols-3">
@@ -276,14 +384,14 @@ useSeoMeta({
           v-for="(pillar, i) in ['broth', 'fresh', 'custom']"
           :key="pillar"
           v-reveal="i + 1"
-          class="bg-white border border-ygf-orange-100 rounded-ygf-card shadow-ygf-sm p-6 text-center"
+          class="bg-white border border-ygf-border rounded-ygf-card shadow-ygf-sm p-6 text-center"
         >
           <div
             class="w-12 h-12 mx-auto mb-3 text-ygf [&>svg]:w-full [&>svg]:h-full"
             aria-hidden="true"
             v-html="[bowlSteamIcon, leafIcon, scalesIcon][i]"
           />
-          <h3 class="font-display font-bold text-lg text-ygf-black mb-2">
+          <h3 class="text-lg text-ygf-black mb-2">
             {{ $t(`mkt.home.why.${pillar}.title`) }}
           </h3>
           <p class="text-sm text-gray-600 leading-relaxed">
@@ -297,7 +405,7 @@ useSeoMeta({
             {{ $t(`mkt.about.counters.${figure.key}`) }}
           </dt>
           <dd
-            class="font-display font-black text-3xl sm:text-4xl text-ygf-orange-text tabular-nums"
+            class="font-display font-black font-stretch-semi-expanded text-3xl sm:text-5xl text-ygf-orange-text tabular-nums tracking-tight"
           >
             {{ figure.value }}
           </dd>
@@ -305,13 +413,10 @@ useSeoMeta({
       </dl>
     </section>
 
-    <!-- ── 7 · Practical info and the map ── -->
+    <!-- ── 9 · Practical info and the map ── -->
     <section class="bg-ygf-cream">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
-        <h2
-          v-reveal
-          class="font-display font-bold text-3xl sm:text-4xl text-ygf-black tracking-tight mb-6"
-        >
+        <h2 v-reveal class="section-title text-3xl sm:text-4xl mb-6">
           {{ $t('mkt.practical.title') }}
         </h2>
         <MktPracticalInfo />
@@ -324,56 +429,10 @@ useSeoMeta({
 .hero {
   background: radial-gradient(
     120% 80% at 50% 0%,
-    var(--ygf-orange-bg) 0%,
-    var(--ygf-cream) 55%,
-    #fbe3cc 100%
+    var(--ygf-peach) 0%,
+    var(--ygf-orange-bg) 55%,
+    #ffe6cf 100%
   );
-}
-
-.hero-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  min-height: 3rem;
-  padding: 0.75rem 1.5rem;
-  border: 2px solid transparent;
-  border-radius: var(--ygf-radius-btn);
-  font-weight: 600;
-  transition:
-    background-color 300ms ease-out,
-    border-color 300ms ease-out,
-    color 300ms ease-out;
-}
-
-.hero-btn:focus-visible {
-  outline: 2px solid var(--ygf-focus);
-  outline-offset: 2px;
-}
-
-/* Ink on the brand orange (6.7:1): white on it would be 2.6:1. */
-.hero-btn-primary {
-  background: var(--ygf-orange);
-  border-color: var(--ygf-orange);
-  color: var(--ygf-black);
-  box-shadow: 0 4px 20px rgb(242 123 32 / 20%);
-}
-
-.hero-btn-secondary {
-  background: var(--ygf-white);
-  border-color: var(--ygf-orange);
-  color: var(--ygf-orange-text);
-}
-
-@media (hover: hover) {
-  .hero-btn-primary:hover {
-    background: var(--ygf-orange-light);
-    border-color: var(--ygf-orange-light);
-  }
-
-  .hero-btn-secondary:hover {
-    background: var(--ygf-orange-bg);
-  }
 }
 
 /* Hero bowl levitation, as on the old site: up 10px and back, 2.2s each way (GSAP sine.inOut yoyo). */
