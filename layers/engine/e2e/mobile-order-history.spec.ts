@@ -75,8 +75,6 @@ test.describe('Orders in progress', () => {
     )
     await expect(order.getByRole('button', { name: 'Recommander' })).toHaveCount(0)
 
-    await backend.settleOrder(id, 'CONFIRMED', 'paid')
-    await expect(order.getByText('Confirmée', { exact: true })).toBeVisible()
     await backend.settleOrder(id, 'PREPARING', 'paid')
     await expect(order.getByRole('button', { name: /En préparation/u }).first()).toBeVisible()
     await expect(

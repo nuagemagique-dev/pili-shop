@@ -14,7 +14,6 @@ import { countUnits, planReorder } from './reorder.ts'
 
 const IN_PROGRESS: ReadonlySet<OrderStatus> = new Set<OrderStatus>([
   'PENDING',
-  'CONFIRMED',
   'PREPARING',
   'AWAITING_PICK_UP',
   'OUT_FOR_DELIVERY',

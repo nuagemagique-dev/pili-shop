@@ -163,7 +163,6 @@ export type OrderStatus = OrderDeliveryStatus | OrderPickUpStatus
 
 export type OrderDeliveryStatus =
   | 'PENDING'
-  | 'CONFIRMED'
   | 'PREPARING'
   | 'AWAITING_PICK_UP'
   | 'OUT_FOR_DELIVERY'
@@ -172,7 +171,6 @@ export type OrderDeliveryStatus =
   | 'FAILED'
 export type OrderPickUpStatus =
   | 'PENDING'
-  | 'CONFIRMED'
   | 'PREPARING'
   | 'AWAITING_PICK_UP'
   | 'PICKED_UP'

@@ -19,7 +19,6 @@ export type RestaurantMode =
 
 export type OrderStatus =
   | 'PENDING'
-  | 'CONFIRMED'
   | 'PREPARING'
   | 'AWAITING_PICK_UP'
   | 'PICKED_UP'

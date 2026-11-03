@@ -1,3 +1,4 @@
+/// <reference types="node" />
 /*
  * Minimal psql helpers for specs that need to seed or mutate rows the UI cannot
  * reach (e.g. an order whose Mollie payment was cancelled). Same mechanism as
@@ -30,7 +31,6 @@ export function findUserIdByEmail(email: string): string {
 
 export type SeededOrderStatus =
   | 'PENDING'
-  | 'CONFIRMED'
   | 'PREPARING'
   | 'AWAITING_PICK_UP'
   | 'PICKED_UP'

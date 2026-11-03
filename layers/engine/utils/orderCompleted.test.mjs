@@ -52,7 +52,7 @@ describe('outcome of the loaded order', () => {
     assert.equal(paymentOutcomeOf(online('PENDING', 'paid')), null)
     assert.equal(paymentOutcomeOf(online('PENDING', 'authorized')), null)
     // The webhook confirmed the order: whatever the payment row says, it moved on.
-    for (const status of ['CONFIRMED', 'PREPARING', 'READY', 'OUT_FOR_DELIVERY', 'DELIVERED'])
+    for (const status of ['PREPARING', 'READY', 'OUT_FOR_DELIVERY', 'DELIVERED'])
       assert.equal(paymentOutcomeOf(online(status, 'open')), null, status)
     assert.equal(paymentOutcomeOf(null), null)
   })
@@ -78,9 +78,9 @@ describe('page phase', () => {
 
   test('paid online and cash orders are confirmed', () => {
     assert.equal(phaseOf(online('PENDING', 'paid')), 'confirmed')
-    assert.equal(phaseOf(online('CONFIRMED', 'paid')), 'confirmed')
+    assert.equal(phaseOf(online('PREPARING', 'paid')), 'confirmed')
     assert.equal(phaseOf(cash()), 'confirmed')
-    assert.equal(phaseOf(cash('CONFIRMED')), 'confirmed')
+    assert.equal(phaseOf(cash('PREPARING')), 'confirmed')
   })
 
   test('canceled, failed, expired payments show the retry screen', () => {
@@ -107,7 +107,7 @@ describe('page phase', () => {
 
   test('the webhook landing during verification moves the page to confirmed', () => {
     assert.equal(phaseOf(online('PENDING', 'open')), 'verifying')
-    assert.equal(phaseOf(online('CONFIRMED', 'paid')), 'confirmed')
+    assert.equal(phaseOf(online('PREPARING', 'paid')), 'confirmed')
     assert.equal(phaseOf(online('PENDING', 'paid'), { verifyExpired: true }), 'confirmed')
   })
 
@@ -223,7 +223,7 @@ describe('end to end: the return from Mollie', () => {
 
   test('late webhook: verifying keeps the cart, the paid update clears it', () => {
     assert.equal(walk([null, online('PENDING', 'open'), online('PENDING', 'open')]), false)
-    assert.equal(walk([null, online('PENDING', 'open'), online('CONFIRMED', 'paid')]), true)
+    assert.equal(walk([null, online('PENDING', 'open'), online('PREPARING', 'paid')]), true)
   })
 
   test('paid and cash orders clear the cart, but only for the matching pending id', () => {

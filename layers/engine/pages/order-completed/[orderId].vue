@@ -372,6 +372,7 @@ const formatEstimatedTime = (isoString: string): string => {
    only for a paid online order or a cash order. Mirrors tsb-mobile. */
 const {
   order,
+  phase,
   orderError,
   paymentOutcome,
   paymentProblem,
@@ -415,7 +416,8 @@ watch(
               ? 'https://schema.org/OrderDelivered'
               : orderData.status === 'FAILED' || orderData.status === 'CANCELLED'
                 ? 'https://schema.org/OrderCancelled'
-                : orderData.status === 'PREPARING' || orderData.status === 'CONFIRMED'
+                : orderData.status === 'PREPARING' ||
+                    (orderData.status === 'PENDING' && phase.value === 'confirmed')
                   ? 'https://schema.org/OrderProcessing'
                   : 'https://schema.org/OrderProblem',
           orderDate: orderData.createdAt,
@@ -487,15 +489,8 @@ watch(
 )
 
 // Fire payment_succeeded / payment_failed at most once per order across reloads.
-// Both online (after Mollie webhook) and cash (immediate CONFIRMED) flow through here.
-const PAID_STATUSES = new Set([
-  'CONFIRMED',
-  'PREPARING',
-  'AWAITING_PICK_UP',
-  'OUT_FOR_DELIVERY',
-  'DELIVERED',
-  'PICKED_UP',
-])
+// Both online (after Mollie webhook) and cash flow through here. A paid online order and a cash order stay PENDING until the
+// restaurant confirms (then PREPARING), so success is the page's `confirmed` phase (order committed, no payment problem).
 const paymentEventStorageKey = `tsb_payment_event_${orderId}`
 const readPaymentEventFlag = (): boolean => {
   if (typeof window === 'undefined') return false
@@ -515,8 +510,8 @@ const writePaymentEventFlag = () => {
 }
 
 watch(
-  order,
-  (orderData) => {
+  [order, phase],
+  ([orderData, currentPhase]) => {
     if (!orderData || readPaymentEventFlag()) return
 
     if (orderData.status === 'FAILED') {
@@ -530,7 +525,7 @@ watch(
       return
     }
 
-    if (PAID_STATUSES.has(orderData.status)) {
+    if (currentPhase === 'confirmed' && orderData.status !== 'CANCELLED') {
       trackEvent('payment_succeeded', {
         order_id: orderData.id,
         order_type: orderData.type,

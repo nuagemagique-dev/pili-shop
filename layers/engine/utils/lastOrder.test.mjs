@@ -33,13 +33,7 @@ test('offers the most recent delivered or picked-up order, whatever the order of
 })
 
 test('offers nothing while an order is still in progress: the customer is waiting for food', () => {
-  for (const status of [
-    'PENDING',
-    'CONFIRMED',
-    'PREPARING',
-    'AWAITING_PICK_UP',
-    'OUT_FOR_DELIVERY',
-  ]) {
+  for (const status of ['PENDING', 'PREPARING', 'AWAITING_PICK_UP', 'OUT_FOR_DELIVERY']) {
     const orders = [
       order('done', 'DELIVERED', '2026-09-01T18:00:00Z'),
       order('live', status, '2026-10-01T18:00:00Z'),

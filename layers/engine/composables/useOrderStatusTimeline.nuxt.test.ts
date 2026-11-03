@@ -27,10 +27,9 @@ beforeEach(() => {
 })
 
 describe('steps', () => {
-  it('a delivery goes PENDING, CONFIRMED, PREPARING, OUT_FOR_DELIVERY, DELIVERED', () => {
+  it('a delivery goes PENDING, PREPARING, OUT_FOR_DELIVERY, DELIVERED', () => {
     expect(summary(delivery('PENDING')).map(([status]) => status)).toEqual([
       'PENDING',
-      'CONFIRMED',
       'PREPARING',
       'OUT_FOR_DELIVERY',
       'DELIVERED',
@@ -40,7 +39,6 @@ describe('steps', () => {
   it('a pick-up goes through the counter step AWAITING_PICK_UP and ends PICKED_UP', () => {
     expect(summary(pickup('PENDING')).map(([status]) => status)).toEqual([
       'PENDING',
-      'CONFIRMED',
       'PREPARING',
       'AWAITING_PICK_UP',
       'PICKED_UP',
@@ -50,7 +48,6 @@ describe('steps', () => {
   it('steps before the current one are done, the current one is current, the rest upcoming', () => {
     expect(summary(pickup('PREPARING'))).toEqual([
       ['PENDING', 'done'],
-      ['CONFIRMED', 'done'],
       ['PREPARING', 'current'],
       ['AWAITING_PICK_UP', 'upcoming'],
       ['PICKED_UP', 'upcoming'],
@@ -60,7 +57,6 @@ describe('steps', () => {
   it('a delivery the kitchen has finished (AWAITING_PICK_UP) still reads as preparing', () => {
     expect(summary(delivery('AWAITING_PICK_UP'))).toEqual([
       ['PENDING', 'done'],
-      ['CONFIRMED', 'done'],
       ['PREPARING', 'current'],
       ['OUT_FOR_DELIVERY', 'upcoming'],
       ['DELIVERED', 'upcoming'],
@@ -83,22 +79,20 @@ describe('steps', () => {
     const steps = useOrderStatusTimeline(delivery('PENDING')).steps.value
     expect(steps.map((s) => s.title)).toEqual([
       title('pending'),
-      title('confirmed'),
       title('preparing'),
       title('outForDelivery'),
       title('delivered'),
     ])
     const pickupSteps = useOrderStatusTimeline(pickup('PENDING')).steps.value
-    expect(pickupSteps[3]!.title).toBe(title('awaitingPickUp'))
-    expect(pickupSteps[4]!.title).toBe(title('pickedUp'))
+    expect(pickupSteps[2]!.title).toBe(title('awaitingPickUp'))
+    expect(pickupSteps[3]!.title).toBe(title('pickedUp'))
   })
 
   it('says "completed" / "upcoming" in text for the steps that are not the current one', () => {
-    const steps = useOrderStatusTimeline(pickup('CONFIRMED')).steps.value
+    const steps = useOrderStatusTimeline(pickup('PREPARING')).steps.value
     expect(steps.map((s) => s.srSuffix)).toEqual([
       'orderStatus.completed',
       '',
-      'orderStatus.upcoming',
       'orderStatus.upcoming',
       'orderStatus.upcoming',
     ])
@@ -107,11 +101,11 @@ describe('steps', () => {
   it('follows a reactive order (ref or getter), including a change of type', () => {
     const order = ref<Order>(pickup('PREPARING'))
     const { steps } = useOrderStatusTimeline(order)
-    expect(steps.value[3]!.status).toBe('AWAITING_PICK_UP')
+    expect(steps.value[2]!.status).toBe('AWAITING_PICK_UP')
     order.value = delivery('PREPARING')
-    expect(steps.value[3]!.status).toBe('OUT_FOR_DELIVERY')
+    expect(steps.value[2]!.status).toBe('OUT_FOR_DELIVERY')
     const fromGetter = useOrderStatusTimeline(() => order.value)
-    expect(fromGetter.steps.value[2]!.state).toBe('current')
+    expect(fromGetter.steps.value[1]!.state).toBe('current')
   })
 })
 
@@ -125,10 +119,10 @@ describe('announcements', () => {
   it('a status that changes while the page is open is announced with its title', async () => {
     const order = ref<Order>(pickup('PENDING'))
     useOrderStatusTimeline(order)
-    order.value = pickup('CONFIRMED')
+    order.value = pickup('PREPARING')
     await nextTick()
     expect(useAnnouncer().announcement.value.message).toBe(
-      `orderStatus.changed{"status":"${title('confirmed')}"}`,
+      `orderStatus.changed{"status":"${title('preparing')}"}`,
     )
   })
 
