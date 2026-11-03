@@ -6,8 +6,9 @@ import type { IngredientIconKey } from './ingredientIcons'
  * the composer as a starting point, broth, heat and ingredients, that the customer then changes as they like.
  *
  * The ingredients are the icon keys of data/ingredientIcons.ts, not choice ids: the composer finds the choice of the
- * live catalogue whose name maps to that icon (so a renamed or reordered choice still lands), and skips any the shop
- * does not have that day. Copy lives under `mkt.recipes.items.<key>`.
+ * live catalogue whose name maps to that icon (so a renamed or reordered choice still lands). A poster ingredient the
+ * shop does not sell takes its closest substitute on the menu (RECIPE_SUBSTITUTES), so a recipe always fills the bowl.
+ * Copy lives under `mkt.recipes.items.<key>`.
  */
 export interface Recipe {
   key: string
@@ -59,3 +60,48 @@ export const RECIPE_IMAGE = { widths: [640, 1000, 1400], fallbackWidth: 640, fal
 
 export const recipeByKey = (key: unknown): Recipe | undefined =>
   typeof key === 'string' ? RECIPES.find((recipe) => recipe.key === key) : undefined
+
+/*
+ * The closest ingredients, in order, for a poster ingredient the menu does not sell (the Liège menu has no squid, wood
+ * ear, potato or Chinese cabbage): same family first, and an ingredient of the recipe itself last, so a substitute adds
+ * something rather than doubling what is already there.
+ */
+export const RECIPE_SUBSTITUTES: Partial<Record<IngredientIconKey, readonly IngredientIconKey[]>> =
+  {
+    squid: ['surimi', 'fish-balls', 'shrimp'],
+    shrimp: ['surimi', 'fish-balls'],
+    'fish-balls': ['surimi', 'beef-balls', 'shrimp'],
+    surimi: ['fish-balls', 'shrimp'],
+    'wood-ear': ['shiitake', 'kombu', 'enoki'],
+    enoki: ['shiitake', 'oyster-mushroom', 'king-oyster', 'bean-sprouts'],
+    potato: ['lotus-root', 'corn', 'sweet-potato-noodles'],
+    'chinese-cabbage': ['pak-choi', 'lettuce', 'spinach', 'bean-sprouts'],
+    'pak-choi': ['chinese-cabbage', 'spinach', 'lettuce'],
+    spinach: ['pak-choi', 'lettuce', 'chinese-cabbage'],
+    broccoli: ['pak-choi', 'bean-sprouts', 'corn'],
+    'beef-slices': ['beef-balls', 'pork-belly', 'lamb'],
+    'sweet-potato-noodles': ['rice-vermicelli', 'udon', 'instant-noodles'],
+    udon: ['instant-noodles', 'sweet-potato-noodles', 'rice-vermicelli'],
+  }
+
+/**
+ * What a recipe puts in the bowl on a menu that sells `available` (icon keys): each poster ingredient, or else its
+ * first substitute on the menu, with the poster's quantity; an ingredient with neither is left out.
+ */
+export const recipePlan = (
+  recipe: Recipe,
+  available: ReadonlySet<string>,
+): [IngredientIconKey, number][] => {
+  const plan = new Map<IngredientIconKey, number>()
+  // Object.entries widens the keys to string; the recipe's keys are icon keys by its type.
+  const poster = Object.entries(recipe.ingredients).filter(
+    (entry): entry is [IngredientIconKey, number] => entry[1] !== undefined,
+  )
+  for (const [key, quantity] of poster) {
+    const pick = [key, ...(RECIPE_SUBSTITUTES[key] ?? [])].find((candidate) =>
+      available.has(candidate),
+    )
+    if (pick !== undefined) plan.set(pick, (plan.get(pick) ?? 0) + quantity)
+  }
+  return [...plan]
+}

@@ -78,16 +78,23 @@ const ICON_KEYWORDS: readonly { key: FoodIconKey; pattern: RegExp }[] = [
     key: 'fried-tofu',
     pattern: /tofu frit|fried tofu|gefrituurde tofu|gebakken tofu|油豆腐|炸豆腐|豆泡/iu,
   },
-  { key: 'silken-tofu', pattern: /tofu soyeux|silken|zijden ?tofu|嫩豆腐|内酯|日本豆腐/iu },
+  // The menu's "tofu frais" is the soft one (嫩豆腐 in its Chinese name).
+  {
+    key: 'silken-tofu',
+    pattern:
+      /tofu soyeux|tofu frais|fresh tofu|verse tofu|silken|zijden ?tofu|嫩豆腐|内酯|日本豆腐/iu,
+  },
   { key: 'tofu', pattern: /tofu|bean ?curd|豆腐|豆干/iu },
+  // Rice before sweet potato: "vermicelles de riz" is rice, a bare "vermicelle" is the sweet potato one.
+  {
+    key: 'rice-vermicelli',
+    pattern:
+      /nouilles? de riz|vermicelles? de riz|rice ?(?:noodle|vermicelli)|rijstnoedel|rijstvermicelli|米粉|米线|河粉/iu,
+  },
   {
     key: 'sweet-potato-noodles',
     pattern:
-      /patate douce|sweet potato|zoete aardappel|红薯|vermicelle|glass ?noodle|glasnoedel|粉条|粉丝|宽粉|川粉/iu,
-  },
-  {
-    key: 'rice-vermicelli',
-    pattern: /nouilles? de riz|rice ?(?:noodle|vermicelli)|rijstnoedel|米粉|米线|河粉/iu,
+      /patate douce|sweet potato|zoete[- ]aardappel|红薯|vermicelle|glass ?noodle|glasnoedel|粉条|粉丝|宽粉|川粉/iu,
   },
   { key: 'udon', pattern: /udon|乌冬/iu },
   { key: 'instant-noodles', pattern: /instantan|instant|方便面|泡面|拉面/iu },
@@ -119,7 +126,7 @@ const ICON_KEYWORDS: readonly { key: FoodIconKey; pattern: RegExp }[] = [
   { key: 'shrimp', pattern: /crevette|shrimp|prawn|garnaal|garnalen|虾/iu },
   { key: 'squid', pattern: /calamar|calmar|squid|inktvis|鱿鱼|鱿|墨鱼/iu },
   { key: 'surimi', pattern: /surimi|crabe|crab|krab|蟹/iu },
-  { key: 'pork-belly', pattern: /porc|pork|varken|五花|猪|午餐肉|luncheon|spam/iu },
+  { key: 'pork-belly', pattern: /porc|pork|varken|buikspek|五花|猪|午餐肉|luncheon|spam/iu },
   { key: 'lamb', pattern: /agneau|mouton|lamb|\blam\b|lamsvlees|羊/iu },
   { key: 'sausage', pattern: /saucisse|sausage|worst|香肠|腊肠|火腿|肠/iu },
   { key: 'beef-slices', pattern: /bœuf|boeuf|beef|rund|牛/iu },
