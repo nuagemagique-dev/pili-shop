@@ -212,7 +212,6 @@
         "details": {
           "title": {
             "pending": "Commande reçue",
-            "confirmed": "Confirmée par le restaurant",
             "preparing": "En préparation",
             "awaitingPickUp": "Prête à être retirée",
             "outForDelivery": "En cours de livraison",
@@ -221,7 +220,6 @@
           }
         },
         "pending": "En attente",
-        "confirmed": "Confirmée",
         "preparing": "En préparation",
         "awaitingPickup": "Prête à être retirée",
         "pickedUp": "Retirée",

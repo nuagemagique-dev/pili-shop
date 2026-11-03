@@ -23,7 +23,7 @@ import type {
  *   await backend.mock.scenario({ quoteDelayMs: 2_000, mollie: 'paid' })
  *   await backend.mock.user({ phoneNumber: '+32470123456', address: 'place-home' })
  *   const id = await backend.mock.seedOrder({ status: 'PENDING', online: true, paymentStatus: 'open' })
- *   await backend.mock.settleOrder(id, 'CONFIRMED', 'paid')      // pushed to the page over the WebSocket
+ *   await backend.mock.settleOrder(id, 'PREPARING', 'paid')      // pushed to the page over the WebSocket
  */
 export class MockControl {
   readonly url: string

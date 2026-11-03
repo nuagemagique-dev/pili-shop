@@ -5,8 +5,8 @@ import { useAnnouncer } from '#engine/composables/useAnnouncer'
 import { useI18n } from 'vue-i18n'
 
 // A delivery has no "awaiting pick-up" step (that is the pick-up order's counter step): a delivery order the kitchen has finished (AWAITING_PICK_UP) still reads as "preparing" until it is out for delivery.
-const DELIVERY_STATUSES = ['PENDING', 'CONFIRMED', 'PREPARING', 'OUT_FOR_DELIVERY', 'DELIVERED']
-const PICKUP_STATUSES = ['PENDING', 'CONFIRMED', 'PREPARING', 'AWAITING_PICK_UP', 'PICKED_UP']
+const DELIVERY_STATUSES = ['PENDING', 'PREPARING', 'OUT_FOR_DELIVERY', 'DELIVERED']
+const PICKUP_STATUSES = ['PENDING', 'PREPARING', 'AWAITING_PICK_UP', 'PICKED_UP']
 
 export type TimelineStepState = 'done' | 'current' | 'upcoming'
 
@@ -83,7 +83,6 @@ export function useOrderStatusTimeline(order: MaybeRefOrGetter<Order>) {
 // The statuses that have a dedicated customer-facing title (`me.orders.status.details.title.*`); the others fall back to the plain status label.
 const DETAILED_STATUSES = new Set([
   'PENDING',
-  'CONFIRMED',
   'PREPARING',
   'AWAITING_PICK_UP',
   'OUT_FOR_DELIVERY',

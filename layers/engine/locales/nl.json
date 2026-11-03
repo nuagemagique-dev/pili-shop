@@ -212,7 +212,6 @@
         "details": {
           "title": {
             "pending": "Bestelling ontvangen",
-            "confirmed": "Bevestigd door het restaurant",
             "preparing": "In bereiding",
             "awaitingPickUp": "Klaar om af te halen",
             "outForDelivery": "Onderweg",
@@ -221,7 +220,6 @@
           }
         },
         "pending": "In afwachting",
-        "confirmed": "Bevestigd",
         "preparing": "In bereiding",
         "awaitingPickup": "Klaar om af te halen",
         "pickedUp": "Afgehaald",

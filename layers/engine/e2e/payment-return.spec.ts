@@ -152,7 +152,7 @@ test.describe('Mollie return (full page load)', () => {
     expect(await cartLineCount(page)).toBe(1)
 
     // The webhook lands while the page is verifying (the verify loop polls for ~17 s).
-    await backend.settleOrder(orderId, 'CONFIRMED', 'paid')
+    await backend.settleOrder(orderId, 'PENDING', 'paid')
 
     await expect(page.locator(SEL.orderCompletedTitle)).toBeVisible({ timeout: 20_000 })
     await expect(page.locator(SEL.orderCompletedPaymentProblem)).toHaveCount(0)
@@ -182,14 +182,14 @@ test.describe('Mollie return (full page load)', () => {
     expect(await cartLineCount(page)).toBe(1)
 
     // The late webhook finally lands: the page updates by itself and the cart is committed.
-    await backend.settleOrder(orderId, 'CONFIRMED', 'paid')
+    await backend.settleOrder(orderId, 'PENDING', 'paid')
     await expect(page.locator(SEL.orderCompletedTitle)).toBeVisible({ timeout: 30_000 })
     await expect.poll(() => cartLineCount(page)).toBe(0)
   })
 
   test('a paid online order clears the cart', async ({ authenticatedPage: page, backend }) => {
     orderId = await backend.seedOrder({
-      status: 'CONFIRMED',
+      status: 'PENDING',
       online: true,
       paymentStatus: 'paid',
     })
@@ -203,7 +203,7 @@ test.describe('Mollie return (full page load)', () => {
   })
 
   test('a cash order clears the cart', async ({ authenticatedPage: page, backend }) => {
-    orderId = await backend.seedOrder({ status: 'CONFIRMED', online: false })
+    orderId = await backend.seedOrder({ status: 'PENDING', online: false })
     await seedCart(page, orderId)
 
     await page.goto(`/fr/order-completed/${orderId}`)
@@ -219,7 +219,7 @@ test.describe('Mollie return (full page load)', () => {
     backend,
   }) => {
     orderId = await backend.seedOrder({
-      status: 'CONFIRMED',
+      status: 'PENDING',
       online: true,
       paymentStatus: 'paid',
     })
@@ -237,7 +237,7 @@ test.describe('Mollie return (full page load)', () => {
   }) => {
     // Older than the transitional 30-minute window, and the cart is not the one checked out for it.
     orderId = await backend.seedOrder({
-      status: 'CONFIRMED',
+      status: 'PENDING',
       online: true,
       paymentStatus: 'paid',
       createdMinutesAgo: 45,

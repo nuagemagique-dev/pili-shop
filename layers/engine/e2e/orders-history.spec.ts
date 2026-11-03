@@ -208,8 +208,8 @@ test.describe('/me/orders', () => {
     await expect(rows(page).first()).toContainText('En attente')
     await backend.mock.waitFor((state) => state.subscriptions.includes(`myOrderUpdated:${id}`))
 
-    await backend.mock.settleOrder(id, 'CONFIRMED')
-    await expect(rows(page).first()).toContainText('Confirmée')
+    await backend.mock.settleOrder(id, 'PREPARING')
+    await expect(rows(page).first()).toContainText('En préparation')
     await backend.mock.settleOrder(id, 'PICKED_UP')
     await expect(rows(page).first()).toContainText('Retirée')
   })

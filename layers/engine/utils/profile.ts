@@ -23,7 +23,6 @@ export const profileFullName = (user: NamedUser | null | undefined): string => {
 /** Statuses of an order that is still being handled: deleting the account then loses its tracking (a soft warning, never a block). */
 export const ACTIVE_ORDER_STATUSES = [
   'PENDING',
-  'CONFIRMED',
   'PREPARING',
   'AWAITING_PICK_UP',
   'OUT_FOR_DELIVERY',

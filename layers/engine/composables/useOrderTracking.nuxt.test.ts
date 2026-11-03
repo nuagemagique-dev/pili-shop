@@ -96,13 +96,7 @@ describe('status helpers', () => {
     for (const status of ['DELIVERED', 'PICKED_UP', 'CANCELLED', 'FAILED']) {
       expect(isOrderCompleted(status)).toBe(true)
     }
-    for (const status of [
-      'PENDING',
-      'CONFIRMED',
-      'PREPARING',
-      'AWAITING_PICK_UP',
-      'OUT_FOR_DELIVERY',
-    ]) {
+    for (const status of ['PENDING', 'PREPARING', 'AWAITING_PICK_UP', 'OUT_FOR_DELIVERY']) {
       expect(isOrderCompleted(status)).toBe(false)
     }
     expect(['DELIVERED', 'PICKED_UP', 'CANCELLED'].map(isOrderSuccess)).toEqual([true, true, false])
@@ -147,12 +141,12 @@ describe('tracked orders', () => {
   it('successive patches accumulate', async () => {
     orders.value = [order('a', 'PENDING')]
     const view = mount()
-    subFor('a').data.value = { myOrderUpdated: { status: 'CONFIRMED' } }
+    subFor('a').data.value = { myOrderUpdated: { status: 'PREPARING' } }
     await nextTick()
     subFor('a').data.value = { myOrderUpdated: { estimatedReadyTime: '2026-10-04T19:30:00Z' } }
     await nextTick()
     expect(view.trackedOrders.value![0]).toMatchObject({
-      status: 'CONFIRMED',
+      status: 'PREPARING',
       estimatedReadyTime: '2026-10-04T19:30:00Z',
     })
   })
@@ -161,7 +155,7 @@ describe('tracked orders', () => {
     orders.value = [order('a', 'PREPARING', { updatedAt: '2026-10-04T18:00:00Z' })]
     const view = mount()
     subFor('a').data.value = {
-      myOrderUpdated: { status: 'CONFIRMED', updatedAt: '2026-10-04T17:00:00Z' },
+      myOrderUpdated: { status: 'PENDING', updatedAt: '2026-10-04T17:00:00Z' },
     }
     await nextTick()
     expect(view.trackedOrders.value![0]!.status).toBe('PREPARING')
@@ -176,10 +170,10 @@ describe('tracked orders', () => {
     orders.value = [order('a', 'PREPARING', { updatedAt: '' })]
     const view = mount()
     subFor('a').data.value = {
-      myOrderUpdated: { status: 'CONFIRMED', updatedAt: '2026-10-04T17:00:00Z' },
+      myOrderUpdated: { status: 'AWAITING_PICK_UP', updatedAt: '2026-10-04T17:00:00Z' },
     }
     await nextTick()
-    expect(view.trackedOrders.value![0]!.status).toBe('CONFIRMED')
+    expect(view.trackedOrders.value![0]!.status).toBe('AWAITING_PICK_UP')
     subFor('a').data.value = { myOrderUpdated: { status: 'PREPARING' } }
     await nextTick()
     expect(view.trackedOrders.value![0]!.status).toBe('PREPARING')
@@ -221,7 +215,7 @@ describe('one subscription per active order', () => {
     orders.value = [order('a', 'PENDING')]
     await nextTick()
     expect(liveSubs()).toEqual(['a'])
-    orders.value = [order('a', 'CONFIRMED'), order('b', 'PENDING')]
+    orders.value = [order('a', 'PREPARING'), order('b', 'PENDING')]
     await nextTick()
     expect(liveSubs()).toEqual(['a', 'b'])
     expect(allSubs()).toHaveLength(2)
@@ -441,7 +435,7 @@ describe('?followOrder=<id> (the "follow your order" email link)', () => {
     orders.value = [order('a')]
     mount()
     await nextTick()
-    orders.value = [order('a', 'CONFIRMED')]
+    orders.value = [order('a', 'PREPARING')]
     await nextTick()
     await nextTick()
     expect(revealOrder).toHaveBeenCalledOnce()
@@ -517,7 +511,6 @@ describe('getStatus (labels)', () => {
   it('maps every status to its label key', () => {
     const { getStatus } = mount()
     expect(getStatus('PENDING')).toBe('me.orders.status.pending')
-    expect(getStatus('CONFIRMED')).toBe('me.orders.status.confirmed')
     expect(getStatus('PREPARING')).toBe('me.orders.status.preparing')
     expect(getStatus('AWAITING_PICK_UP', 'PICKUP')).toBe('me.orders.status.awaitingPickup')
     expect(getStatus('AWAITING_PICK_UP')).toBe('me.orders.status.awaitingPickup')

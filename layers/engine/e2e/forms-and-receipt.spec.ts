@@ -246,14 +246,14 @@ test.describe('Order confirmation receipt', () => {
     {
       label: 'cash pickup',
       online: false,
-      status: 'CONFIRMED',
+      status: 'PENDING',
       payment: /Espèces au retrait/u,
       total: /25,00/u,
     },
     {
       label: 'paid online',
       online: true,
-      status: 'CONFIRMED',
+      status: 'PENDING',
       payment: /Payé en ligne/u,
       total: /25,30/u,
     },

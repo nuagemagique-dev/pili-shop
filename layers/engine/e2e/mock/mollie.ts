@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import type { MockOrder, MockState } from './state.ts'
 import type { MollieBehavior, OrderPatch, PaymentStatus } from './types.ts'
@@ -14,7 +15,8 @@ import type { MollieBehavior, OrderPatch, PaymentStatus } from './types.ts'
 
 /** The order and payment state each Mollie outcome leaves behind. */
 const OUTCOMES: Record<PaymentStatus, OrderPatch> = {
-  paid: { status: 'CONFIRMED', paymentStatus: 'paid' },
+  // Paid online: the order stays PENDING until the restaurant confirms it (then PREPARING).
+  paid: { status: 'PENDING', paymentStatus: 'paid' },
   failed: { status: 'FAILED', paymentStatus: 'failed' },
   canceled: { status: 'CANCELLED', paymentStatus: 'canceled' },
   expired: { status: 'CANCELLED', paymentStatus: 'expired' },

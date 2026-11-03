@@ -238,7 +238,6 @@ export function useOrderTracking(options: UseOrderTrackingOptions) {
   const getStatus = (status: string, type?: string): string => {
     const map: Record<string, string> = {
       PENDING: t('me.orders.status.pending'),
-      CONFIRMED: t('me.orders.status.confirmed'),
       PREPARING: t('me.orders.status.preparing'),
       AWAITING_PICK_UP:
         type === 'DELIVERY'

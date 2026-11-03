@@ -212,7 +212,6 @@
         "details": {
           "title": {
             "pending": "Order placed",
-            "confirmed": "Confirmed by the restaurant",
             "preparing": "Being prepared",
             "awaitingPickUp": "Ready for pickup",
             "outForDelivery": "Out for delivery",
@@ -221,7 +220,6 @@
           }
         },
         "pending": "Pending",
-        "confirmed": "Confirmed",
         "preparing": "Preparing",
         "awaitingPickup": "Ready for pickup",
         "pickedUp": "Picked up",

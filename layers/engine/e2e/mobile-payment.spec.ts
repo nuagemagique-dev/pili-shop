@@ -71,15 +71,15 @@ test.describe('Online payment through the hosted page', () => {
     await expect(page.getByTestId('receipt-subtotal')).toContainText(
       GOODS[brand].toFixed(2).replace('.', ','),
     )
-    // The webhook confirmed it: the timeline is past "received".
-    await expect(page.getByRole('list', { name: 'Suivi de la commande' })).toContainText(
-      'Confirmée par le restaurant',
-    )
+    // Paid, but the restaurant has not confirmed yet: the timeline is still on "received".
+    await expect(
+      page.getByRole('list', { name: 'Suivi de la commande' }).locator('[aria-current="step"]'),
+    ).toContainText('Commande reçue')
     await expect.poll(async () => (await cartLines(page)).length).toBe(0)
     await expect(page.getByTestId('floating-cart-bar')).toHaveCount(0)
     await noHorizontalScroll(page, 'order-completed')
     const [order] = await backend.mock.createdOrders()
-    expect(order?.status).toBe('CONFIRMED')
+    expect(order?.status).toBe('PENDING')
     expect(order?.paymentStatus).toBe('paid')
   })
 
@@ -173,7 +173,7 @@ test.describe('Online payment through the hosted page', () => {
     expect(await cartLines(page)).toHaveLength(1)
 
     const [order] = await backend.mock.createdOrders()
-    await backend.mock.settleOrder(order?.id ?? '', 'CONFIRMED', 'paid')
+    await backend.mock.settleOrder(order?.id ?? '', 'PENDING', 'paid')
     await expect(page.getByTestId('order-completed-title')).toBeVisible()
     await expect(page.getByTestId('order-completed-verifying')).toHaveCount(0)
     await expect.poll(async () => (await cartLines(page)).length).toBe(0)

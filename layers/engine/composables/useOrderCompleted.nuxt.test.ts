@@ -48,7 +48,8 @@ const ramen = makeProduct({ id: 'ramen' })
 
 const paid = (overrides: Partial<Order> = {}) =>
   makeOrder({
-    status: 'CONFIRMED',
+    // A paid online order stays PENDING until the restaurant confirms it (then PREPARING).
+    status: 'PENDING',
     payment: makePayment({ status: 'paid', paidAt: '2026-10-04T11:59:00Z' }),
     ...overrides,
   })
@@ -224,7 +225,7 @@ describe('the webhook that arrives late', () => {
     const view = mount()
     await settle(17_500)
     expect(view.phase.value).toBe('awaiting-confirmation')
-    subscription().data.value = { myOrderUpdated: { status: 'CONFIRMED' } }
+    subscription().data.value = { myOrderUpdated: { status: 'PREPARING' } }
     await settle()
     expect(view.phase.value).toBe('confirmed')
     expect(cart.products).toEqual([])
@@ -457,7 +458,7 @@ describe('the verify loop (the webhook may be late)', () => {
     await settle()
     await settle(400)
     // The subscription selects id, status, updatedAt, estimatedReadyTime and cancellationReason: a status is what it sends.
-    subscription().data.value = { myOrderUpdated: { status: 'CONFIRMED' } }
+    subscription().data.value = { myOrderUpdated: { status: 'PREPARING' } }
     await settle(400) // The first gap (800 ms) ends: the phase is no longer verifying
     expect(view.phase.value).toBe('confirmed')
     expect(fetches()).toBe(1)
@@ -499,7 +500,7 @@ describe('live updates', () => {
     const live = subscription()
     expect(live.query).toContain('myOrderUpdated')
     expect(live.variables).toEqual({ orderId: 'order-1' })
-    expect(view.order.value?.status).toBe('CONFIRMED')
+    expect(view.order.value?.status).toBe('PENDING')
     serve(paid({ status: 'PREPARING' }))
     await live.options.onReconnect!()
     expect(view.order.value?.status).toBe('PREPARING')
@@ -537,7 +538,7 @@ describe('live updates', () => {
     await settle()
     subscription().data.value = {}
     await settle()
-    expect(view.order.value?.status).toBe('CONFIRMED')
+    expect(view.order.value?.status).toBe('PENDING')
   })
 
   it('an order confirmed by a push ends the verifying phase and clears the cart', async () => {
@@ -545,7 +546,7 @@ describe('live updates', () => {
     const view = mount()
     await settle()
     expect(view.phase.value).toBe('verifying')
-    subscription().data.value = { myOrderUpdated: { status: 'CONFIRMED' } }
+    subscription().data.value = { myOrderUpdated: { status: 'PREPARING' } }
     await settle()
     expect(view.phase.value).toBe('confirmed')
     expect(cart.products).toEqual([])
@@ -583,14 +584,14 @@ describe('the polling fallback (a WebSocket that fails silently)', () => {
   })
 
   it('a changed payment status alone is merged as well (the status of the order is the same)', async () => {
-    // CONFIRMED with a payment still `open`: the verify loop does not run for it, so only the poll can see the change.
-    serve(paid({ payment: makePayment({ status: 'open' }) }))
+    // A PREPARING order with a payment still `open`: the verify loop does not run for it, so only the poll can see the change.
+    serve(paid({ status: 'PREPARING', payment: makePayment({ status: 'open' }) }))
     const view = mount()
     await settle()
     expect(view.phase.value).toBe('confirmed')
     expect(view.order.value?.payment?.status).toBe('open')
     const base = fetches()
-    serve(paid({ payment: makePayment({ status: 'paid' }) }))
+    serve(paid({ status: 'PREPARING', payment: makePayment({ status: 'paid' }) }))
     await settle(29_999)
     expect(fetches()).toBe(base)
     expect(view.order.value?.payment?.status).toBe('open')
@@ -692,7 +693,7 @@ describe('the polling fallback (a WebSocket that fails silently)', () => {
     release({ myOrder: paid({ status: 'PREPARING' }) })
     await settle()
     stop()
-    expect(shown).toContain('CONFIRMED')
+    expect(shown).toContain('PENDING')
     expect(shown).not.toContain('PREPARING')
   })
 })

@@ -192,7 +192,7 @@ test.describe('Checkout in columns', () => {
     await expect(page.getByTestId('receipt-payment')).toContainText('Payé en ligne')
     await expect.poll(async () => (await cartLines(page)).length).toBe(0)
     const [order] = await backend.mock.createdOrders()
-    expect(order).toMatchObject({ status: 'CONFIRMED', paymentStatus: 'paid' })
+    expect(order).toMatchObject({ status: 'PENDING', paymentStatus: 'paid' })
     expect(order?.input).toMatchObject({ isOnlinePayment: true, orderType: 'PICKUP' })
   })
 
