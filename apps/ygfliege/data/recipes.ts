@@ -59,7 +59,3 @@ export const RECIPE_IMAGE = { widths: [640, 1000, 1400], fallbackWidth: 640, fal
 
 export const recipeByKey = (key: unknown): Recipe | undefined =>
   typeof key === 'string' ? RECIPES.find((recipe) => recipe.key === key) : undefined
-
-/** How many portions a recipe puts in the bowl. */
-export const recipeCount = (recipe: Recipe): number =>
-  Object.values(recipe.ingredients).reduce((sum, qty) => sum + (qty ?? 0), 0)

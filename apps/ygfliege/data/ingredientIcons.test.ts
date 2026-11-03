@@ -6,7 +6,7 @@ import {
   productIllustration,
 } from './ingredientIcons'
 import { INGREDIENTS } from './menuIngredients'
-import { RECIPES } from './recipes'
+import { RECIPES, recipeByKey } from './recipes'
 
 describe('foodIconKey', () => {
   it('reads the seed names in the four locales', () => {
@@ -53,5 +53,16 @@ describe('productIllustration', () => {
     // A dish before one of its ingredients: these are dumplings, not beef slices.
     expect(productIllustration('gyoza-boeuf', 'Gyoza de bœuf (5 pièces)')?.key).toBe('dumplings')
     expect(productIllustration('unknown-slug', 'Menu Découverte')).toBeUndefined()
+  })
+})
+
+describe('recipeByKey', () => {
+  it('reads the ?recipe= query: a known key, anything else is no recipe', () => {
+    expect(recipeByKey('seafood')?.image).toBe('/images/recipes/boeuf-fruits-de-mer')
+    expect(recipeByKey('mix')?.composerSlug).toBe('mala-mix-personnalise')
+    expect(recipeByKey('unknown')).toBeUndefined()
+    // A repeated query parameter arrives as an array, a bare one as null.
+    expect(recipeByKey(['seafood', 'tomato'])).toBeUndefined()
+    expect(recipeByKey(null)).toBeUndefined()
   })
 })
