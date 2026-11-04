@@ -28,7 +28,7 @@
         />
       </svg>
       <p class="text-amber-800 font-medium">
-        {{ $t(isOrderingDisabled ? 'checkout.orderDisabled' : 'checkout.restaurantClosed') }}
+        {{ $t(isOrderingDisabled ? 'menu.onlineOrderingOff' : 'checkout.restaurantClosed') }}
         <span
           v-if="nextOpeningTime && !isOrderingDisabled"
           class="block text-sm mt-1 font-normal"
