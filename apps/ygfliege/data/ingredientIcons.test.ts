@@ -236,6 +236,36 @@ describe('the production menu', () => {
       'enoki',
     ])
   })
+
+  it('builds the noodle bowls from what their posters show, no substitute needed', () => {
+    const menu = new Set(
+      PRODUCTION_INGREDIENTS.map(([fr]) => foodIconKey(fr)).filter((key) => key !== undefined),
+    )
+    expect(recipePlan(recipeByKey('beefNoodles')!, menu)).toEqual([
+      ['instant-noodles', 1],
+      ['pak-choi', 2],
+      ['bean-sprouts', 1],
+      ['carrot', 1],
+      ['quail-eggs', 1],
+    ])
+    expect(recipePlan(recipeByKey('tomYumNoodles')!, menu).map(([key]) => key)).toEqual([
+      'instant-noodles',
+      'shrimp',
+      'fish-slices',
+      'enoki',
+      'pak-choi',
+      'carrot',
+      'quail-eggs',
+    ])
+    expect(recipePlan(recipeByKey('tomatoNoodles')!, menu).map(([key]) => key)).toEqual([
+      'instant-noodles',
+      'pak-choi',
+      'enoki',
+      'wood-ear',
+      'carrot',
+      'quail-eggs',
+    ])
+  })
 })
 
 describe('preferredOver', () => {
@@ -260,6 +290,27 @@ describe('preferredOver', () => {
         current: '火锅宽粉（4片）',
       }),
     ).toBe(true)
+  })
+
+  it('takes the boiled egg of a noodle bowl over the quail eggs, in every locale', () => {
+    const noodles = recipeByKey('tomYumNoodles')!
+    const eggs = [
+      ['Œuf dur (1 pc)', 'Œufs de caille (5 pcs)'],
+      ['Boiled egg (1 pc)', 'Quail eggs (5 pcs)'],
+      ['Gekookt ei (1 st.)', 'Kwarteleitjes (5 st.)'],
+      ['水煮蛋（1个）', '鹌鹑蛋（5个）'],
+    ] as const
+    for (const [boiled, quail] of eggs) {
+      expect(foodIconKey(boiled), boiled).toBe('quail-eggs')
+      expect(
+        preferredOver(noodles, 'quail-eggs', { candidate: boiled, current: quail }),
+        boiled,
+      ).toBe(true)
+      expect(
+        preferredOver(noodles, 'quail-eggs', { candidate: quail, current: boiled }),
+        quail,
+      ).toBe(false)
+    }
   })
 
   it('keeps the first choice otherwise', () => {
@@ -301,6 +352,23 @@ describe('the Liège menu', () => {
       ).toBe(wanted)
       for (const [key] of plan) expect(menu.has(key), `${recipe.key}: ${key}`).toBe(true)
     }
+  })
+
+  it('swaps what the noodle bowls need and Liège does not sell for its closest', () => {
+    const menu = new Set(LIEGE_INGREDIENTS.map(([fr]) => foodIconKey(fr)!))
+    // No carrot in Liège: corn. No fish slices: fish balls. No wood ear: shiitake.
+    expect(Object.fromEntries(recipePlan(recipeByKey('beefNoodles')!, menu))).toMatchObject({
+      corn: 1,
+      'pak-choi': 2,
+    })
+    expect(Object.fromEntries(recipePlan(recipeByKey('tomYumNoodles')!, menu))).toMatchObject({
+      corn: 1,
+      'fish-balls': 1,
+    })
+    expect(Object.fromEntries(recipePlan(recipeByKey('tomatoNoodles')!, menu))).toMatchObject({
+      corn: 1,
+      shiitake: 1,
+    })
   })
 })
 

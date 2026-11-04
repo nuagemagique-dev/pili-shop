@@ -1,9 +1,10 @@
 import type { IngredientIconKey } from './ingredientIcons'
 
 /*
- * The illustrated recipes of the posters in the window (public/images/recipes, the franchisor's four classics drawn
- * for the Liège shop and set in French): "Composer ce bol" on the home page and in the bowl composer loads one into
- * the composer as a starting point, broth, heat and ingredients, that the customer then changes as they like.
+ * The illustrated recipes of the posters in the window (public/images/recipes: the franchisor's four classics drawn
+ * for the Liège shop and set in French, and the shop's three noodle bowls drawn in their style): "Composer ce bol" on
+ * the home page and in the bowl composer loads one into the composer as a starting point, broth, heat and
+ * ingredients, that the customer then changes as they like.
  *
  * The ingredients are the icon keys of data/ingredientIcons.ts, not choice ids: the composer finds the choice of the
  * live catalogue whose name maps to that icon (so a renamed or reordered choice still lands). A poster ingredient the
@@ -31,6 +32,9 @@ export interface Recipe {
   /** When the menu sells several choices of one ingredient (two beefs, two sweet potato noodles), the one the poster shows. */
   prefer?: Partial<Record<IngredientIconKey, RegExp>>
 }
+
+/** The boiled egg of the noodle bowls: the production menu sells it next to quail eggs, under the same icon. */
+const BOILED_EGG = /œuf dur|oeuf dur|boiled egg|gekookt ei|水煮蛋/iu
 
 export const RECIPES: readonly Recipe[] = [
   {
@@ -97,6 +101,54 @@ export const RECIPES: readonly Recipe[] = [
       enoki: 1,
     },
   },
+  {
+    key: 'beefNoodles',
+    image: '/images/recipes/nouilles-bouillon-os-de-boeuf',
+    broth: 'beef-bone',
+    heat: 1,
+    // Poster: the shop's beef bone noodle bowl, instant noodles with pak choi, bean sprouts, carrot and a boiled egg.
+    ingredients: {
+      'instant-noodles': 1,
+      'pak-choi': 2,
+      'bean-sprouts': 1,
+      carrot: 1,
+      'quail-eggs': 1,
+    },
+    prefer: { 'quail-eggs': BOILED_EGG },
+  },
+  {
+    key: 'tomYumNoodles',
+    image: '/images/recipes/nouilles-tom-yum',
+    broth: 'tom-yum',
+    heat: 1,
+    // Poster: instant noodles, shrimp, fish slices, enoki (for the shop bowl's shimeji), pak choi, carrot, boiled egg.
+    ingredients: {
+      'instant-noodles': 1,
+      shrimp: 1,
+      'fish-slices': 1,
+      enoki: 1,
+      'pak-choi': 1,
+      carrot: 1,
+      'quail-eggs': 1,
+    },
+    prefer: { 'quail-eggs': BOILED_EGG },
+  },
+  {
+    key: 'tomatoNoodles',
+    image: '/images/recipes/nouilles-bouillon-tomate',
+    broth: 'tomato',
+    heat: 0,
+    // Poster: instant noodles, pak choi, enoki, wood ear, carrot and a boiled egg.
+    ingredients: {
+      'instant-noodles': 1,
+      'pak-choi': 1,
+      enoki: 1,
+      'wood-ear': 1,
+      carrot: 1,
+      'quail-eggs': 1,
+    },
+    prefer: { 'quail-eggs': BOILED_EGG },
+  },
 ]
 
 /** The poster PNG fallback is 640 x 452 (every width of a set has the same ratio). */
@@ -107,8 +159,8 @@ export const recipeByKey = (key: unknown): Recipe | undefined =>
 
 /*
  * The closest ingredients, in order, for a poster ingredient the menu does not sell (the Liège menu has no squid, wood
- * ear, potato or Chinese cabbage): same family first, and an ingredient of the recipe itself last, so a substitute adds
- * something rather than doubling what is already there.
+ * ear, potato, carrot or Chinese cabbage): same family first, and an ingredient of the recipe itself last, so a
+ * substitute adds something rather than doubling what is already there.
  */
 export const RECIPE_SUBSTITUTES: Partial<Record<IngredientIconKey, readonly IngredientIconKey[]>> =
   {
@@ -129,6 +181,7 @@ export const RECIPE_SUBSTITUTES: Partial<Record<IngredientIconKey, readonly Ingr
     'beef-slices': ['beef-balls', 'pork-belly', 'lamb'],
     'beef-balls': ['fish-balls', 'sausage', 'beef-slices'],
     'lotus-root': ['potato', 'corn', 'bean-sprouts'],
+    carrot: ['corn', 'lotus-root', 'broccoli'],
     'quail-eggs': ['silken-tofu', 'tofu-skin'],
     'sweet-potato-noodles': ['rice-vermicelli', 'udon', 'instant-noodles'],
     udon: ['instant-noodles', 'sweet-potato-noodles', 'rice-vermicelli'],
