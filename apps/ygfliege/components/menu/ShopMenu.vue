@@ -6,15 +6,25 @@
     <div ref="contentContainer" class="w-full min-w-0 lg:w-2/3">
       <!-- The page's heading for screen readers (the visible headings are the categories, h2): the menu had no h1. -->
       <h1 class="sr-only">{{ $t('nav.menu') }}</h1>
-      <!-- Ordering banner: closed (loaded config only), closed but pre-orderable, or the config could not be loaded -->
+      <!-- Ordering banner: online ordering switched off (the restaurant itself may be open), closed (loaded config only), closed but pre-orderable, or the config could not be loaded -->
       <div v-if="isClosed" data-testid="menu-restaurant-closed" class="max-w-7xl mx-auto mt-4 px-4">
         <div
           class="px-4 py-3 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-3"
         >
           <span class="text-amber-700 shrink-0 mt-0.5"><MktIcon name="info" :size="20" /></span>
           <div class="min-w-0">
-            <p class="text-amber-900 text-sm font-semibold">{{ $t('menu.restaurantClosed') }}</p>
-            <p class="text-amber-800 text-sm mt-0.5">{{ $t('menu.restaurantClosedDetails') }}</p>
+            <p class="text-amber-900 text-sm font-semibold">
+              {{ $t(isOrderingDisabled ? 'menu.onlineOrderingOff' : 'menu.restaurantClosed') }}
+            </p>
+            <p class="text-amber-800 text-sm mt-0.5">
+              {{
+                $t(
+                  isOrderingDisabled
+                    ? 'menu.onlineOrderingOffDetails'
+                    : 'menu.restaurantClosedDetails',
+                )
+              }}
+            </p>
           </div>
         </div>
       </div>

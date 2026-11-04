@@ -125,6 +125,8 @@
     "pickupDiscountBadge": "{rate}% korting bij afhalen",
     "restaurantClosed": "Het restaurant is momenteel gesloten.",
     "restaurantClosedDetails": "U kunt het menu bekijken, maar bestellingen zijn niet beschikbaar.",
+    "onlineOrderingOff": "Online bestellen is momenteel niet mogelijk.",
+    "onlineOrderingOffDetails": "U kunt het menu bekijken en ons tijdens de openingsuren in het restaurant bezoeken.",
     "choice": "Keuze",
     "required": "Verplicht",
     "addWithPrice": "Toevoegen · {price}",

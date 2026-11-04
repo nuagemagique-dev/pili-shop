@@ -125,6 +125,8 @@
     "pickupDiscountBadge": "-{rate} % à emporter",
     "restaurantClosed": "Le restaurant est actuellement fermé.",
     "restaurantClosedDetails": "Vous pouvez consulter le menu, mais les commandes ne sont pas disponibles.",
+    "onlineOrderingOff": "La commande en ligne est momentanément indisponible.",
+    "onlineOrderingOffDetails": "Vous pouvez consulter la carte et venir nous voir au restaurant aux heures d'ouverture.",
     "choice": "Choix",
     "required": "Obligatoire",
     "addWithPrice": "Ajouter · {price}",

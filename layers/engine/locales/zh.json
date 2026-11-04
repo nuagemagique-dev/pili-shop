@@ -125,6 +125,8 @@
     "pickupDiscountBadge": "自取立减{rate}%",
     "restaurantClosed": "餐厅目前休息中。",
     "restaurantClosedDetails": "您可以浏览菜单，但暂时无法下单。",
+    "onlineOrderingOff": "暂不支持在线点餐。",
+    "onlineOrderingOffDetails": "您可以浏览菜单，并在营业时间内到店用餐。",
     "choice": "选项",
     "required": "必选",
     "addWithPrice": "添加 · {price}",
