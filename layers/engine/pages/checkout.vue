@@ -28,10 +28,12 @@
         />
       </svg>
       <p class="text-amber-800 font-medium">
-        {{ $t('checkout.restaurantClosed') }}
-        <span v-if="nextOpeningTime" class="block text-sm mt-1 font-normal">{{
-          $t('checkout.opensAt', { time: nextOpeningTime })
-        }}</span>
+        {{ $t(isOrderingDisabled ? 'menu.onlineOrderingOff' : 'checkout.restaurantClosed') }}
+        <span
+          v-if="nextOpeningTime && !isOrderingDisabled"
+          class="block text-sm mt-1 font-normal"
+          >{{ $t('checkout.opensAt', { time: nextOpeningTime }) }}</span
+        >
       </p>
     </div>
 
@@ -560,6 +562,7 @@ const {
   pending: restaurantConfigPending,
   isAvailable: isOrderingAvailable,
   isClosed: isOrderingClosed,
+  isOrderingDisabled,
   isPreorderOnly,
   preorderTime,
   loadFailed: configLoadFailed,

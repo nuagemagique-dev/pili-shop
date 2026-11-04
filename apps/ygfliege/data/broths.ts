@@ -9,14 +9,16 @@ export interface Broth {
   /** Chilis displayed (0 = not spicy, 1 = mild, 3 = pick-your-heat) */
   spiceLevel: 0 | 1 | 3
   vegan: boolean
+  /** Halal, as printed on the restaurant's menu (beef bone and Tom Yum). */
+  halal: boolean
 }
 
 export const BROTHS: [Broth, ...Broth[]] = [
-  { key: 'beef_bone', slug: 'beef-bone', spiceLevel: 3, vegan: false },
-  { key: 'tomato', slug: 'tomato', spiceLevel: 0, vegan: true },
-  { key: 'mala_dry', slug: 'mala-dry-mix', spiceLevel: 1, vegan: true },
-  { key: 'tom_yum', slug: 'tom-yum', spiceLevel: 1, vegan: false },
-  { key: 'mushroom', slug: 'mushroom', spiceLevel: 0, vegan: true },
+  { key: 'beef_bone', slug: 'beef-bone', spiceLevel: 3, vegan: false, halal: true },
+  { key: 'tomato', slug: 'tomato', spiceLevel: 0, vegan: true, halal: false },
+  { key: 'mala_dry', slug: 'mala-dry-mix', spiceLevel: 1, vegan: true, halal: false },
+  { key: 'tom_yum', slug: 'tom-yum', spiceLevel: 1, vegan: false, halal: true },
+  { key: 'mushroom', slug: 'mushroom', spiceLevel: 0, vegan: true, halal: false },
 ]
 
 /**

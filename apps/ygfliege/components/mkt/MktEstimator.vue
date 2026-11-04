@@ -39,6 +39,7 @@
           </template>
           <template #rate>{{ rateLabel }}</template>
         </i18n-t>
+        <span class="block mt-0.5" data-testid="estimator-broth">{{ brothLabel }}</span>
       </p>
       <label class="sr-only" for="estimator-weight">{{ $t('mkt.estimator.weight') }}</label>
       <input
@@ -70,9 +71,12 @@
 
 <script setup lang="ts">
 import {
+  BROTH_FEE_CENTS,
+  BROTH_FREE_FROM_G,
   COUNTER_PRICE_PER_100G_CENTS,
   ESTIMATOR_PRESETS_G,
   ESTIMATOR_RANGE_G,
+  brothFeeApplies,
   estimateCents,
   estimatorBowlScale,
 } from '~/data/estimator'
@@ -84,6 +88,15 @@ const { t } = useI18n()
 const grams = ref<number>(ESTIMATOR_PRESETS_G[1])
 const rateLabel = computed(() =>
   t('mkt.estimator.rate', { price: formatCents(COUNTER_PRICE_PER_100G_CENTS) }),
+)
+// The broth: 2,50 € below 400 g, free from 400 g (the printed menu's rule).
+const brothLabel = computed(() =>
+  brothFeeApplies(grams.value)
+    ? t('mkt.estimator.broth_fee', {
+        fee: formatCents(BROTH_FEE_CENTS),
+        grams: BROTH_FREE_FROM_G,
+      })
+    : t('mkt.estimator.broth_free', { grams: BROTH_FREE_FROM_G }),
 )
 </script>
 

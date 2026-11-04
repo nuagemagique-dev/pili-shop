@@ -33,11 +33,19 @@
       />
       {{ $t('mkt.broths.vegan_badge') }}
     </span>
+    <span
+      v-if="broth.halal"
+      data-testid="broth-halal"
+      class="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.03em] rounded-ygf-btn px-3 py-1 border text-blue-700 bg-blue-50 border-blue-200"
+    >
+      <DietIcon kind="halal" class="w-3 h-3" />
+      {{ $t('menu.halal') }}
+    </span>
   </div>
 </template>
 
 <script setup lang="ts">
-// Spice level (chilis + label) and vegan badge of a broth, as on the old ygfliege.be (broth selector, static menu).
+// Spice level (chilis + label), vegan and halal badges of a broth, as on the old ygfliege.be (broth selector, static menu).
 import type { Broth } from '~/data/broths'
 // Phosphor icons (same set as the old site); raw SVGs, tinted via currentColor.
 import leafIcon from '~/assets/icons/leaf.svg?raw'

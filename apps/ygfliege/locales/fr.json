@@ -250,7 +250,7 @@
       "ingredients_title": "Nos ingrédients",
       "ingredients_subtitle": "Tous frais, tous à composer : faites le bol qui vous ressemble.",
       "pricing_title": "Le prix au poids",
-      "pricing_desc": "Chez Yangguofu, pas de prix fixe : vous ne payez que ce que vous prenez. Vous remplissez votre bol, on le pèse, le prix s'affiche. Simple, clair et honnête.",
+      "pricing_desc": "Chez Yangguofu, pas de prix fixe : vous ne payez que ce que vous prenez. Vous remplissez votre bol, on le pèse, le prix s'affiche. Simple, clair et honnête. Le bouillon est offert dès 400 g, sinon il coûte 2,50 €.",
       "pricing_step1": "Remplissez",
       "pricing_step2": "Pesez",
       "pricing_step3": "Payez",
@@ -309,7 +309,6 @@
       "subtitle": "De Harbin à Liège, plus de 20 ans de passion pour le malatang.",
       "meta_desc": "L'histoire de Yangguofu Malatang, de Harbin en 2003 à Liège aujourd'hui. Plus de 7000 restaurants dans 25 pays.",
       "timeline": {
-        "heading": "Les grandes dates",
         "2003": {
           "title": "Tout commence à Harbin",
           "desc": "Yang Guofu ouvre son tout premier stand de malatang à Harbin, dans le nord-est de la Chine. Sa recette secrète : un bouillon d'os de bœuf aux herbes médicinales chinoises."
@@ -326,6 +325,7 @@
           "title": "Le renouveau",
           "desc": "Nouveau logo, nouvelle identité orange, boutiques Gen.6 : Yangguofu se réinvente pour séduire le monde entier, avec la « cuisine santé orientale » comme cap."
         },
+        "heading": "Les grandes dates",
         "liege": {
           "title": "Liège, Belgique",
           "desc": "Yangguofu débarque à Liège pour vous faire découvrir le vrai malatang, dans un cadre moderne et chaleureux."
@@ -347,25 +347,6 @@
       },
       "world_map": {
         "title": "Présents dans le monde entier"
-      },
-      "values": {
-        "title": "Nos valeurs",
-        "quality": {
-          "title": "Qualité",
-          "desc": "Des produits triés sur le volet, un bouillon préparé chaque jour. Jamais de compromis."
-        },
-        "freshness": {
-          "title": "Fraîcheur",
-          "desc": "Tout est frais, tout est sous vos yeux : vous voyez ce que vous choisissez."
-        },
-        "transparency": {
-          "title": "Transparence",
-          "desc": "Prix au poids, cuisine ouverte : rien à cacher."
-        },
-        "happiness": {
-          "title": "Bonheur",
-          "desc": "Le bonheur tient dans un bol. C'est notre promesse depuis 2003."
-        }
       },
       "counters": {
         "restaurants": "restaurants dans le monde",
@@ -446,6 +427,8 @@
       "desc": "Au comptoir, votre bol est pesé : vous payez ce que vous choisissez. Faites glisser pour estimer.",
       "for": "pour {weight} · {rate}",
       "rate": "{price} / 100 g",
+      "broth_fee": "+ {fee} de bouillon (offert dès {grams} g)",
+      "broth_free": "Bouillon offert dès {grams} g",
       "weight": "Poids du bol",
       "presets": ["Petit · {grams} g", "Moyen · {grams} g", "Gourmand · {grams} g"],
       "note": "Estimation indicative : le prix exact s'affiche sur la balance."

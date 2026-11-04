@@ -75,7 +75,11 @@ test.describe('Closed restaurant', () => {
     await fillCart(page, [GYOZA])
     await backend.mock.restaurant('disabled')
     await page.goto('/fr/checkout')
-    await expect(page.getByTestId('checkout-restaurant-closed')).toBeVisible()
+    // Ordering off is not a closed restaurant: the banner says online ordering is unavailable, never "fermé".
+    const banner = page.getByTestId('checkout-restaurant-closed')
+    await expect(banner).toBeVisible()
+    await expect(banner).toContainText('La commande en ligne est momentanément indisponible')
+    await expect(banner).not.toContainText('fermé')
     await expect(page.getByText('Les commandes sont actuellement désactivées')).toBeVisible()
     await expect(payButton(page)).toBeDisabled()
     // The menu does not take new products either.
