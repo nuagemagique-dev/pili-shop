@@ -20,7 +20,7 @@
       "description": "Ontdek onze malatang-kommen, huisbouillons, noedels en voorgerechten"
     },
     "contact": {
-      "description": "Kom langs of bel ons! Rue de la Cathédrale 51, Luik, België"
+      "description": "Kom langs of bel ons! Rue de la Cathédrale 45, Luik, België"
     }
   },
   "mkt": {
@@ -391,7 +391,7 @@
       "form_title": "Schrijf ons",
       "social_title": "Volg ons",
       "address_title": "Adres",
-      "address": "Rue de la Cathédrale 51, 4000 Luik",
+      "address": "Rue de la Cathédrale 45, 4000 Luik",
       "delivery_title": "Levering",
       "map_loading": "Kaart laden…",
       "delivery_soon": "Binnenkort beschikbaar",
@@ -435,7 +435,7 @@
       "closingSoon": "sluit bijna, om {time}",
       "readyIn": "klaar in ~{minutes} min",
       "preorder": "bestel voor {time}",
-      "onsiteOnly": "alleen ter plaatse",
+      "onsiteOnly": "alleen ter plaatse en om af te halen",
       "opensToday": "opent om {time}",
       "opensOn": "opent {day} om {time}",
       "everyDay": "Elke dag"
@@ -519,7 +519,7 @@
       },
       "delivery": {
         "question": "Leveren jullie?",
-        "answer": "Voorlopig zijn bestellingen enkel om af te halen, bij ons restaurant, Rue de la Cathédrale 51 in Luik. Levering komt er binnenkort aan!"
+        "answer": "Voorlopig zijn bestellingen enkel om af te halen, bij ons restaurant, Rue de la Cathédrale 45 in Luik. Levering komt er binnenkort aan!"
       },
       "payment": {
         "question": "Welke betaalmethodes?",
@@ -532,7 +532,7 @@
     }
   },
   "contact": {
-    "address": "Rue de la Cathédrale 51, Luik, België",
+    "address": "Rue de la Cathédrale 45, Luik, België",
     "closedTuesday": "Elke dag open"
   },
   "composer": {

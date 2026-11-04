@@ -233,7 +233,7 @@ test.describe('Order confirmation receipt', () => {
   // Each brand's pickup point is its own restaurant (apps/<brand>/brand.ts address.street).
   const PICKUP_POINT = {
     tokyosushi: /Rue de la Cathédrale 59/u,
-    ygfliege: /Rue de la Cathédrale 51/u,
+    ygfliege: /Rue de la Cathédrale 45/u,
   }
 
   const cases: {

@@ -20,7 +20,7 @@
       "description": "探索我们的麻辣烫、招牌汤底、面食和小食菜单"
     },
     "contact": {
-      "description": "欢迎光临或来电联系！地址：比利时列日 Rue de la Cathédrale 51"
+      "description": "欢迎光临或来电联系！地址：比利时列日 Rue de la Cathédrale 45"
     }
   },
   "mkt": {
@@ -391,7 +391,7 @@
       "form_title": "联系我们",
       "social_title": "关注我们",
       "address_title": "地址",
-      "address": "Rue de la Cathédrale 51, 4000 列日",
+      "address": "Rue de la Cathédrale 45, 4000 列日",
       "delivery_title": "外卖",
       "map_loading": "地图加载中…",
       "delivery_soon": "敬请期待",
@@ -435,7 +435,7 @@
       "closingSoon": "即将打烊，{time}",
       "readyIn": "约 {minutes} 分钟可取",
       "preorder": "预订 {time}",
-      "onsiteOnly": "仅限堂食",
+      "onsiteOnly": "仅限堂食和外带",
       "opensToday": "{time} 开门",
       "opensOn": "{day} {time} 开门",
       "everyDay": "每天"
@@ -519,7 +519,7 @@
       },
       "delivery": {
         "question": "送外卖吗？",
-        "answer": "目前仅支持自取，取餐地址为列日 Rue de la Cathédrale 51。外送服务即将上线！"
+        "answer": "目前仅支持自取，取餐地址为列日 Rue de la Cathédrale 45。外送服务即将上线！"
       },
       "payment": {
         "question": "支持哪些支付方式？",
@@ -532,7 +532,7 @@
     }
   },
   "contact": {
-    "address": "比利时列日 Rue de la Cathédrale 51",
+    "address": "比利时列日 Rue de la Cathédrale 45",
     "closedTuesday": "每天营业"
   },
   "composer": {

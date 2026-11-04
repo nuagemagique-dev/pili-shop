@@ -29,7 +29,7 @@ describe('useRestaurantSchema in the ygfliege app', () => {
       url: useRuntimeConfig().public.baseUrl,
       servesCuisine: ['Chinese', 'Malatang'],
       address: expect.objectContaining({
-        streetAddress: 'Rue de la Cathédrale 51',
+        streetAddress: 'Rue de la Cathédrale 45',
         postalCode: '4000',
       }),
     })

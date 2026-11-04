@@ -17,7 +17,7 @@ export const brand: BrandConfig = {
   // Trading name only: the legal form (SRL/SA/…) is not confirmed yet.
   legalName: 'Yangguofu Malatang Liège',
   address: {
-    street: 'Rue de la Cathédrale 51',
+    street: 'Rue de la Cathédrale 45',
     city: 'Liège',
     postal: '4000',
     region: 'Wallonie',
@@ -31,7 +31,7 @@ export const brand: BrandConfig = {
     tiktok: 'https://www.tiktok.com/@yangguofu.europe',
     rednote: 'https://www.xiaohongshu.com/user/profile/5cc5d7700000000011010db5',
   },
-  // Rue de la Cathédrale 51; a few doors from Tokyo Sushi Bar (59).
+  // Rue de la Cathédrale 45; a few doors from Tokyo Sushi Bar (59).
   // Geocoded via OSM Nominatim (same values the old site's Leaflet map used).
   geo: {
     lat: 50.64255,
@@ -41,7 +41,7 @@ export const brand: BrandConfig = {
   // Map and had no Google place link; this resolves to the same address
   // Without inventing a place ID.
   mapsUrl:
-    'https://www.google.com/maps/search/?api=1&query=Rue%20de%20la%20Cath%C3%A9drale%2051%2C%204000%20Li%C3%A8ge',
+    'https://www.google.com/maps/search/?api=1&query=Rue%20de%20la%20Cath%C3%A9drale%2045%2C%204000%20Li%C3%A8ge',
   // Brand founded 2003 in Harbin by Yang Guofu; Liège franchise opened 2026.
   foundingYear: 2003,
   cuisine: ['Chinese', 'Malatang'],

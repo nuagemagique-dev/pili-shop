@@ -20,7 +20,7 @@
       "description": "Discover our malatang bowls, signature broths, noodles and starters"
     },
     "contact": {
-      "description": "Visit us or give us a call! Rue de la Cathédrale 51, Liège, Belgium"
+      "description": "Visit us or give us a call! Rue de la Cathédrale 45, Liège, Belgium"
     }
   },
   "mkt": {
@@ -391,7 +391,7 @@
       "form_title": "Write to us",
       "social_title": "Follow us",
       "address_title": "Address",
-      "address": "Rue de la Cathédrale 51, 4000 Liège",
+      "address": "Rue de la Cathédrale 45, 4000 Liège",
       "delivery_title": "Delivery",
       "map_loading": "Loading map…",
       "delivery_soon": "Coming soon",
@@ -435,7 +435,7 @@
       "closingSoon": "closing soon, at {time}",
       "readyIn": "ready in ~{minutes} min",
       "preorder": "order for {time}",
-      "onsiteOnly": "dine-in only",
+      "onsiteOnly": "dine-in and takeaway only",
       "opensToday": "opens at {time}",
       "opensOn": "opens {day} at {time}",
       "everyDay": "Every day"
@@ -519,7 +519,7 @@
       },
       "delivery": {
         "question": "Do you deliver?",
-        "answer": "For now, orders are takeaway only, from our restaurant at Rue de la Cathédrale 51, Liège. Delivery is coming soon!"
+        "answer": "For now, orders are takeaway only, from our restaurant at Rue de la Cathédrale 45, Liège. Delivery is coming soon!"
       },
       "payment": {
         "question": "Which payment methods?",
@@ -532,7 +532,7 @@
     }
   },
   "contact": {
-    "address": "Rue de la Cathédrale 51, Liège, Belgium",
+    "address": "Rue de la Cathédrale 45, Liège, Belgium",
     "closedTuesday": "Open 7 days a week"
   },
   "composer": {

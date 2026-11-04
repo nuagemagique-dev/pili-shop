@@ -20,7 +20,7 @@
       "description": "Découvrez nos bols de malatang, bouillons signature, nouilles et entrées"
     },
     "contact": {
-      "description": "Rendez-nous visite ou appelez-nous ! Rue de la Cathédrale 51, Liège, Belgique"
+      "description": "Rendez-nous visite ou appelez-nous ! Rue de la Cathédrale 45, Liège, Belgique"
     }
   },
   "mkt": {
@@ -391,7 +391,7 @@
       "form_title": "Écrivez-nous",
       "social_title": "Suivez-nous",
       "address_title": "Adresse",
-      "address": "Rue de la Cathédrale 51, 4000 Liège",
+      "address": "Rue de la Cathédrale 45, 4000 Liège",
       "delivery_title": "Livraison",
       "map_loading": "Chargement de la carte…",
       "delivery_soon": "Bientôt disponible",
@@ -435,7 +435,7 @@
       "closingSoon": "ferme bientôt, à {time}",
       "readyIn": "prêt en ~{minutes} min",
       "preorder": "commandez pour {time}",
-      "onsiteOnly": "sur place uniquement",
+      "onsiteOnly": "sur place et à emporter uniquement",
       "opensToday": "ouvre à {time}",
       "opensOn": "ouvre {day} à {time}",
       "everyDay": "Tous les jours"
@@ -519,7 +519,7 @@
       },
       "delivery": {
         "question": "Livrez-vous ?",
-        "answer": "Pour le moment, les commandes sont à emporter uniquement, depuis notre restaurant Rue de la Cathédrale 51 à Liège. La livraison arrive bientôt !"
+        "answer": "Pour le moment, les commandes sont à emporter uniquement, depuis notre restaurant Rue de la Cathédrale 45 à Liège. La livraison arrive bientôt !"
       },
       "payment": {
         "question": "Quels moyens de paiement ?",
@@ -532,7 +532,7 @@
     }
   },
   "contact": {
-    "address": "Rue de la Cathédrale 51, Liège, Belgique",
+    "address": "Rue de la Cathédrale 45, Liège, Belgique",
     "closedTuesday": "Ouvert 7j/7"
   },
   "composer": {

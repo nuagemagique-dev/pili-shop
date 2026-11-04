@@ -293,7 +293,7 @@ test.describe('Takeaway-only brand (YGF)', () => {
 
     // No delivery option at all: the card says where to collect the order, with directions.
     await expect(page.getByTestId('checkout-option-delivery')).toHaveCount(0)
-    await expect(page.getByTestId('checkout-pickup-only')).toContainText('Rue de la Cathédrale 51')
+    await expect(page.getByTestId('checkout-pickup-only')).toContainText('Rue de la Cathédrale 45')
     await expect(page.getByTestId('checkout-pickup-directions')).toHaveAttribute(
       'href',
       /google\.com\/maps/u,
