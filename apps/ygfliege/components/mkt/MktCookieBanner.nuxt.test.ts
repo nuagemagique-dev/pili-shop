@@ -32,8 +32,8 @@ describe('MktCookieBanner', () => {
   it('asks for consent with a refuse and an accept button and a link to the privacy policy', async () => {
     const banner = await mount()
     const dialog = banner.get('[data-testid="cookie-banner"]')
-    expect(dialog.attributes('role')).toBe('dialog')
-    expect(dialog.attributes('aria-modal')).toBe('false')
+    expect(dialog.attributes('role')).toBe('region')
+    expect(dialog.attributes('aria-labelledby')).toBe('cookie-banner-title')
     expect(dialog.text()).toContain('Google Ads')
     expect(banner.get('[data-testid="cookie-banner-decline"]').text()).toBe('Decline')
     expect(banner.get('[data-testid="cookie-banner-accept"]').text()).toBe('Accept')

@@ -41,7 +41,8 @@ export async function waitForNuxtHydration(page: Page) {
     .catch(() => undefined)
 }
 
-// No-op: cookie consent banner was removed (Umami analytics doesn't use cookies)
+// No-op: the cookie banner of a brand with an advertising tag is kept closed by the `seedCookieChoice` fixture option
+// (support/test.ts); the banner's own spec turns that off.
 export async function dismissCookieConsent(_page: Page) {}
 
 /*

@@ -33,6 +33,13 @@ export interface BrandOptions {
   /* OTP test user for this brand; undefined skips specs that log in through the UI. */
   e2eUserEmail: string | undefined
   /*
+   * Keep the cookie banner of a brand with an advertising tag (brand.googleAdsId) closed: a refusal is stored before any
+   * page script runs, as if the visitor had answered on an earlier visit. On by default, because the banner covers the
+   * bottom of the screen and every spec but the banner's own would have to click it away first; a spec that tests the
+   * banner sets it to false (`test.use({ seedCookieChoice: false })`). A no-op for a brand without the tag.
+   */
+  seedCookieChoice: boolean
+  /*
    * Mock mode (playwright.mock.config.ts): where the mock tsb-service listens and which fake OIDC session the
    * authenticated pages get. Undefined = real mode: the test server, Zitadel and its database.
    */
@@ -66,13 +73,39 @@ function loadAuthState(configFile: string | undefined): CapturedOidcState | null
  * it via isAuthenticated().
  */
 export const test = base.extend<
-  BrandOptions & { authenticatedPage: Page; backend: Backend; mockLifecycle: void }
+  BrandOptions & {
+    authenticatedPage: Page
+    backend: Backend
+    mockLifecycle: void
+    cookieChoiceSeed: void
+  }
 >({
   brand: ['tokyosushi', { option: true }],
   loginAvailable: [true, { option: true }],
   loginOrigin: [undefined, { option: true }],
   e2eUserEmail: [undefined, { option: true }],
   mock: [undefined, { option: true }],
+  seedCookieChoice: [true, { option: true }],
+
+  /*
+   * The stored refusal of seedCookieChoice (same key and shape as composables/useCookieConsent.ts), written only when
+   * there is none yet: a choice the spec makes itself survives its next navigation.
+   */
+  cookieChoiceSeed: [
+    async ({ context, seedCookieChoice }, use) => {
+      if (seedCookieChoice) {
+        await context.addInitScript(() => {
+          if (localStorage.getItem('cookie-consent') !== null) return
+          localStorage.setItem(
+            'cookie-consent',
+            JSON.stringify({ choice: 'denied', at: Date.now() }),
+          )
+        })
+      }
+      await use()
+    },
+    { auto: true },
+  ],
 
   /*
    * `page.goto` resolves once the app is hydrated: the window's load event, which `goto` waits for, can fire before the app
