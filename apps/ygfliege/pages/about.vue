@@ -156,24 +156,29 @@ useSeoMeta({
     </section>
 
     <!-- ── World map ── -->
-    <section class="max-w-5xl mx-auto px-4 sm:px-6 pb-16 sm:pb-20">
-      <h2 v-reveal class="text-center font-display font-bold text-3xl text-ygf-black mb-8">
-        {{ $t('mkt.about.world_map.title') }}
-      </h2>
-      <img
-        v-reveal
-        src="/images/icons/global-map.webp"
-        width="1431"
-        height="553"
-        :alt="$t('mkt.about.world_map.title')"
-        class="w-full h-auto"
-        loading="lazy"
-      />
+    <!-- The map art is white (dots, routes, country names) on transparency: it only reads on the orange band, which it shares with the counters. -->
+    <section class="bg-primary-600">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 pt-14 sm:pt-16">
+        <h2 v-reveal class="text-center font-display font-bold text-3xl text-white mb-8">
+          {{ $t('mkt.about.world_map.title') }}
+        </h2>
+        <img
+          v-reveal
+          src="/images/icons/global-map.webp"
+          width="1431"
+          height="553"
+          :alt="$t('mkt.about.world_map.title')"
+          class="w-full h-auto"
+          loading="lazy"
+        />
+      </div>
     </section>
 
     <!-- ── Counters ── -->
     <section class="bg-primary-600">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 py-14 sm:py-16 grid grid-cols-3 gap-6 text-center">
+      <div
+        class="max-w-4xl mx-auto px-4 sm:px-6 pt-6 pb-14 sm:pt-8 sm:pb-16 grid grid-cols-3 gap-6 text-center"
+      >
         <div v-for="(c, i) in COUNTERS" :key="c.key" v-reveal="i">
           <div class="font-display font-black text-3xl sm:text-5xl text-white">{{ c.value }}</div>
           <div class="mt-1 text-white text-xs sm:text-sm">
