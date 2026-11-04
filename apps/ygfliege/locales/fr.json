@@ -487,6 +487,21 @@
           "name": "Tomate à la japonaise",
           "desc": "Bouillon tomate, udon, œuf au plat, épinards, bœuf, surimi et enoki.",
           "alt": "Affiche illustrée : tomate à la japonaise"
+        },
+        "beefNoodles": {
+          "name": "Nouilles au bouillon de bœuf",
+          "desc": "Bouillon d'os de bœuf, nouilles instantanées, chou de Shanghai, pousses de soja, carotte et œuf dur.",
+          "alt": "Affiche illustrée : nouilles au bouillon de bœuf"
+        },
+        "tomYumNoodles": {
+          "name": "Nouilles Tom Yum",
+          "desc": "Bouillon Tom Yum, nouilles instantanées, crevettes, tranches de poisson, enoki, chou de Shanghai, carotte et œuf dur.",
+          "alt": "Affiche illustrée : nouilles Tom Yum"
+        },
+        "tomatoNoodles": {
+          "name": "Nouilles à la tomate",
+          "desc": "Bouillon tomate, nouilles instantanées, chou de Shanghai, enoki, champignons noirs, carotte et œuf dur.",
+          "alt": "Affiche illustrée : nouilles à la tomate"
         }
       }
     },

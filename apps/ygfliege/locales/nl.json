@@ -487,6 +487,21 @@
           "name": "Tomaat op Japanse wijze",
           "desc": "Tomatenbouillon, udon, spiegelei, spinazie, rund, surimi en enoki.",
           "alt": "Geïllustreerde affiche: tomaat op Japanse wijze"
+        },
+        "beefNoodles": {
+          "name": "Noedels in runderbottenbouillon",
+          "desc": "Runderbottenbouillon, instantnoedels, paksoi, taugé, wortel en een gekookt ei.",
+          "alt": "Geïllustreerde affiche: noedels in runderbottenbouillon"
+        },
+        "tomYumNoodles": {
+          "name": "Tom yum-noedels",
+          "desc": "Tom yum-bouillon, instantnoedels, garnalen, visplakjes, enoki, paksoi, wortel en een gekookt ei.",
+          "alt": "Geïllustreerde affiche: tom yum-noedels"
+        },
+        "tomatoNoodles": {
+          "name": "Noedels in tomatenbouillon",
+          "desc": "Tomatenbouillon, instantnoedels, paksoi, enoki, zwarte paddenstoelen, wortel en een gekookt ei.",
+          "alt": "Geïllustreerde affiche: noedels in tomatenbouillon"
         }
       }
     },

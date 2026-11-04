@@ -487,6 +487,21 @@
           "name": "Japanese-style tomato",
           "desc": "Tomato broth, udon, fried egg, spinach, beef, surimi and enoki.",
           "alt": "Illustrated poster: Japanese-style tomato"
+        },
+        "beefNoodles": {
+          "name": "Beef bone broth noodles",
+          "desc": "Beef bone broth, instant noodles, bok choy, bean sprouts, carrot and a boiled egg.",
+          "alt": "Illustrated poster: beef bone broth noodles"
+        },
+        "tomYumNoodles": {
+          "name": "Tom yum noodles",
+          "desc": "Tom yum broth, instant noodles, shrimp, fish slices, enoki, bok choy, carrot and a boiled egg.",
+          "alt": "Illustrated poster: tom yum noodles"
+        },
+        "tomatoNoodles": {
+          "name": "Tomato broth noodles",
+          "desc": "Tomato broth, instant noodles, bok choy, enoki, black fungus, carrot and a boiled egg.",
+          "alt": "Illustrated poster: tomato broth noodles"
         }
       }
     },
