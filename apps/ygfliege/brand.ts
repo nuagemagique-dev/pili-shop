@@ -78,6 +78,9 @@ export const brand: BrandConfig = {
   // While the shop is switched off (NUXT_PUBLIC_SHOP_ENABLED=false) /menu shows the static menu of the old ygfliege.be
   // (broths, ingredients, price by weight); the dynamic, orderable menu comes back with the shop.
   staticMenuWhenShopClosed: true,
+  // Google Ads tag of the YGF Ads account: loaded only once the visitor accepts the cookie banner (CookieBanner.vue).
+  // The CSP that lets it through is set in nuxt.config.ts (buildCsp({ googleAds: true })).
+  googleAdsId: 'AW-18511262555',
   // True keeps the privacy policy's app passages (push notifications, live activities, device tokens); false drops them.
   // oxlint-disable-next-line no-warning-comments
   // TODO(user): confirm whether YGF has a mobile app

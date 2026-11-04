@@ -409,13 +409,7 @@
       "tagline": "Le bonheur tient dans un bol",
       "rights": "Tous droits réservés.",
       "legal": "Mentions légales",
-      "privacy": "Politique de confidentialité",
-      "cookie": {
-        "title": "Cookies",
-        "text": "Nous utilisons des cookies pour améliorer votre navigation. En poursuivant, vous acceptez notre politique de confidentialité.",
-        "accept": "Accepter",
-        "decline": "Refuser"
-      }
+      "privacy": "Politique de confidentialité"
     },
     "placeholder": "Photo à venir",
     "seo": {
@@ -495,6 +489,14 @@
           "alt": "Affiche illustrée : tomate à la japonaise"
         }
       }
+    },
+    "cookieBanner": {
+      "title": "Cookies",
+      "text": "Avec votre accord, nous utilisons les cookies de Google Ads pour mesurer l’efficacité de nos publicités. Le site fonctionne de la même façon sans eux.",
+      "privacy": "En savoir plus",
+      "accept": "Accepter",
+      "decline": "Refuser",
+      "manage": "Gérer les cookies"
     }
   },
   "faq": {

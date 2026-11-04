@@ -1,6 +1,7 @@
 import { defineNuxtConfig } from 'nuxt/config'
 import { fileURLToPath } from 'node:url'
 import tailwindcss from '@tailwindcss/vite'
+import { buildCsp } from '../../layers/engine/lib/csp'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Yangguofu Malatang Liège app; the main app for ygfliege.be. Extends the
@@ -129,6 +130,11 @@ export default defineNuxtConfig({
   // The brand's own static pages join the engine's list of pages answered from memory (see the engine nuxt.config).
   runtimeConfig: {
     staticPageCache: { pages: ['about', 'concept'] },
+  },
+
+  // The engine's CSP plus Google's hosts, for the Google Ads tag of brand.googleAdsId (loaded after cookie consent).
+  routeRules: {
+    '/**': { headers: { 'Content-Security-Policy': buildCsp({ googleAds: true }) } },
   },
 
   // Per-subdirectory long cache headers for static assets. Nitro's

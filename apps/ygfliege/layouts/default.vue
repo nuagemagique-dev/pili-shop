@@ -92,6 +92,16 @@
                     to="/privacy"
                     >{{ $t('footer.privacy') }}</NuxtLinkLocale
                   >
+                  <!-- Withdrawing the cookie choice must be as easy as giving it: the banner, one tap away on every page. -->
+                  <button
+                    v-if="brand.googleAdsId"
+                    type="button"
+                    class="inline-flex min-h-11 items-center text-left hover:text-white transition-colors"
+                    data-testid="footer-manage-cookies"
+                    @click="reopenCookieBanner"
+                  >
+                    {{ $t('mkt.cookieBanner.manage') }}
+                  </button>
                 </nav>
 
                 <!-- Branded QR tiles from the YGF kit, labeled like the
@@ -199,6 +209,10 @@
         <ClientOnly>
           <LazyScrollToTopButton class="sm:hidden" />
         </ClientOnly>
+
+        <ClientOnly v-if="brand.googleAdsId">
+          <MktCookieBanner />
+        </ClientOnly>
       </Body>
     </Html>
   </div>
@@ -206,10 +220,12 @@
 
 <script lang="ts" setup>
 import ActionBar from '~/components/shop/ActionBar.vue'
+import MktCookieBanner from '~/components/mkt/MktCookieBanner.vue'
 import MobileNavbar from '~/components/navbar/MobileNavbar.vue'
 import TopNavbar from '~/components/navbar/TopNavbar.vue'
 import { computed } from 'vue'
 import { telHref } from '#engine/utils/phone'
+import { useCookieConsent } from '#engine/composables/useCookieConsent'
 import { useI18n } from 'vue-i18n'
 import { useLocaleHead } from '#i18n'
 import { useNotificationsStore } from '#engine/stores/notifications'
@@ -246,6 +262,7 @@ useRestaurantSchema(() => restaurantConfig.value?.restaurantConfig?.openingHours
 // Canonical + hreflang alternates (+ og:locale): one <link> each, keyed by id (checked in the built HTML, audit PR 6.4).
 const head = useLocaleHead({ seo: true })
 const notifications = useNotificationsStore()
+const { reopen: reopenCookieBanner } = useCookieConsent()
 
 const title = computed(() =>
   t(typeof route.meta.title === 'string' ? route.meta.title : 'head.title'),

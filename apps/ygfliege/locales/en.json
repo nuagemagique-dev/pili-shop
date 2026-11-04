@@ -409,13 +409,7 @@
       "tagline": "Happiness in every bowl",
       "rights": "All rights reserved.",
       "legal": "Legal notice",
-      "privacy": "Privacy policy",
-      "cookie": {
-        "title": "Cookies",
-        "text": "We use cookies to improve your experience. By continuing, you accept our privacy policy.",
-        "accept": "Accept",
-        "decline": "Decline"
-      }
+      "privacy": "Privacy policy"
     },
     "placeholder": "Photo coming soon",
     "seo": {
@@ -495,6 +489,14 @@
           "alt": "Illustrated poster: Japanese-style tomato"
         }
       }
+    },
+    "cookieBanner": {
+      "title": "Cookies",
+      "text": "With your consent, we use Google Ads cookies to measure how well our ads work. The site works just the same without them.",
+      "privacy": "Learn more",
+      "accept": "Accept",
+      "decline": "Decline",
+      "manage": "Manage cookies"
     }
   },
   "faq": {

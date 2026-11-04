@@ -1,5 +1,6 @@
 import { defineNuxtConfig } from 'nuxt/config'
 import { fileURLToPath } from 'node:url'
+import { buildCsp, cspOrigins } from './lib/csp'
 import { LOCALES } from './lib/locales'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -34,29 +35,10 @@ const envOr = (name: string, fallback: string): string => {
   return value !== undefined && value !== '' ? value : fallback
 }
 
-// Derive origins for CSP from environment variables (the API falls back to a local one for development only).
-const apiOrigin = new URL(envOr('API_BASE_URL', 'http://localhost:8080/api/v1')).origin
-const wsOrigin = apiOrigin.replace(/^http/u, 'ws')
-const s3Url = envOr('S3_BUCKET_URL', '')
-const s3Origin = s3Url ? new URL(s3Url).origin : ''
-const osm = 'https://www.openstreetmap.org'
-// OSM map tiles (a brand's Leaflet map, e.g. ygfliege's MktMap): images only
-const osmTiles = 'https://tile.openstreetmap.org'
-const umamiHost = envOr('UMAMI_HOST', 'https://analytics.nuagemagique.dev')
-const zitadelOrigin = envOr('ZITADEL_AUTHORITY', '')
-const turnstile = 'https://challenges.cloudflare.com'
-const sentryHost = 'https://*.ingest.de.sentry.io'
-
-const csp = `${[
-  "default-src 'self'",
-  `script-src 'self' 'unsafe-inline' ${umamiHost} ${turnstile}`,
-  "style-src 'self' 'unsafe-inline'",
-  `img-src 'self' data: ${osmTiles}${s3Url ? ` ${s3Url}` : ''}`,
-  "font-src 'self'",
-  `connect-src 'self' ${apiOrigin} ${wsOrigin}${zitadelOrigin ? ` ${zitadelOrigin}` : ''} ${osm} ${umamiHost} ${turnstile} ${sentryHost}`,
-  `frame-src 'self' ${osm}${zitadelOrigin ? ` ${zitadelOrigin}` : ''} ${turnstile}`,
-  "worker-src 'self' blob:",
-].join('; ')};`
+// The API and S3 origins (preconnected below) and the Content-Security-Policy come from lib/csp.ts, which a brand
+// loading more third parties (brand.googleAdsId) also calls for its own policy.
+const { api: apiOrigin, s3: s3Origin } = cspOrigins()
+const csp = buildCsp()
 
 const engineDir = fileURLToPath(new URL('./', import.meta.url))
 

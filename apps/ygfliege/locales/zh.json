@@ -409,13 +409,7 @@
       "tagline": "幸福就在此刻",
       "rights": "版权所有。",
       "legal": "法律声明",
-      "privacy": "隐私政策",
-      "cookie": {
-        "title": "Cookie 设置",
-        "text": "我们使用 Cookie 来改善您的体验。继续浏览即表示您接受我们的隐私政策。",
-        "accept": "接受",
-        "decline": "拒绝"
-      }
+      "privacy": "隐私政策"
     },
     "placeholder": "照片即将上线",
     "seo": {
@@ -495,6 +489,14 @@
           "alt": "插画海报：日式番茄锅"
         }
       }
+    },
+    "cookieBanner": {
+      "title": "Cookie",
+      "text": "经您同意，我们会使用 Google Ads 的 Cookie 来衡量广告效果。拒绝后，网站功能完全不受影响。",
+      "privacy": "了解更多",
+      "accept": "接受",
+      "decline": "拒绝",
+      "manage": "管理 Cookie"
     }
   },
   "faq": {
