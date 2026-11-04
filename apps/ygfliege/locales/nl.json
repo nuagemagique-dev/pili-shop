@@ -409,13 +409,7 @@
       "tagline": "Geluk in een kom",
       "rights": "Alle rechten voorbehouden.",
       "legal": "Juridische kennisgeving",
-      "privacy": "Privacybeleid",
-      "cookie": {
-        "title": "Cookies",
-        "text": "We gebruiken cookies om je ervaring te verbeteren. Door verder te gaan accepteer je ons privacybeleid.",
-        "accept": "Accepteren",
-        "decline": "Weigeren"
-      }
+      "privacy": "Privacybeleid"
     },
     "placeholder": "Foto binnenkort beschikbaar",
     "seo": {
@@ -495,6 +489,14 @@
           "alt": "Geïllustreerde affiche: tomaat op Japanse wijze"
         }
       }
+    },
+    "cookieBanner": {
+      "title": "Cookies",
+      "text": "Met uw toestemming gebruiken we cookies van Google Ads om te meten hoe goed onze advertenties werken. De site werkt zonder die cookies precies hetzelfde.",
+      "privacy": "Meer weten",
+      "accept": "Accepteren",
+      "decline": "Weigeren",
+      "manage": "Cookies beheren"
     }
   },
   "faq": {

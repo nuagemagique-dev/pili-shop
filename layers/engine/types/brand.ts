@@ -142,6 +142,12 @@ export interface BrandConfig {
    */
   staticMenuWhenShopClosed?: boolean
   /**
+   * Google Ads tag id (`AW-…`, public by design). When set, the site asks for cookie consent (the brand renders the
+   * banner from `useCookieConsent`) and loads Google's gtag.js only after the visitor accepted (plugins/google-ads.client.ts,
+   * Consent Mode v2). The brand's CSP must allow Google's hosts (`buildCsp({ googleAds: true })`). Omit: no tag, no banner.
+   */
+  googleAdsId?: string
+  /**
    * Whether the brand publishes a customer mobile app. The privacy policy describes the app (push notifications, live
    * activities, device tokens) only when it does; a brand without one gets the web-only text.
    */

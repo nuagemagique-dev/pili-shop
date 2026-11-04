@@ -11,7 +11,9 @@
     <!-- Header -->
     <header class="mb-10 text-center">
       <PageTitle> Politique de confidentialit&eacute; </PageTitle>
-      <p class="mt-3 text-sm text-neutral-600">Derni&egrave;re mise &agrave; jour : 01/10/2026</p>
+      <p class="mt-3 text-sm text-neutral-600">
+        Derni&egrave;re mise &agrave; jour : {{ lastUpdated }}
+      </p>
     </header>
 
     <!-- Company info -->
@@ -73,8 +75,19 @@
             &eacute;v&eacute;nements de navigation, collect&eacute;s de mani&egrave;re anonyme via
             Umami (aucun cookie, aucune donn&eacute;e personnelle).
           </li>
+          <li v-if="brand.googleAdsId">
+            <strong>Donn&eacute;es publicitaires</strong> (uniquement avec votre
+            consentement)&nbsp;: identifiant du cookie Google Ads, pages visit&eacute;es
+            apr&egrave;s un clic sur une de nos annonces et adresse IP, trait&eacute;es par Google
+            pour mesurer l&rsquo;efficacit&eacute; de nos publicit&eacute;s.
+          </li>
         </ul>
-        <p class="mt-2">
+        <p v-if="brand.googleAdsId" class="mt-2">
+          Nous ne collectons aucun identifiant publicitaire d&rsquo;appareil (IDFA/GAID). Le suivi
+          publicitaire Google Ads n&rsquo;est activ&eacute; qu&rsquo;avec votre consentement (voir
+          &laquo;&nbsp;Cookies et stockage local&nbsp;&raquo;).
+        </p>
+        <p v-else class="mt-2">
           Nous ne collectons aucun identifiant publicitaire (IDFA/GAID) et n&rsquo;utilisons pas de
           suivi publicitaire.
         </p>
@@ -113,6 +126,10 @@
           <li>
             E-mails marketing (d&eacute;sactivable dans les param&egrave;tres de votre compte).
           </li>
+          <li v-if="brand.googleAdsId">
+            Mesure de l&rsquo;efficacit&eacute; de nos publicit&eacute;s Google Ads (cookies
+            publicitaires, retirable &agrave; tout moment).
+          </li>
         </ul>
       </section>
 
@@ -148,8 +165,21 @@
             <strong>Apple Sign In</strong>&nbsp;: authentification (uniquement si le Client choisit
             cette option).
           </li>
+          <li v-if="brand.googleAdsId">
+            <strong>Google Ireland Limited</strong> (Irlande)&nbsp;: Google Ads, mesure des
+            conversions publicitaires (uniquement avec votre consentement). Google peut
+            transf&eacute;rer ces donn&eacute;es &agrave; Google LLC aux &Eacute;tats-Unis, dans le
+            cadre du Data Privacy Framework UE&ndash;&Eacute;tats-Unis.
+          </li>
         </ul>
-        <p class="mt-2">
+        <p v-if="brand.googleAdsId" class="mt-2">
+          Aucune donn&eacute;e n&rsquo;est vendue. En dehors de la mesure publicitaire Google Ads
+          d&eacute;crite ci-dessus, soumise &agrave; votre consentement, aucune donn&eacute;e
+          n&rsquo;est partag&eacute;e &agrave; des fins commerciales avec des tiers. Tous les
+          prestataires europ&eacute;ens sont h&eacute;berg&eacute;s dans l&rsquo;Union
+          europ&eacute;enne.
+        </p>
+        <p v-else class="mt-2">
           Aucune donn&eacute;e n&rsquo;est vendue ni partag&eacute;e &agrave; des fins commerciales
           avec des tiers. Tous les prestataires europ&eacute;ens sont h&eacute;berg&eacute;s dans
           l&rsquo;Union europ&eacute;enne.
@@ -218,6 +248,33 @@
           la vie priv&eacute;e. Umami ne d&eacute;pose aucun cookie et ne collecte aucune
           donn&eacute;e personnelle identifiable.
         </p>
+
+        <template v-if="brand.googleAdsId">
+          <h3 class="privacy-subheading">Cookies publicitaires (avec votre consentement)</h3>
+          <p>
+            &Agrave; votre premi&egrave;re visite, un bandeau vous demande si vous acceptez les
+            cookies de Google Ads. Tant que vous n&rsquo;avez pas accept&eacute;, le script de
+            Google n&rsquo;est pas charg&eacute; et aucun cookie publicitaire n&rsquo;est
+            d&eacute;pos&eacute;. Refuser n&rsquo;a aucun effet sur l&rsquo;utilisation du Site.
+          </p>
+          <ul class="privacy-list">
+            <li>
+              <strong>Google Ads</strong> (<code>_gcl_au</code> et autres cookies
+              <code>_gcl_*</code>)&nbsp;: mesure des visites et des commandes qui suivent un clic
+              sur une de nos annonces. Dur&eacute;e&nbsp;: 90 jours au plus.
+            </li>
+            <li>
+              <strong>Votre choix</strong> (<code>cookie-consent</code>, dans le
+              <code>localStorage</code>)&nbsp;: m&eacute;morise votre r&eacute;ponse au bandeau
+              pendant 6 mois, apr&egrave;s quoi la question vous est repos&eacute;e.
+            </li>
+          </ul>
+          <p class="mt-2">
+            Vous pouvez changer d&rsquo;avis &agrave; tout moment avec le lien
+            &laquo;&nbsp;G&eacute;rer les cookies&nbsp;&raquo; en bas de chaque page. Si vous
+            retirez votre consentement, les cookies Google Ads sont supprim&eacute;s.
+          </p>
+        </template>
       </section>
 
       <!-- 8 -->
@@ -238,6 +295,10 @@
           <li>
             <strong>Donn&eacute;es analytiques</strong>&nbsp;: anonymis&eacute;es apr&egrave;s 12
             mois.
+          </li>
+          <li v-if="brand.googleAdsId">
+            <strong>Cookies publicitaires</strong>&nbsp;: 90 jours au plus dans votre navigateur
+            (voir &laquo;&nbsp;Cookies et stockage local&nbsp;&raquo;).
           </li>
         </ul>
       </section>
@@ -326,6 +387,8 @@ const fullAddress = `${streetCityLine}, Belgique`
 const legalEntity = brand.legalForm ? `La ${brand.legalForm} ${brand.name}` : brand.name
 // A brand without a mobile app drops the sections about it (push notifications, live activities), so the later ones are numbered two lower.
 const skipped = brand.hasMobileApp ? 0 : 2
+// The Google Ads paragraphs (brand.googleAdsId) were added on 04/11/2026; the text of a brand without them is unchanged.
+const lastUpdated = brand.googleAdsId ? '04/11/2026' : '01/10/2026'
 
 useJsonLd(
   [
