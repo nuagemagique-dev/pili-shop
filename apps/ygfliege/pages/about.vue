@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { BRAND_FIGURES } from '~/data/brandFigures'
-// Brand story: storytelling blocks, timeline (2003 Harbin → 2026 Liège), values, world map and counters.
+// Brand story: storytelling blocks, timeline (2003 Harbin → 2026 Liège), world map and counters.
 // Ported from the ygfliege.be Vike site.
 definePageMeta({
   public: true,
@@ -22,13 +22,6 @@ const TIMELINE = [
   { year: '2017', key: '2017' },
   { year: '2024', key: '2024' },
   { year: '2026', key: 'liege' },
-] as const
-
-const VALUES = [
-  { emoji: '⭐', key: 'quality' },
-  { emoji: '🌿', key: 'freshness' },
-  { emoji: '👁️', key: 'transparency' },
-  { emoji: '🧡', key: 'happiness' },
 ] as const
 
 const COUNTERS = BRAND_FIGURES
@@ -129,29 +122,6 @@ useSeoMeta({
             </div>
           </li>
         </ol>
-      </div>
-    </section>
-
-    <!-- ── Values ── -->
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-      <h2 v-reveal class="text-center font-display font-bold text-3xl text-ygf-black mb-10">
-        {{ $t('mkt.about.values.title') }}
-      </h2>
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <div
-          v-for="(val, i) in VALUES"
-          :key="val.key"
-          v-reveal="i + 1"
-          class="bg-white border border-ygf-orange-100 rounded-ygf-card shadow-ygf-sm p-6 text-center"
-        >
-          <div class="text-3xl mb-3" aria-hidden="true">{{ val.emoji }}</div>
-          <h3 class="font-display font-bold text-lg text-ygf-black mb-2">
-            {{ $t(`mkt.about.values.${val.key}.title`) }}
-          </h3>
-          <p class="text-sm text-gray-600 leading-relaxed">
-            {{ $t(`mkt.about.values.${val.key}.desc`) }}
-          </p>
-        </div>
       </div>
     </section>
 

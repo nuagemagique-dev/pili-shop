@@ -309,7 +309,6 @@
       "subtitle": "Van Harbin tot Luik, meer dan 20 jaar passie voor malatang.",
       "meta_desc": "Het verhaal van Yangguofu Malatang, van Harbin in 2003 tot Luik vandaag. 7000+ restaurants in 25+ landen.",
       "timeline": {
-        "heading": "Belangrijke data",
         "2003": {
           "title": "Het begon in Harbin",
           "desc": "Yang Guofu opent zijn eerste malatang-kraam in Harbin, in het noordoosten van China. Zijn geheime recept: een runderbotbouillon met Chinese geneeskrachtige kruiden."
@@ -326,6 +325,7 @@
           "title": "De vernieuwing",
           "desc": "Nieuw oranje logo, Gen.6-winkelconcept: Yangguofu vindt zichzelf opnieuw uit met de ‘Oosterse wellnesskeuken’ als koers."
         },
+        "heading": "Belangrijke data",
         "liege": {
           "title": "Luik, België",
           "desc": "Yangguofu komt naar Luik om je authentieke malatang te laten ontdekken in een moderne, warme sfeer."
@@ -347,25 +347,6 @@
       },
       "world_map": {
         "title": "Wereldwijde aanwezigheid"
-      },
-      "values": {
-        "title": "Onze waarden",
-        "quality": {
-          "title": "Kwaliteit",
-          "desc": "Geselecteerde ingrediënten, dagelijks vers bereide bouillon. Nooit compromissen."
-        },
-        "freshness": {
-          "title": "Versheid",
-          "desc": "Alles is vers, alles is zichtbaar: je ziet wat je kiest."
-        },
-        "transparency": {
-          "title": "Transparantie",
-          "desc": "Betalen per gewicht, open keuken: niets is verborgen."
-        },
-        "happiness": {
-          "title": "Geluk",
-          "desc": "Geluk in een kom. Dat is onze belofte sinds 2003."
-        }
       },
       "counters": {
         "restaurants": "restaurants wereldwijd",
