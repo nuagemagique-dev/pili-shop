@@ -250,7 +250,7 @@
       "ingredients_title": "食材选择",
       "ingredients_subtitle": "全部新鲜，自由搭配：打造属于你的碗。",
       "pricing_title": "称重计价",
-      "pricing_desc": "在杨国福，没有固定价格：你只为你选择的食材付费。装满你的碗，称重，价格清晰透明。",
+      "pricing_desc": "在杨国福，没有固定价格：你只为你选择的食材付费。装满你的碗，称重，价格清晰透明。满 400 克汤底免费，不足则汤底收费 2.50 欧元。",
       "pricing_step1": "装碗",
       "pricing_step2": "称重",
       "pricing_step3": "付款",
@@ -427,6 +427,8 @@
       "desc": "在柜台称重计价：选多少，付多少。拖动滑块估算价格。",
       "for": "{weight} · {rate}",
       "rate": "{price} / 100 克",
+      "broth_fee": "另加汤底 {fee}（满 {grams} 克免费）",
+      "broth_free": "满 {grams} 克汤底免费",
       "weight": "碗的重量",
       "presets": ["小份 · {grams} 克", "中份 · {grams} 克", "大份 · {grams} 克"],
       "note": "仅供参考：准确价格以电子秤显示为准。"

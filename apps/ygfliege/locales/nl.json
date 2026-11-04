@@ -250,7 +250,7 @@
       "ingredients_title": "Onze ingrediënten",
       "ingredients_subtitle": "Allemaal vers, allemaal jouw keuze: stel de kom samen die bij jou past.",
       "pricing_title": "Betalen per gewicht",
-      "pricing_desc": "Bij Yangguofu is er geen vaste prijs: je betaalt alleen voor wat je pakt. Vul je kom, wij wegen, de prijs is duidelijk. Simpel, transparant, eerlijk.",
+      "pricing_desc": "Bij Yangguofu is er geen vaste prijs: je betaalt alleen voor wat je pakt. Vul je kom, wij wegen, de prijs is duidelijk. Simpel, transparant, eerlijk. De bouillon is gratis vanaf 400 g, anders kost hij € 2,50.",
       "pricing_step1": "Vul",
       "pricing_step2": "Weeg",
       "pricing_step3": "Betaal",
@@ -427,6 +427,8 @@
       "desc": "Aan de toonbank wordt je kom gewogen: je betaalt wat je kiest. Schuif om te schatten.",
       "for": "voor {weight} · {rate}",
       "rate": "{price} / 100 g",
+      "broth_fee": "+ {fee} voor de bouillon (gratis vanaf {grams} g)",
+      "broth_free": "Bouillon gratis vanaf {grams} g",
       "weight": "Gewicht van de kom",
       "presets": ["Klein · {grams} g", "Middel · {grams} g", "Hongerig · {grams} g"],
       "note": "Indicatieve schatting: de exacte prijs staat op de weegschaal."

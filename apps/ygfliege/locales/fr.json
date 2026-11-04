@@ -250,7 +250,7 @@
       "ingredients_title": "Nos ingrédients",
       "ingredients_subtitle": "Tous frais, tous à composer : faites le bol qui vous ressemble.",
       "pricing_title": "Le prix au poids",
-      "pricing_desc": "Chez Yangguofu, pas de prix fixe : vous ne payez que ce que vous prenez. Vous remplissez votre bol, on le pèse, le prix s'affiche. Simple, clair et honnête.",
+      "pricing_desc": "Chez Yangguofu, pas de prix fixe : vous ne payez que ce que vous prenez. Vous remplissez votre bol, on le pèse, le prix s'affiche. Simple, clair et honnête. Le bouillon est offert dès 400 g, sinon il coûte 2,50 €.",
       "pricing_step1": "Remplissez",
       "pricing_step2": "Pesez",
       "pricing_step3": "Payez",
@@ -427,6 +427,8 @@
       "desc": "Au comptoir, votre bol est pesé : vous payez ce que vous choisissez. Faites glisser pour estimer.",
       "for": "pour {weight} · {rate}",
       "rate": "{price} / 100 g",
+      "broth_fee": "+ {fee} de bouillon (offert dès {grams} g)",
+      "broth_free": "Bouillon offert dès {grams} g",
       "weight": "Poids du bol",
       "presets": ["Petit · {grams} g", "Moyen · {grams} g", "Gourmand · {grams} g"],
       "note": "Estimation indicative : le prix exact s'affiche sur la balance."

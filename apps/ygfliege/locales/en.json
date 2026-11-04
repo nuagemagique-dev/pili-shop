@@ -250,7 +250,7 @@
       "ingredients_title": "Our ingredients",
       "ingredients_subtitle": "All fresh, all your choice: build a bowl that is all you.",
       "pricing_title": "Pay by weight",
-      "pricing_desc": "At Yangguofu, there's no fixed price: you only pay for what you pick. Fill your bowl, we weigh it, the price is clear. Simple, transparent, fair.",
+      "pricing_desc": "At Yangguofu, there's no fixed price: you only pay for what you pick. Fill your bowl, we weigh it, the price is clear. Simple, transparent, fair. The broth is free from 400 g, otherwise it costs €2.50.",
       "pricing_step1": "Fill up",
       "pricing_step2": "Weigh",
       "pricing_step3": "Pay",
@@ -427,6 +427,8 @@
       "desc": "At the counter your bowl is weighed: you pay for what you pick. Slide to estimate.",
       "for": "for {weight} · {rate}",
       "rate": "{price} / 100 g",
+      "broth_fee": "+ {fee} for the broth (free from {grams} g)",
+      "broth_free": "Broth free from {grams} g",
       "weight": "Bowl weight",
       "presets": ["Small · {grams} g", "Medium · {grams} g", "Hungry · {grams} g"],
       "note": "Indicative estimate: the exact price shows on the scale."
