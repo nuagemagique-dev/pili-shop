@@ -2,15 +2,14 @@
   <!--
     The cookie choice for the Google Ads tag (brand.googleAdsId, engine plugin google-ads.client.ts). A card of the
     redesign (white, 24px radius, warm border and shadow) in the bottom-left corner from sm up, and across the bottom of
-    a phone above the action bar. Not modal: the site stays usable while it is open, and nothing is set before an
-    answer. Refusing is one click, next to accepting and at the same size.
+    a phone above the action bar. Not modal, so a labelled region rather than a dialog: the site stays usable while it is
+    open, and nothing is set before an answer. Refusing is one click, next to accepting and at the same size.
   -->
   <Transition name="cookie-banner">
     <section
       v-if="bannerOpen"
       ref="rootRef"
-      role="dialog"
-      aria-modal="false"
+      role="region"
       aria-labelledby="cookie-banner-title"
       aria-describedby="cookie-banner-text"
       tabindex="-1"
