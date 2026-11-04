@@ -32,10 +32,10 @@ export const brand: BrandConfig = {
     rednote: 'https://www.xiaohongshu.com/user/profile/5cc5d7700000000011010db5',
   },
   // Rue de la Cathédrale 45; a few doors from Tokyo Sushi Bar (59).
-  // Geocoded via OSM Nominatim (same values the old site's Leaflet map used).
+  // Geocoded via OSM Nominatim for number 45 (2026-11-04).
   geo: {
-    lat: 50.64255,
-    lng: 5.57505,
+    lat: 50.64261,
+    lng: 5.57529,
   },
   // Google Maps URL API search by address. The old site used an OSM/Leaflet
   // Map and had no Google place link; this resolves to the same address
