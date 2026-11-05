@@ -5,7 +5,7 @@
              142px side rail that the sticky TopNavbar replaced. -->
     <div ref="contentContainer" class="w-full min-w-0 lg:w-2/3">
       <!-- The page's heading for screen readers (the visible headings are the categories, h2): the menu had no h1. -->
-      <h1 v-if="!COMPOSER_ONLY_SHOP" class="sr-only">{{ $t('nav.menu') }}</h1>
+      <h1 v-if="!composerOnly" class="sr-only">{{ $t('nav.menu') }}</h1>
       <!-- Ordering banner: online ordering switched off (the restaurant itself may be open), closed (loaded config only), closed but pre-orderable, or the config could not be loaded -->
       <div v-if="isClosed" data-testid="menu-restaurant-closed" class="max-w-7xl mx-auto mt-4 px-4">
         <div
@@ -70,7 +70,7 @@
         >
           <!-- Search Bar (labeled); none on the composer page, where there is nothing to search -->
           <div
-            v-if="!COMPOSER_ONLY_SHOP"
+            v-if="!composerOnly"
             class="relative flex flex-1 max-[359px]:basis-full sm:max-w-md items-center rounded-full bg-white border border-ygf-orange-100 h-11 shadow-ygf-sm transition-colors duration-300 focus-within:border-ring focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-ygf-bg"
           >
             <svg
@@ -119,7 +119,7 @@
             v-if="deliveryHidden"
             compact
             class="xl:hidden shrink-0"
-            :class="COMPOSER_ONLY_SHOP ? '' : 'max-w-[11rem]'"
+            :class="composerOnly ? '' : 'max-w-[11rem]'"
           />
           <ClientOnly v-else>
             <DeliveryZoneChip compact class="xl:hidden shrink-0 max-w-[9.5rem]" />
@@ -205,8 +205,8 @@
                      full-width entry rather than an equal-weight grid tile (one
                      per composer: with and without broth). Hidden while
                      searching or filtering, where the grid is the answer. -->
-        <!-- The composer page (data/composer.ts COMPOSER_ONLY_SHOP): the choice between the two bowls, said plainly -->
-        <header v-if="COMPOSER_ONLY_SHOP" data-testid="composer-page-header" class="max-w-2xl">
+        <!-- The composer page (data/composer.ts, composerOnly): the choice between the two bowls, said plainly -->
+        <header v-if="composerOnly" data-testid="composer-page-header" class="max-w-2xl">
           <h1 class="section-title text-3xl sm:text-4xl">{{ $t('composer.pageTitle') }}</h1>
           <p class="mt-2 text-ygf-black/70">{{ $t('composer.pageSubtitle') }}</p>
         </header>
@@ -219,7 +219,7 @@
           >
             <div class="min-w-0 p-6 sm:p-8 flex flex-col items-start justify-center gap-3">
               <span
-                v-if="COMPOSER_ONLY_SHOP"
+                v-if="composerOnly"
                 data-testid="composer-hero-broth"
                 class="inline-flex items-center rounded-full bg-ygf-black px-3 py-1 text-sm font-bold uppercase tracking-wide text-white"
                 >{{ $t(composerHero(composer.slug).brothKey) }}</span
@@ -422,7 +422,8 @@ import {
   flattenProducts,
   searchProducts,
 } from '#engine/utils/menuCatalog'
-import { COMPOSER_ONLY_SHOP, composerHero, isBowlComposer } from '~/data/composer'
+import { composerHero, isBowlComposer } from '~/data/composer'
+import { useComposerOnly } from '~/composables/useComposerOnly'
 import { productPhotoUrls } from '~/data/productPhotos'
 import { recipeByKey } from '~/data/recipes'
 import { categoryCardOffsets } from '#engine/utils/menuImagePriority'
@@ -456,6 +457,7 @@ const routedProductId = computed(() =>
 const router = useRouter()
 const { trackEvent } = useTracking()
 const { deliveryHidden } = useDeliveryMode()
+const { composerOnly } = useComposerOnly()
 
 /** "En ligne : 2,50 € + vos ingrédients", read from the composer's own base price (never a literal). */
 const onlinePriceLabel = (price: string): string =>
@@ -664,7 +666,7 @@ const filteredProducts = computed(() =>
 // Categories displayed. Composer products are excluded from the grid: the hero banner is their single entry point, and
 // A card would show the bare base price (2,50 €) as if it were the full price.
 const displayedCategories = computed<ProductCategory[]>(() =>
-  COMPOSER_ONLY_SHOP
+  composerOnly
     ? []
     : displayedCategoriesOf(baseCategories.value, allProducts.value, {
         query: debouncedSearchValue.value,

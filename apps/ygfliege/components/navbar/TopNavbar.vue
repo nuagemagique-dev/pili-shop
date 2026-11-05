@@ -134,7 +134,7 @@ import { useI18n } from 'vue-i18n'
 import { useMounted } from '@vueuse/core'
 import { useRoute } from 'vue-router'
 import { useMenuOpen, useShopEnabled } from '#engine/composables/useShopEnabled'
-import { COMPOSER_LINK, COMPOSER_ONLY_SHOP } from '~/data/composer'
+import { useComposerOnly } from '~/composables/useComposerOnly'
 
 /**
  * Desktop/tablet header. Replaces the inherited 142px vertical icon rail,
@@ -147,6 +147,7 @@ const route = useRoute()
 const authStore = useAuthStore()
 const cartStore = useCartStore()
 const shopEnabled = useShopEnabled()
+const { composerOnly, composerLink } = useComposerOnly()
 const { deliveryHidden } = useDeliveryMode()
 const menuOpen = useMenuOpen()
 
@@ -163,10 +164,10 @@ const cartLabel = computed(() =>
 // the composer page. The six destinations of the redesign's header; `from` hides
 // the secondary ones where the row has no room for them (the footer lists all six on every width).
 const navItems = computed(() => [
-  ...(menuOpen && !(shopEnabled && COMPOSER_ONLY_SHOP)
+  ...(menuOpen && !(shopEnabled && composerOnly)
     ? [{ to: 'menu', label: t('nav.menu'), from: '' }]
     : []),
-  ...(shopEnabled ? [{ to: COMPOSER_LINK, label: t('mkt.nav.compose'), from: '' }] : []),
+  ...(shopEnabled ? [{ to: composerLink, label: t('mkt.nav.compose'), from: '' }] : []),
   { to: 'concept', label: t('mkt.nav.concept'), from: 'hidden md:block' },
   { to: 'about', label: t('mkt.nav.about'), from: 'hidden lg:block' },
   { to: 'contact', label: t('nav.contact'), from: '' },

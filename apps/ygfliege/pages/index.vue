@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { BRAND_FIGURES } from '~/data/brandFigures'
-import { COMPOSER_CATEGORY_SLUG, COMPOSER_LINK, COMPOSER_ONLY_SHOP } from '~/data/composer'
+import { COMPOSER_CATEGORY_SLUG } from '~/data/composer'
+import { useComposerOnly } from '~/composables/useComposerOnly'
 import { COUNTER_PRICE_PER_100G_CENTS } from '~/data/estimator'
 import { INGREDIENTS, ingredientIconSrc } from '~/data/menuIngredients'
 import { RECIPE_IMAGE, SHOWN_RECIPES } from '~/data/recipes'
@@ -32,6 +33,7 @@ definePageMeta({
 const { t } = useI18n()
 const { brand } = useAppConfig()
 const shopEnabled = useShopEnabled()
+const { composerOnly, composerLink } = useComposerOnly()
 // The menu link stays while the shop is switched off: /menu then shows the static menu (utils/shopGate.ts).
 const menuOpen = useMenuOpen()
 
@@ -151,7 +153,7 @@ useSeoMeta({
             <span ref="heroCta" class="inline-flex">
               <NuxtLinkLocale
                 v-if="shopEnabled"
-                :to="COMPOSER_LINK"
+                :to="composerLink"
                 data-testid="hero-order"
                 class="btn btn-primary w-full"
               >
@@ -168,7 +170,7 @@ useSeoMeta({
               </NuxtLinkLocale>
             </span>
             <NuxtLinkLocale
-              v-if="shopEnabled && !COMPOSER_ONLY_SHOP"
+              v-if="shopEnabled && !composerOnly"
               to="/menu"
               class="btn btn-secondary"
               data-testid="hero-see-menu"
@@ -350,7 +352,7 @@ useSeoMeta({
         </ul>
         <p v-if="menuOpen" class="text-center mt-8">
           <NuxtLinkLocale
-            :to="shopEnabled ? COMPOSER_LINK : '/menu'"
+            :to="shopEnabled ? composerLink : '/menu'"
             class="btn btn-primary"
             data-testid="home-ingredients-cta"
           >

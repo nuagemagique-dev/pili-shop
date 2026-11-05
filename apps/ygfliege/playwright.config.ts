@@ -54,6 +54,8 @@ export default defineConfig<BrandOptions>({
   ],
   webServer: {
     command: 'pnpm run dev --port 3001',
+    // The full menu (data/composer.ts): the shared shop specs walk the product grid, which the composer-only shop hides.
+    env: { NUXT_PUBLIC_COMPOSER_ONLY: 'false' },
     url: 'http://localhost:3001/fr/',
     reuseExistingServer: true,
     timeout: 120_000,

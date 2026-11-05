@@ -1,10 +1,10 @@
 import type { Product } from '#engine/types'
 import {
   COMPOSER_CATEGORY_SLUG,
-  COMPOSER_LINK,
-  COMPOSER_ONLY_SHOP,
   composerHero,
+  composerLink,
   isBowlComposer,
+  isComposerOnlyValue,
 } from './composer'
 import { describe, expect, it } from 'vite-plus/test'
 
@@ -36,8 +36,14 @@ describe('composerHero', () => {
 })
 
 describe('the composer-only shop', () => {
+  it('is on unless the flag says false, 0 or off', () => {
+    expect(isComposerOnlyValue(true)).toBe(true)
+    expect(isComposerOnlyValue(undefined)).toBe(true)
+    for (const off of [false, 'false', '0', 'OFF']) expect(isComposerOnlyValue(off)).toBe(false)
+  })
+
   it('leads "Composer" to the composer page, where the visitor picks with or without broth', () => {
-    expect(COMPOSER_ONLY_SHOP).toBe(true)
-    expect(COMPOSER_LINK).toBe('/menu')
+    expect(composerLink(true)).toBe('/menu')
+    expect(composerLink(false)).toBe('/menu?compose')
   })
 })

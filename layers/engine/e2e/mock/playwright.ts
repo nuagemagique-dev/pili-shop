@@ -30,6 +30,8 @@ export interface MockModeOptions {
   mockPort: number
   /** Specs of the app's own e2e folder that run on the mobile project. */
   brandMobileSpecs?: string[]
+  /** Extra environment of the app server (runtime config, e.g. a brand flag the shared specs need in a given state). */
+  appEnv?: Record<string, string>
 }
 
 const engineSpecDir = fileURLToPath(new URL('..', import.meta.url))
@@ -52,7 +54,7 @@ export function mockBuildEnv({ appPort, mockPort }: Pick<MockModeOptions, 'appPo
 }
 
 export function mockPlaywrightConfig(options: MockModeOptions): PlaywrightTestConfig<BrandOptions> {
-  const { brand, appDir, appPort, mockPort, brandMobileSpecs = [] } = options
+  const { brand, appDir, appPort, mockPort, brandMobileSpecs = [], appEnv = {} } = options
   const env = mockBuildEnv(options)
   const reuse = Boolean(process.env.E2E_REUSE)
   const nuxt = 'node ../../node_modules/nuxt/bin/nuxt.mjs build'
@@ -132,7 +134,7 @@ export function mockPlaywrightConfig(options: MockModeOptions): PlaywrightTestCo
       {
         command: process.env.E2E_SKIP_BUILD ? serve : `${nuxt} && ${serve}`,
         cwd: appDir,
-        env: { ...env, NITRO_PORT: String(appPort), NITRO_HOST: '127.0.0.1' },
+        env: { ...env, ...appEnv, NITRO_PORT: String(appPort), NITRO_HOST: '127.0.0.1' },
         url: `http://localhost:${appPort}/fr/menu`,
         reuseExistingServer: reuse,
         timeout: 300_000,
