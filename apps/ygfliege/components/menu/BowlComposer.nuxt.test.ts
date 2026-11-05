@@ -213,6 +213,28 @@ describe('opened from the menu', () => {
   })
 })
 
+describe('online ordering switched off', () => {
+  it('still composes the bowl, but the last button says ordering is coming and adds nothing', async () => {
+    const set = bowl()
+    gqlFetch.mockResolvedValue({ product: set.product })
+    const composer = await mountSuspended(BowlComposer, {
+      props: { product: set.id, orderingDisabled: true },
+    })
+    await settle()
+    await composer.get(`[data-testid="bowl-composer-choice-${set.tomato.id}"]`).trigger('click')
+    await composer.get(`[data-testid="bowl-composer-choice-inc-${set.tofu.id}"]`).trigger('click')
+    await composer
+      .get(`[data-testid="bowl-composer-choice-inc-${set.noodles.id}"]`)
+      .trigger('click')
+
+    const add = await confirm(composer)
+    expect(add.text()).toBe(t('composer.orderingSoon'))
+    expect(add.attributes('disabled')).toBeDefined()
+    await add.trigger('click')
+    expect(cart.products).toHaveLength(0)
+  })
+})
+
 describe('one step per screen', () => {
   /** The local seed's shape: a broth (two real broths), 2 to 5 ingredients, a spice level. */
   const seedBowl = () => {

@@ -245,7 +245,7 @@
                 type="button"
                 data-testid="composer-hero-cta"
                 class="btn btn-primary mt-2 max-w-full whitespace-normal text-center"
-                :disabled="!isCartAddAvailable || !composer.isAvailable"
+                :disabled="!composer.isAvailable"
                 @click="openModal(composer.id)"
               >
                 {{ $t('composer.open') }}
@@ -350,7 +350,6 @@
           v-if="composerProducts.length > 0"
           type="button"
           class="btn btn-primary btn-sm"
-          :disabled="!isCartAddAvailable"
           @click="openModal(composerProducts[0]!.id)"
         >
           {{ $t('composer.open') }}

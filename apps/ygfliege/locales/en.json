@@ -586,7 +586,8 @@
       "apply": "Build this bowl",
       "applied": "Recipe “{name}” loaded: {count} ingredients in the bowl, change them as you like.",
       "unavailable": "The ingredients of this recipe are not available today."
-    }
+    },
+    "orderingSoon": "Online ordering coming soon"
   },
   "nav": {
     "secondary": "Footer links"
@@ -596,5 +597,9 @@
       "heading": "One last step before paying: sign in",
       "subtitle": "A code sent by email is all it takes, no password. Your cart stays saved, and next time you reorder in one tap."
     }
+  },
+  "menu": {
+    "onlineOrderingOff": "Online ordering: coming soon!",
+    "onlineOrderingOffDetails": "It is not open yet, but it is on its way. Build your bowl now to see the prices, and in the meantime come and see us at the restaurant, to eat in or take away."
   }
 }

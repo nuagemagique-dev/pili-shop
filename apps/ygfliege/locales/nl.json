@@ -586,7 +586,8 @@
       "apply": "Deze kom samenstellen",
       "applied": "Recept ‘{name}’ geladen: {count} ingrediënten in de kom, pas aan naar smaak.",
       "unavailable": "De ingrediënten van dit recept zijn vandaag niet beschikbaar."
-    }
+    },
+    "orderingSoon": "Online bestellen binnenkort beschikbaar"
   },
   "nav": {
     "secondary": "Voettekstlinks"
@@ -596,5 +597,9 @@
       "heading": "Nog één stap voor de betaling: meld je aan",
       "subtitle": "Een code per e-mail volstaat, zonder wachtwoord. Je winkelmandje blijft bewaard, en de volgende keer bestel je opnieuw met één tik."
     }
+  },
+  "menu": {
+    "onlineOrderingOff": "Online bestellen: binnenkort beschikbaar!",
+    "onlineOrderingOffDetails": "Het is nog niet open, maar het komt er snel aan. Stel nu al je kom samen om de prijzen te zien, en kom ons intussen opzoeken in het restaurant, ter plaatse of om mee te nemen."
   }
 }

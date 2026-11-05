@@ -588,8 +588,12 @@
           :disabled="!canAddToCart"
           @click="addToCart"
         >
-          <span>{{ $t(editItem ? 'menu.update' : 'menu.addToCart') }}</span>
-          <span v-if="canAddToCart" class="tabular-nums">{{ formatCents(lineTotalCents) }}</span>
+          <!-- Online ordering switched off: the bowl can still be composed (and priced), the button says ordering is coming -->
+          <span v-if="orderingDisabled">{{ $t('composer.orderingSoon') }}</span>
+          <template v-else>
+            <span>{{ $t(editItem ? 'menu.update' : 'menu.addToCart') }}</span>
+            <span v-if="canAddToCart" class="tabular-nums">{{ formatCents(lineTotalCents) }}</span>
+          </template>
         </button>
       </div>
     </footer>

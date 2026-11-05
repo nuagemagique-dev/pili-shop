@@ -586,7 +586,8 @@
       "apply": "照这碗来一份",
       "applied": "已载入「{name}」：碗里有 {count} 样食材，可随意调整。",
       "unavailable": "这款搭配的食材今天没有。"
-    }
+    },
+    "orderingSoon": "在线点餐即将开放"
   },
   "nav": {
     "secondary": "页脚链接"
@@ -596,5 +597,9 @@
       "heading": "付款前最后一步：请登录",
       "subtitle": "只需输入邮箱收到的验证码，无需密码。购物车会一直保存，下次一键即可再次下单。"
     }
+  },
+  "menu": {
+    "onlineOrderingOff": "在线点餐即将开放！",
+    "onlineOrderingOffDetails": "暂未开放，但很快就来。现在就可以自选搭配，看看价格；在此之前，欢迎到店堂食或外带。"
   }
 }
