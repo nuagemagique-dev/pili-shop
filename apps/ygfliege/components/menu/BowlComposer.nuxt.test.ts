@@ -339,3 +339,84 @@ describe('one step per screen', () => {
     expect(ingredientCount(composer, set.tofu.id)).toBe('0')
   })
 })
+
+describe('"Sans bouillon" card of the broth step', () => {
+  /** Real broth names, so the broth step is planned (as with the production menu). */
+  const brothBowl = (id: string, withBroth: boolean) => {
+    const choice = (key: string, group: string, name: string) =>
+      makeChoice({ id: `${id}-${key}`, productId: id, choiceGroupId: `${id}-${group}`, name })
+    const tomato = choice('tomato', 'broth', 'Bouillon tomate mijoté')
+    const mushroom = choice('mushroom', 'broth', 'Bouillon champignons')
+    const tofu = choice('tofu', 'ingredients', 'Tofu frais')
+    const pak = choice('pak', 'ingredients', 'Pak choï')
+    const groups = [
+      ...(withBroth
+        ? [
+            {
+              id: `${id}-broth`,
+              productId: id,
+              minSelections: 1,
+              maxSelections: 1,
+              sortOrder: 0,
+              name: 'Bouillon',
+              choices: [tomato, mushroom],
+            },
+          ]
+        : []),
+      {
+        id: `${id}-ingredients`,
+        productId: id,
+        minSelections: 2,
+        maxSelections: 5,
+        sortOrder: 1,
+        name: 'Ingrédients',
+        choices: [tofu, pak],
+      },
+    ]
+    const product = makeProduct({
+      id,
+      name: withBroth ? 'Malatang' : 'Mala Mix',
+      choices: groups.flatMap((g) => g.choices),
+      choiceGroups: groups,
+    })
+    return { id, product, tofu, pak }
+  }
+
+  it('is not shown without a dry composer to switch to', async () => {
+    const wet = brothBowl(`wet-${++n}`, true)
+    gqlFetch.mockResolvedValue({ product: wet.product })
+    const composer = await mountSuspended(BowlComposer, { props: { product: wet.id } })
+    await settle()
+    expect(composer.find('[data-testid="bowl-composer-no-broth"]').exists()).toBe(false)
+  })
+
+  it('says plainly there is no broth, and switches to the dry composer with the ingredients picked so far', async () => {
+    const wet = brothBowl(`wet-${++n}`, true)
+    const dry = brothBowl(`dry-${++n}`, false)
+    gqlFetch.mockResolvedValue({ product: wet.product })
+    const composer = await mountSuspended(BowlComposer, {
+      props: { product: wet.id, dryAlternative: { id: dry.id } },
+    })
+    await settle()
+
+    const card = composer.get('[data-testid="bowl-composer-no-broth"]')
+    expect(card.text()).toContain(t('composer.withoutBroth'))
+    expect(card.text()).toContain(t('composer.noBroth.title'))
+
+    // Two tofu picked on the ingredients step, then back to the broth step and "Sans bouillon".
+    await composer.get('[data-testid="bowl-composer-step-1"]').trigger('click')
+    await composer.get(`[data-testid="bowl-composer-choice-inc-${wet.tofu.id}"]`).trigger('click')
+    await composer.get(`[data-testid="bowl-composer-choice-inc-${wet.tofu.id}"]`).trigger('click')
+    await composer.get('[data-testid="bowl-composer-step-0"]').trigger('click')
+    await composer.get('[data-testid="bowl-composer-no-broth"]').trigger('click')
+    expect(composer.emitted('switchProduct')).toEqual([[dry.id]])
+
+    // The dry composer opens with the same tofu, matched by name.
+    clearNuxtData()
+    gqlFetch.mockResolvedValue({ product: dry.product })
+    const next = await mountSuspended(BowlComposer, { props: { product: dry.id } })
+    await settle()
+    expect(next.find('[data-testid="bowl-composer-no-broth"]').exists()).toBe(false)
+    expect(ingredientCount(next, dry.tofu.id)).toBe('2')
+  })
+})
