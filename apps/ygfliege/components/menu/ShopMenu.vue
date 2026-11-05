@@ -372,8 +372,10 @@
               :key="`${routedProductId}-${modalAttempt}`"
               :product="routedProductId"
               :ordering-disabled="!isCartAddAvailable"
+              :dry-alternative="dryAlternativeFor(routedProductId)"
               @close="closeModal"
               @retry="modalAttempt++"
+              @switch-product="(id: string) => router.replace({ query: { product: id } })"
             />
             <ProductModal
               v-else
@@ -649,6 +651,17 @@ watch(
   },
   { immediate: true },
 )
+
+/** The composer without broth (Mala Mix), offered from the broth step of every other composer. */
+const dryComposer = computed(() =>
+  composerProducts.value.find(
+    (composer) => composerHero(composer.slug).brothKey === 'composer.withoutBroth',
+  ),
+)
+const dryAlternativeFor = (id: string): { id: string } | null => {
+  const dry = dryComposer.value
+  return dry && dry.id !== id && dry.isAvailable ? { id: dry.id } : null
+}
 
 /** Whether the product currently open in the route query is a composer. */
 const routedProductIsComposer = computed(() => {

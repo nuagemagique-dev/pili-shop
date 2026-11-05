@@ -171,6 +171,38 @@
                     {{ modifierLabel(broth.variants[0]!) }}
                   </span>
                 </button>
+                <!-- No broth: the dry bowl (Mala Mix) is another composer; this card switches to it, ingredients kept -->
+                <button
+                  v-if="dryAlternative"
+                  type="button"
+                  data-testid="bowl-composer-no-broth"
+                  :data-composer-step="i"
+                  class="broth-card text-left flex flex-col gap-1.5 p-2.5 pb-3 rounded-ygf-card border-2 border-dashed border-ygf-orange-200 bg-white shadow-ygf-sm focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  @click="switchToDry"
+                >
+                  <span class="relative block">
+                    <MktPicture
+                      src="/images/bowls/mala-dry-mix-top"
+                      :widths="[320, 560]"
+                      :fallback-width="560"
+                      :fallback-height="560"
+                      alt=""
+                      sizes="(min-width: 1024px) 150px, (min-width: 640px) 30vw, 45vw"
+                      class="block"
+                      img-class="broth-card-img w-full aspect-square object-contain"
+                    />
+                    <span
+                      class="absolute left-0 top-0 inline-flex items-center whitespace-nowrap rounded-full bg-ygf-black px-2 py-0.5 text-[0.6875rem] font-bold uppercase tracking-wide text-white"
+                      >{{ $t('composer.withoutBroth') }}</span
+                    >
+                  </span>
+                  <span class="text-sm font-semibold leading-snug text-ygf-black">
+                    {{ $t('composer.noBroth.title') }}
+                  </span>
+                  <span class="text-xs leading-snug text-ygf-gray-600">
+                    {{ $t('composer.noBroth.hint') }}
+                  </span>
+                </button>
               </div>
             </div>
 
@@ -484,7 +516,7 @@
       </div>
       <div class="hidden lg:block">
         <p translate="no" class="text-[1.0625rem] font-bold leading-snug text-ygf-black">
-          {{ pickedBroth ? brothName(pickedBroth) : $t('composer.pickBroth') }}
+          {{ pickedBroth ? brothName(pickedBroth) : brothPrompt }}
         </p>
         <p v-if="pickOneLine" translate="no" class="text-sm text-ygf-gray-600 mt-0.5">
           {{ pickOneLine }}
@@ -531,7 +563,7 @@
             <span translate="no" class="font-medium text-ygf-black">{{ blockingHint.name }}</span>
             &middot; {{ blockingHint.hint }}
           </template>
-          <template v-else>{{ summaryLabel || $t('composer.pickBroth') }}</template>
+          <template v-else>{{ summaryLabel || brothPrompt }}</template>
         </p>
         <span class="hidden lg:block flex-1 text-sm text-ygf-gray-600">
           {{ $t('composer.total') }} &middot; {{ basePriceLine }}
@@ -629,7 +661,7 @@ import { useCartItemEdit } from '#engine/composables/useCartItemEdit'
 import { useCartStore } from '#engine/stores/cart'
 import { useEventBus } from '@vueuse/core'
 import { useFocusTrap } from '#engine/composables/useFocusTrap'
-import { useGqlQuery, useRoute } from '#imports'
+import { useGqlQuery, useRoute, useState } from '#imports'
 import { useI18n } from 'vue-i18n'
 import { DRINK_ICON_KEYS, foodIconFor, foodIconKey } from '~/data/ingredientIcons'
 import {
@@ -654,13 +686,19 @@ import { useTracking } from '#engine/composables/useTracking'
  * it on confirm.
  */
 
-const { product, orderingDisabled = false } = defineProps<{
+const {
+  product,
+  orderingDisabled = false,
+  dryAlternative = null,
+} = defineProps<{
   /** Product id; the full record with choice names/prices is fetched here. */
   product: string
   orderingDisabled?: boolean
+  /** The composer without broth (Mala Mix), offered as a last card of the broth step; null when there is none. */
+  dryAlternative?: { id: string } | null
 }>()
 
-const emit = defineEmits<{ close: []; retry: [] }>()
+const emit = defineEmits<{ close: []; retry: []; switchProduct: [id: string] }>()
 
 const MAX_QUANTITY = 99
 
@@ -754,6 +792,35 @@ if (editItem?.selectedChoices?.length) {
   )
 }
 
+// Switching between composers ("Sans bouillon" card): the ingredients picked so far travel by name to the other one.
+const carriedIngredients = useState<Record<string, number> | null>(
+  'composer-carried-ingredients',
+  () => null,
+)
+if (!editItem && carriedIngredients.value) {
+  const carried = carriedIngredients.value
+  carriedIngredients.value = null
+  const next: Record<string, number> = {}
+  for (const group of choiceGroups.value.filter(isMultiSelectGroup))
+    for (const choice of group.choices) {
+      const count = carried[choice.name]
+      if (count) next[choice.id] = count
+    }
+  selectedChoiceQuantities.value = next
+}
+
+const switchToDry = () => {
+  if (!dryAlternative) return
+  const carried: Record<string, number> = {}
+  for (const group of choiceGroups.value.filter(isMultiSelectGroup))
+    for (const choice of group.choices) {
+      const count = quantityOf(choice)
+      if (count > 0) carried[choice.name] = count
+    }
+  carriedIngredients.value = Object.keys(carried).length ? carried : null
+  emit('switchProduct', dryAlternative.id)
+}
+
 // ── Steps ────────────────────────────────────────────────────────────────────
 
 /** The broth step of the plan without a pick (its options do not depend on one). */
@@ -767,6 +834,11 @@ const pickedBroth = computed((): BrothOption | undefined =>
   brothChoices.value.find((broth) => broth.variants.some((choice) => quantityOf(choice) > 0)),
 )
 const pickedBrothSlug = computed(() => pickedBroth.value?.slug ?? null)
+
+/** The rail's line before a broth is picked; a composer without a broth step (Mala Mix) says so instead. */
+const brothPrompt = computed(() =>
+  brothStep.value ? t('composer.pickBroth') : t('composer.withoutBroth'),
+)
 
 const steps = computed(() => planComposerSteps(choiceGroups.value, pickedBrothSlug.value))
 const stepIndex = ref(0)

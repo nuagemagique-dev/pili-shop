@@ -587,7 +587,11 @@
       "applied": "Recept ‘{name}’ geladen: {count} ingrediënten in de kom, pas aan naar smaak.",
       "unavailable": "De ingrediënten van dit recept zijn vandaag niet beschikbaar."
     },
-    "orderingSoon": "Online bestellen binnenkort beschikbaar"
+    "orderingSoon": "Online bestellen binnenkort beschikbaar",
+    "noBroth": {
+      "title": "Mala Mix, gewokt zonder bouillon",
+      "hint": "Je ingrediënten à la minute gewokt in de sesam-pindasaus, helemaal zonder bouillon."
+    }
   },
   "nav": {
     "secondary": "Voettekstlinks"

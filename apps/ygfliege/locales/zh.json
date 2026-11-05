@@ -587,7 +587,11 @@
       "applied": "已载入「{name}」：碗里有 {count} 样食材，可随意调整。",
       "unavailable": "这款搭配的食材今天没有。"
     },
-    "orderingSoon": "在线点餐即将开放"
+    "orderingSoon": "在线点餐即将开放",
+    "noBroth": {
+      "title": "麻辣拌，无汤干拌",
+      "hint": "食材现拌芝麻花生酱，完全不加汤。"
+    }
   },
   "nav": {
     "secondary": "页脚链接"

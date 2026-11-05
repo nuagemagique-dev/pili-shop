@@ -587,7 +587,11 @@
       "applied": "Recipe “{name}” loaded: {count} ingredients in the bowl, change them as you like.",
       "unavailable": "The ingredients of this recipe are not available today."
     },
-    "orderingSoon": "Online ordering coming soon"
+    "orderingSoon": "Online ordering coming soon",
+    "noBroth": {
+      "title": "Mala Mix, stir-fried with no broth",
+      "hint": "Your ingredients tossed to order in the sesame-peanut sauce, with no broth at all."
+    }
   },
   "nav": {
     "secondary": "Footer links"

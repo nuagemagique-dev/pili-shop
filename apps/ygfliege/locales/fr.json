@@ -587,7 +587,11 @@
       "applied": "Recette « {name} » chargée : {count} ingrédients dans le bol, modifiez à votre goût.",
       "unavailable": "Les ingrédients de cette recette ne sont pas disponibles aujourd'hui."
     },
-    "orderingSoon": "Commande en ligne bientôt disponible"
+    "orderingSoon": "Commande en ligne bientôt disponible",
+    "noBroth": {
+      "title": "Mala Mix, sauté sans bouillon",
+      "hint": "Vos ingrédients sautés minute dans la sauce sésame-cacahouète, sans aucun bouillon."
+    }
   },
   "nav": {
     "secondary": "Liens de bas de page"
