@@ -60,7 +60,9 @@
                   <NuxtLinkLocale
                     class="inline-flex min-h-11 items-center hover:text-white transition-colors"
                     to="/menu"
-                    >{{ $t('nav.menu') }}</NuxtLinkLocale
+                    >{{
+                      $t(shopEnabled && composerOnly ? 'mkt.nav.compose' : 'nav.menu')
+                    }}</NuxtLinkLocale
                   >
                   <NuxtLinkLocale
                     class="inline-flex min-h-11 items-center hover:text-white transition-colors"
@@ -233,11 +235,13 @@ import { useOrderingAvailability } from '#engine/composables/useOrderingAvailabi
 import { useRestaurantSchema } from '#engine/composables/useRestaurantSchema'
 import { useRoute } from 'vue-router'
 import { useShopEnabled } from '#engine/composables/useShopEnabled'
+import { useComposerOnly } from '~/composables/useComposerOnly'
 
 const route = useRoute()
 const { t } = useI18n()
 const { brand } = useAppConfig()
 const shopEnabled = useShopEnabled()
+const { composerOnly } = useComposerOnly()
 
 // Lazy: only consumed by <CartMobile> below, which is wrapped in <ClientOnly>.
 // Awaiting non-lazy here was blocking SSR TTFB on every page (~300ms in the audit).

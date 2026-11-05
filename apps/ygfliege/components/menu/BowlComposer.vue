@@ -588,8 +588,12 @@
           :disabled="!canAddToCart"
           @click="addToCart"
         >
-          <span>{{ $t(editItem ? 'menu.update' : 'menu.addToCart') }}</span>
-          <span v-if="canAddToCart" class="tabular-nums">{{ formatCents(lineTotalCents) }}</span>
+          <!-- Online ordering switched off: the bowl can still be composed (and priced), the button says ordering is coming -->
+          <span v-if="orderingDisabled">{{ $t('composer.orderingSoon') }}</span>
+          <template v-else>
+            <span>{{ $t(editItem ? 'menu.update' : 'menu.addToCart') }}</span>
+            <span v-if="canAddToCart" class="tabular-nums">{{ formatCents(lineTotalCents) }}</span>
+          </template>
         </button>
       </div>
     </footer>
@@ -627,10 +631,10 @@ import { useEventBus } from '@vueuse/core'
 import { useFocusTrap } from '#engine/composables/useFocusTrap'
 import { useGqlQuery, useRoute } from '#imports'
 import { useI18n } from 'vue-i18n'
-import { foodIconFor, foodIconKey } from '~/data/ingredientIcons'
+import { DRINK_ICON_KEYS, foodIconFor, foodIconKey } from '~/data/ingredientIcons'
 import {
-  RECIPES,
   RECIPE_IMAGE,
+  SHOWN_RECIPES,
   type Recipe,
   preferredOver,
   recipeByKey,
@@ -903,14 +907,20 @@ const modifierLabel = (choice: ProductChoice) =>
 const priceLabel = (choice: ProductChoice) =>
   toCents(choice.priceModifier) === 0 ? t('composer.included') : modifierLabel(choice)
 
-/** The illustration of an ingredient, from its name (none for a name the icon set does not know). */
-const iconOf = (choice: ProductChoice) => foodIconFor(choice.name)
+/** The illustration of an ingredient, from its name (none for a name the icon set does not know, nor for a drink). */
+const iconOf = (choice: ProductChoice) => {
+  const icon = foodIconFor(choice.name)
+  return icon && !DRINK_ICON_KEYS.has(icon.key) ? icon : undefined
+}
 
 // ── Recipes ──────────────────────────────────────────────────────────────────
 
-/** The recipes this composer can build: its own (the dry mix), or those whose broth is one of its broth cards. */
+/**
+ * The recipes the site shows (SHOWN_RECIPES) that this composer can build: its own (the dry mix), or those whose broth is
+ * one of its broth cards.
+ */
 const recipes = computed(() =>
-  RECIPES.filter(
+  SHOWN_RECIPES.filter(
     (recipe) =>
       recipe.composerSlug === p?.slug ||
       brothChoices.value.some((broth) => broth.slug === recipe.broth),

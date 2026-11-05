@@ -17,7 +17,8 @@
       "description": "Composez votre bol de bouillon aux herbes, frais et fait pour vous. Le bonheur tient dans un bol. Yangguofu Malatang à Liège."
     },
     "menu": {
-      "description": "Découvrez nos bols de malatang, bouillons signature, nouilles et entrées"
+      "title": "Composer votre bol - __BRAND__",
+      "description": "Composez votre bol de malatang, avec bouillon ou sans bouillon (Mala Mix), ingrédient par ingrédient."
     },
     "contact": {
       "description": "Rendez-nous visite ou appelez-nous ! Rue de la Cathédrale 45, Liège, Belgique"
@@ -538,6 +539,10 @@
     "title": "Votre bol sur mesure",
     "heroSubtitle": "Choisissez votre bouillon, remplissez votre bol ingrédient par ingrédient, réglez le piquant. Cuit minute, rien que pour vous.",
     "heroSubtitleDry": "Sans bouillon : remplissez votre bol ingrédient par ingrédient, choisissez le piquant de la sauce sésame-cacahouète. Sauté minute, rien que pour vous.",
+    "pageTitle": "Composez votre bol",
+    "pageSubtitle": "Avec ou sans bouillon : choisissez votre base, puis vos ingrédients.",
+    "withBroth": "Avec bouillon",
+    "withoutBroth": "Sans bouillon",
     "open": "Composer mon bol",
     "stepOf": "Étape {n}/{total}",
     "chosen": "Choisi",
@@ -581,7 +586,8 @@
       "apply": "Composer ce bol",
       "applied": "Recette « {name} » chargée : {count} ingrédients dans le bol, modifiez à votre goût.",
       "unavailable": "Les ingrédients de cette recette ne sont pas disponibles aujourd'hui."
-    }
+    },
+    "orderingSoon": "Commande en ligne bientôt disponible"
   },
   "nav": {
     "secondary": "Liens de bas de page"
@@ -591,5 +597,9 @@
       "heading": "Dernière étape avant le paiement : identifiez-vous",
       "subtitle": "Un code reçu par e-mail suffit, sans mot de passe. Votre panier reste sauvegardé, et la prochaine fois vous recommandez en un tap."
     }
+  },
+  "menu": {
+    "onlineOrderingOff": "Commande en ligne : bientôt disponible !",
+    "onlineOrderingOffDetails": "Elle n'est pas encore ouverte, mais ça arrive très vite. Composez déjà votre bol pour découvrir les prix, et en attendant venez nous voir au restaurant, sur place ou à emporter."
   }
 }

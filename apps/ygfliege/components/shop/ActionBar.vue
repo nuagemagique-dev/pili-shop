@@ -87,6 +87,7 @@ import { useBottomBarOffset } from '#engine/composables/useBottomBarOffset'
 import { useCartStore } from '#engine/stores/cart'
 import { useCartTotals } from '#engine/composables/useCartTotals'
 import { useMenuOpen, useShopEnabled } from '#engine/composables/useShopEnabled'
+import { useComposerOnly } from '~/composables/useComposerOnly'
 import { useRoute } from 'vue-router'
 
 const { t } = useI18n()
@@ -95,6 +96,7 @@ const route = useRoute()
 const cartStore = useCartStore()
 const { payableCents } = useCartTotals()
 const shopEnabled = useShopEnabled()
+const { composerLink } = useComposerOnly()
 const menuOpen = useMenuOpen()
 const isMounted = useMounted()
 
@@ -109,7 +111,7 @@ const isHomePage = computed(() => /^\/(?:[a-z]{2}\/?)?$/u.test(route.path))
 /** Menu everywhere but on the menu itself; with the shop on, "Commander" opens the composer. */
 const primary = computed(() => {
   if (isMenuPage.value) return null
-  if (shopEnabled) return { to: '/menu?compose', label: t('mkt.actionBar.order') }
+  if (shopEnabled) return { to: composerLink, label: t('mkt.actionBar.order') }
   return menuOpen
     ? { to: '/menu', label: t('mkt.actionBar.menu') }
     : { to: '/concept', label: t('mkt.nav.concept') }

@@ -2,9 +2,10 @@
 import { computed, ref } from 'vue'
 import { BRAND_FIGURES } from '~/data/brandFigures'
 import { COMPOSER_CATEGORY_SLUG } from '~/data/composer'
+import { useComposerOnly } from '~/composables/useComposerOnly'
 import { COUNTER_PRICE_PER_100G_CENTS } from '~/data/estimator'
 import { INGREDIENTS, ingredientIconSrc } from '~/data/menuIngredients'
-import { RECIPES, RECIPE_IMAGE } from '~/data/recipes'
+import { RECIPE_IMAGE, SHOWN_RECIPES } from '~/data/recipes'
 import MktEstimator from '~/components/mkt/MktEstimator.vue'
 import MktIcon from '~/components/mkt/MktIcon.vue'
 import MktOpenStatus from '~/components/mkt/MktOpenStatus.vue'
@@ -32,6 +33,7 @@ definePageMeta({
 const { t } = useI18n()
 const { brand } = useAppConfig()
 const shopEnabled = useShopEnabled()
+const { composerOnly, composerLink } = useComposerOnly()
 // The menu link stays while the shop is switched off: /menu then shows the static menu (utils/shopGate.ts).
 const menuOpen = useMenuOpen()
 
@@ -151,7 +153,7 @@ useSeoMeta({
             <span ref="heroCta" class="inline-flex">
               <NuxtLinkLocale
                 v-if="shopEnabled"
-                to="/menu?compose"
+                :to="composerLink"
                 data-testid="hero-order"
                 class="btn btn-primary w-full"
               >
@@ -168,7 +170,7 @@ useSeoMeta({
               </NuxtLinkLocale>
             </span>
             <NuxtLinkLocale
-              v-if="shopEnabled"
+              v-if="shopEnabled && !composerOnly"
               to="/menu"
               class="btn btn-secondary"
               data-testid="hero-see-menu"
@@ -270,11 +272,11 @@ useSeoMeta({
         </div>
         <!-- A swipe row on a phone, a grid from 640px -->
         <ul
-          class="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-px-4 no-scrollbar swipe-row -mx-4 px-4 pb-3 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-5 sm:overflow-visible"
+          class="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-px-4 no-scrollbar swipe-row -mx-4 px-4 pb-3 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-5 sm:overflow-visible"
           data-testid="home-recipes"
         >
           <li
-            v-for="(recipe, i) in RECIPES"
+            v-for="(recipe, i) in SHOWN_RECIPES"
             :key="recipe.key"
             v-reveal="i + 1"
             class="shrink-0 basis-[17.5rem] snap-start sm:basis-auto card flex flex-col"
@@ -350,7 +352,7 @@ useSeoMeta({
         </ul>
         <p v-if="menuOpen" class="text-center mt-8">
           <NuxtLinkLocale
-            :to="shopEnabled ? '/menu?compose' : '/menu'"
+            :to="shopEnabled ? composerLink : '/menu'"
             class="btn btn-primary"
             data-testid="home-ingredients-cta"
           >

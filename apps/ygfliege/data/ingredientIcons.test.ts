@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vite-plus/test'
 import {
+  DRINK_ICON_KEYS,
   INGREDIENT_ICON_KEYS,
   foodIconKey,
   foodIconSrc,
@@ -392,5 +393,14 @@ describe('recipePlan', () => {
         expect(substitute).not.toBe(key)
       }
     }
+  })
+})
+
+describe('DRINK_ICON_KEYS', () => {
+  it('covers the drinks of the composer, and no ingredient', () => {
+    for (const name of ['Coca original 330 ml', 'Coca zéro 330 ml', 'Evian eau minérale 330 ml'])
+      expect(DRINK_ICON_KEYS.has(foodIconKey(name)!)).toBe(true)
+    for (const name of ['Brocoli (4 pcs)', 'Crevettes (3 pcs)'])
+      expect(DRINK_ICON_KEYS.has(foodIconKey(name)!)).toBe(false)
   })
 })

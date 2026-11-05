@@ -130,6 +130,8 @@ export default defineNuxtConfig({
   // The brand's own static pages join the engine's list of pages answered from memory (see the engine nuxt.config).
   runtimeConfig: {
     staticPageCache: { pages: ['about', 'concept'] },
+    // The composer-only shop (data/composer.ts): NUXT_PUBLIC_COMPOSER_ONLY=false brings the full menu back.
+    public: { composerOnly: true },
   },
 
   // The engine's CSP plus Google's hosts, for the Google Ads tag of brand.googleAdsId (loaded after cookie consent).

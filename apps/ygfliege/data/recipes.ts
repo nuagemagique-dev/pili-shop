@@ -151,6 +151,21 @@ export const RECIPES: readonly Recipe[] = [
   },
 ]
 
+/**
+ * The recipes the site shows (owner's choice, 2026-11-05): only the three noodle bowls, on the home page and as a start
+ * in the composer. The other posters stay defined (and tested) but are not shown.
+ */
+export const SHOWN_RECIPE_KEYS: ReadonlySet<string> = new Set([
+  'beefNoodles',
+  'tomYumNoodles',
+  'tomatoNoodles',
+])
+
+/** The recipes the site shows, in poster order. */
+export const SHOWN_RECIPES: readonly Recipe[] = RECIPES.filter((recipe) =>
+  SHOWN_RECIPE_KEYS.has(recipe.key),
+)
+
 /** The poster PNG fallback is 640 x 452 (every width of a set has the same ratio). */
 export const RECIPE_IMAGE = { widths: [640, 1000, 1400], fallbackWidth: 640, fallbackHeight: 452 }
 

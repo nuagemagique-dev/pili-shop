@@ -17,7 +17,8 @@
       "description": "Build your own herbal-broth bowl, fresh and made for you. Happiness in every bowl. Yangguofu Malatang in Liège."
     },
     "menu": {
-      "description": "Discover our malatang bowls, signature broths, noodles and starters"
+      "title": "Build your bowl - __BRAND__",
+      "description": "Build your malatang bowl, with broth or without (Mala Mix), ingredient by ingredient."
     },
     "contact": {
       "description": "Visit us or give us a call! Rue de la Cathédrale 45, Liège, Belgium"
@@ -538,6 +539,10 @@
     "title": "Your custom bowl",
     "heroSubtitle": "Pick your broth, fill your bowl ingredient by ingredient, set the heat. Cooked to order, just for you.",
     "heroSubtitleDry": "No broth: fill your bowl ingredient by ingredient and pick the heat of the sesame-peanut sauce. Tossed to order, just for you.",
+    "pageTitle": "Build your bowl",
+    "pageSubtitle": "With or without broth: pick your base, then your ingredients.",
+    "withBroth": "With broth",
+    "withoutBroth": "Without broth",
     "open": "Build my bowl",
     "stepOf": "Step {n}/{total}",
     "chosen": "Chosen",
@@ -581,7 +586,8 @@
       "apply": "Build this bowl",
       "applied": "Recipe “{name}” loaded: {count} ingredients in the bowl, change them as you like.",
       "unavailable": "The ingredients of this recipe are not available today."
-    }
+    },
+    "orderingSoon": "Online ordering coming soon"
   },
   "nav": {
     "secondary": "Footer links"
@@ -591,5 +597,9 @@
       "heading": "One last step before paying: sign in",
       "subtitle": "A code sent by email is all it takes, no password. Your cart stays saved, and next time you reorder in one tap."
     }
+  },
+  "menu": {
+    "onlineOrderingOff": "Online ordering: coming soon!",
+    "onlineOrderingOffDetails": "It is not open yet, but it is on its way. Build your bowl now to see the prices, and in the meantime come and see us at the restaurant, to eat in or take away."
   }
 }

@@ -17,7 +17,8 @@
       "description": "自选食材，草本骨汤现点现煮。幸福就在此刻。杨国福麻辣烫列日店。"
     },
     "menu": {
-      "description": "探索我们的麻辣烫、招牌汤底、面食和小食菜单"
+      "title": "自选搭配 - __BRAND__",
+      "description": "自选搭配你的麻辣烫：有汤，或无汤干拌（Mala Mix），食材逐一挑选。"
     },
     "contact": {
       "description": "欢迎光临或来电联系！地址：比利时列日 Rue de la Cathédrale 45"
@@ -538,6 +539,10 @@
     "title": "你的专属麻辣烫",
     "heroSubtitle": "选好汤底，逐一挑选食材，再定辣度。现点现煮，只为你一人。",
     "heroSubtitleDry": "无汤干拌：逐一挑选食材，再选芝麻花生酱的辣度。现点现拌，只为你一人。",
+    "pageTitle": "自选搭配你的碗",
+    "pageSubtitle": "有汤还是无汤：先选底，再选食材。",
+    "withBroth": "有汤",
+    "withoutBroth": "无汤干拌",
     "open": "开始自选",
     "stepOf": "第 {n}/{total} 步",
     "chosen": "已选",
@@ -581,7 +586,8 @@
       "apply": "照这碗来一份",
       "applied": "已载入「{name}」：碗里有 {count} 样食材，可随意调整。",
       "unavailable": "这款搭配的食材今天没有。"
-    }
+    },
+    "orderingSoon": "在线点餐即将开放"
   },
   "nav": {
     "secondary": "页脚链接"
@@ -591,5 +597,9 @@
       "heading": "付款前最后一步：请登录",
       "subtitle": "只需输入邮箱收到的验证码，无需密码。购物车会一直保存，下次一键即可再次下单。"
     }
+  },
+  "menu": {
+    "onlineOrderingOff": "在线点餐即将开放！",
+    "onlineOrderingOffDetails": "暂未开放，但很快就来。现在就可以自选搭配，看看价格；在此之前，欢迎到店堂食或外带。"
   }
 }

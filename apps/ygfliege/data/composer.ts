@@ -7,6 +7,18 @@ export const COMPOSER_CATEGORY_SLUG = 'sur-mesure'
 
 export const isBowlComposer = (p: Product): boolean => p.category.slug === COMPOSER_CATEGORY_SLUG
 
+// The online shop can sell only the build-your-own bowls (owner's choice, 2026-11-05; runtime flag
+// NUXT_PUBLIC_COMPOSER_ONLY, on by default, read by composables/useComposerOnly.ts): /menu is then the composer page,
+// the two composer cards (with broth, without broth) and nothing else. The sets, drinks and snacks stay in the
+// catalogue (and in the composers' own choice groups) but get no grid of cards; the header has no "Menu" entry, only
+// "Composer". Off, /menu is the full menu again (the mock e2e runs that way).
+export const isComposerOnlyValue = (value: unknown): boolean =>
+  !['false', '0', 'off'].includes(String(value).trim().toLowerCase())
+
+/** Where "Composer" leads: the composer page, where the visitor picks with or without broth (else straight into the first composer). */
+export const composerLink = (composerOnly: boolean): string =>
+  composerOnly ? '/menu' : '/menu?compose'
+
 // Hero card of each composer, by product slug: the official bowl shot and
 // the subtitle. A bowl built in a broth gets the beef-bone bowl and the broth
 // copy; the dry one (Mala Mix, sans bouillon) the mala dry-mix bowl and a
@@ -16,17 +28,21 @@ export interface ComposerHero {
   photo: string
   /** I18n key of the subtitle. */
   subtitleKey: string
+  /** I18n key of the badge that says whether the bowl comes in a broth. */
+  brothKey: 'composer.withBroth' | 'composer.withoutBroth'
 }
 
 const DEFAULT_HERO: ComposerHero = {
   photo: '/images/bowls/beef-bone-top',
   subtitleKey: 'composer.heroSubtitle',
+  brothKey: 'composer.withBroth',
 }
 
 const COMPOSER_HEROES: Record<string, ComposerHero> = {
   'mala-mix-personnalise': {
     photo: '/images/bowls/mala-dry-mix-top',
     subtitleKey: 'composer.heroSubtitleDry',
+    brothKey: 'composer.withoutBroth',
   },
 }
 
