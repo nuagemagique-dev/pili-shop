@@ -6,7 +6,7 @@ import en from '../locales/en.json'
 import fr from '../locales/fr.json'
 import nl from '../locales/nl.json'
 import zh from '../locales/zh.json'
-import { RECIPES, RECIPE_IMAGE, recipeByKey } from './recipes'
+import { RECIPES, RECIPE_IMAGE, SHOWN_RECIPES, recipeByKey } from './recipes'
 
 const publicFile = (path: string) => new URL(`../public${path}`, import.meta.url)
 
@@ -53,5 +53,15 @@ describe.each([
       expect(items[key]?.desc, key).toBeTruthy()
       expect(items[key]?.alt, key).toBeTruthy()
     }
+  })
+})
+
+describe('the recipes shown', () => {
+  it('are the three noodle bowls only, in poster order', () => {
+    expect(SHOWN_RECIPES.map((recipe) => recipe.key)).toEqual([
+      'beefNoodles',
+      'tomYumNoodles',
+      'tomatoNoodles',
+    ])
   })
 })

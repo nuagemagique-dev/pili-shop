@@ -1,5 +1,11 @@
 import type { Product } from '#engine/types'
-import { COMPOSER_CATEGORY_SLUG, composerHero, isBowlComposer } from './composer'
+import {
+  COMPOSER_CATEGORY_SLUG,
+  COMPOSER_LINK,
+  COMPOSER_ONLY_SHOP,
+  composerHero,
+  isBowlComposer,
+} from './composer'
 import { describe, expect, it } from 'vite-plus/test'
 
 const inCategory = (slug: string) => ({ category: { slug } }) as Product
@@ -16,6 +22,7 @@ describe('composerHero', () => {
     expect(composerHero('mala-mix-personnalise')).toEqual({
       photo: '/images/bowls/mala-dry-mix-top',
       subtitleKey: 'composer.heroSubtitleDry',
+      brothKey: 'composer.withoutBroth',
     })
   })
 
@@ -23,6 +30,14 @@ describe('composerHero', () => {
     expect(composerHero('malatang-personnalise')).toEqual({
       photo: '/images/bowls/beef-bone-top',
       subtitleKey: 'composer.heroSubtitle',
+      brothKey: 'composer.withBroth',
     })
+  })
+})
+
+describe('the composer-only shop', () => {
+  it('leads "Composer" to the composer page, where the visitor picks with or without broth', () => {
+    expect(COMPOSER_ONLY_SHOP).toBe(true)
+    expect(COMPOSER_LINK).toBe('/menu')
   })
 })

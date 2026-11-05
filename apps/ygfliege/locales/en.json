@@ -17,7 +17,8 @@
       "description": "Build your own herbal-broth bowl, fresh and made for you. Happiness in every bowl. Yangguofu Malatang in Liège."
     },
     "menu": {
-      "description": "Discover our malatang bowls, signature broths, noodles and starters"
+      "title": "Build your bowl - __BRAND__",
+      "description": "Build your malatang bowl, with broth or without (Mala Mix), ingredient by ingredient."
     },
     "contact": {
       "description": "Visit us or give us a call! Rue de la Cathédrale 45, Liège, Belgium"
@@ -538,6 +539,10 @@
     "title": "Your custom bowl",
     "heroSubtitle": "Pick your broth, fill your bowl ingredient by ingredient, set the heat. Cooked to order, just for you.",
     "heroSubtitleDry": "No broth: fill your bowl ingredient by ingredient and pick the heat of the sesame-peanut sauce. Tossed to order, just for you.",
+    "pageTitle": "Build your bowl",
+    "pageSubtitle": "With or without broth: pick your base, then your ingredients.",
+    "withBroth": "With broth",
+    "withoutBroth": "Without broth",
     "open": "Build my bowl",
     "stepOf": "Step {n}/{total}",
     "chosen": "Chosen",

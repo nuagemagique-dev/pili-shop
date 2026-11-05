@@ -60,7 +60,9 @@
                   <NuxtLinkLocale
                     class="inline-flex min-h-11 items-center hover:text-white transition-colors"
                     to="/menu"
-                    >{{ $t('nav.menu') }}</NuxtLinkLocale
+                    >{{
+                      $t(shopEnabled && COMPOSER_ONLY_SHOP ? 'mkt.nav.compose' : 'nav.menu')
+                    }}</NuxtLinkLocale
                   >
                   <NuxtLinkLocale
                     class="inline-flex min-h-11 items-center hover:text-white transition-colors"
@@ -233,6 +235,7 @@ import { useOrderingAvailability } from '#engine/composables/useOrderingAvailabi
 import { useRestaurantSchema } from '#engine/composables/useRestaurantSchema'
 import { useRoute } from 'vue-router'
 import { useShopEnabled } from '#engine/composables/useShopEnabled'
+import { COMPOSER_ONLY_SHOP } from '~/data/composer'
 
 const route = useRoute()
 const { t } = useI18n()

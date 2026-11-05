@@ -17,7 +17,8 @@
       "description": "Stel je eigen kom met kruidenbouillon samen, vers en voor jou gemaakt. Geluk in een kom. Yangguofu Malatang in Luik."
     },
     "menu": {
-      "description": "Ontdek onze malatang-kommen, huisbouillons, noedels en voorgerechten"
+      "title": "Stel je kom samen - __BRAND__",
+      "description": "Stel je malatang-kom samen, met bouillon of zonder (Mala Mix), ingrediënt per ingrediënt."
     },
     "contact": {
       "description": "Kom langs of bel ons! Rue de la Cathédrale 45, Luik, België"
@@ -538,6 +539,10 @@
     "title": "Jouw kom op maat",
     "heroSubtitle": "Kies je bouillon, vul je kom ingrediënt per ingrediënt en bepaal hoe pittig. À la minute bereid, speciaal voor jou.",
     "heroSubtitleDry": "Zonder bouillon: vul je kom ingrediënt per ingrediënt en kies hoe pittig de sesam-pindasaus is. À la minute bereid, speciaal voor jou.",
+    "pageTitle": "Stel je kom samen",
+    "pageSubtitle": "Met of zonder bouillon: kies je basis, daarna je ingrediënten.",
+    "withBroth": "Met bouillon",
+    "withoutBroth": "Zonder bouillon",
     "open": "Stel mijn kom samen",
     "stepOf": "Stap {n}/{total}",
     "chosen": "Gekozen",

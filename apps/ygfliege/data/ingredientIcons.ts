@@ -185,6 +185,14 @@ export const foodIconSrc = (key: FoodIconKey): string =>
 export const foodIconKey = (name: string): FoodIconKey | undefined =>
   ICON_KEYWORDS.find(({ pattern }) => pattern.test(name))?.key
 
+/** The drink illustrations: the composer shows its drinks as plain tiles (owner's choice, 2026-11-05: no drink images). */
+export const DRINK_ICON_KEYS: ReadonlySet<FoodIconKey> = new Set<FoodIconKey>([
+  'iced-tea',
+  'plum-juice',
+  'soda-can',
+  'water',
+])
+
 /** The icon of a choice or product name, if its name says what it is. */
 export const foodIconFor = (name: string): { key: FoodIconKey; src: string } | undefined => {
   const key = foodIconKey(name)

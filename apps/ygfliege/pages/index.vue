@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { BRAND_FIGURES } from '~/data/brandFigures'
-import { COMPOSER_CATEGORY_SLUG } from '~/data/composer'
+import { COMPOSER_CATEGORY_SLUG, COMPOSER_LINK, COMPOSER_ONLY_SHOP } from '~/data/composer'
 import { COUNTER_PRICE_PER_100G_CENTS } from '~/data/estimator'
 import { INGREDIENTS, ingredientIconSrc } from '~/data/menuIngredients'
-import { RECIPES, RECIPE_IMAGE } from '~/data/recipes'
+import { RECIPE_IMAGE, SHOWN_RECIPES } from '~/data/recipes'
 import MktEstimator from '~/components/mkt/MktEstimator.vue'
 import MktIcon from '~/components/mkt/MktIcon.vue'
 import MktOpenStatus from '~/components/mkt/MktOpenStatus.vue'
@@ -151,7 +151,7 @@ useSeoMeta({
             <span ref="heroCta" class="inline-flex">
               <NuxtLinkLocale
                 v-if="shopEnabled"
-                to="/menu?compose"
+                :to="COMPOSER_LINK"
                 data-testid="hero-order"
                 class="btn btn-primary w-full"
               >
@@ -168,7 +168,7 @@ useSeoMeta({
               </NuxtLinkLocale>
             </span>
             <NuxtLinkLocale
-              v-if="shopEnabled"
+              v-if="shopEnabled && !COMPOSER_ONLY_SHOP"
               to="/menu"
               class="btn btn-secondary"
               data-testid="hero-see-menu"
@@ -270,11 +270,11 @@ useSeoMeta({
         </div>
         <!-- A swipe row on a phone, a grid from 640px -->
         <ul
-          class="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-px-4 no-scrollbar swipe-row -mx-4 px-4 pb-3 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-5 sm:overflow-visible"
+          class="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-px-4 no-scrollbar swipe-row -mx-4 px-4 pb-3 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-5 sm:overflow-visible"
           data-testid="home-recipes"
         >
           <li
-            v-for="(recipe, i) in RECIPES"
+            v-for="(recipe, i) in SHOWN_RECIPES"
             :key="recipe.key"
             v-reveal="i + 1"
             class="shrink-0 basis-[17.5rem] snap-start sm:basis-auto card flex flex-col"
@@ -350,7 +350,7 @@ useSeoMeta({
         </ul>
         <p v-if="menuOpen" class="text-center mt-8">
           <NuxtLinkLocale
-            :to="shopEnabled ? '/menu?compose' : '/menu'"
+            :to="shopEnabled ? COMPOSER_LINK : '/menu'"
             class="btn btn-primary"
             data-testid="home-ingredients-cta"
           >

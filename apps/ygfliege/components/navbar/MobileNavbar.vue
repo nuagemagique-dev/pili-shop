@@ -48,7 +48,7 @@
               <!-- Login and account are gone while the shop is switched off (utils/shopGate.ts); the menu stays,
                    showing the static menu. -->
               <MobileNavItem
-                v-if="menuOpen"
+                v-if="menuOpen && !(shopEnabled && COMPOSER_ONLY_SHOP)"
                 :label="$t('nav.menu')"
                 zh="菜单"
                 to="/menu"
@@ -58,7 +58,7 @@
                 v-if="shopEnabled"
                 :label="$t('mkt.nav.compose')"
                 zh="自选搭配"
-                to="/menu?compose"
+                :to="COMPOSER_LINK"
                 @click="closeMenu"
               />
               <MobileNavItem
@@ -149,6 +149,7 @@ import { useFocusTrap } from '#engine/composables/useFocusTrap'
 import { useLanguagePicker } from '#engine/composables/useLanguagePicker'
 import { useMediaQuery, useMounted } from '@vueuse/core'
 import { useMenuOpen, useShopEnabled } from '#engine/composables/useShopEnabled'
+import { COMPOSER_LINK, COMPOSER_ONLY_SHOP } from '~/data/composer'
 
 const authStore = useAuthStore()
 const cartStore = useCartStore()
