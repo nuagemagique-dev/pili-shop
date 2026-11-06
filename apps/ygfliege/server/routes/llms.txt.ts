@@ -1,4 +1,5 @@
 import { brand } from '#brand/brand'
+import { isComposerComingSoonValue } from '#brand/data/composer'
 import { isMenuOpen, isShopEnabledValue } from '#engine/utils/shopGate'
 import { useRuntimeConfig } from '#imports'
 
@@ -19,10 +20,14 @@ export default defineEventHandler((event) => {
   // While the shop is switched off (utils/shopGate.ts) the menu page shows the static menu (staticMenuWhenShopClosed):
   // Broths, ingredients and the price by weight, no online ordering.
   const shopEnabled = isShopEnabledValue(config.shopEnabled)
-  const ordering = shopEnabled ? ' Livraison et à emporter, commande en ligne.' : ''
-  const menuDescription = shopEnabled
-    ? 'Carte complète (bols malatang, bouillons signatures, nouilles, entrées et boissons).'
-    : 'Les cinq bouillons signatures, les ingrédients frais et le prix au poids.'
+  // While the composer is announced but not open yet (data/composer.ts), /menu says so and there is no online ordering.
+  const comingSoon = isComposerComingSoonValue(config.composerComingSoon)
+  const ordering = shopEnabled && !comingSoon ? ' Livraison et à emporter, commande en ligne.' : ''
+  const menuDescription = comingSoon
+    ? 'Commande en ligne bientôt disponible : en attendant, le bol se compose au comptoir du restaurant.'
+    : shopEnabled
+      ? 'Carte complète (bols malatang, bouillons signatures, nouilles, entrées et boissons).'
+      : 'Les cinq bouillons signatures, les ingrédients frais et le prix au poids.'
   const menuLine = isMenuOpen(shopEnabled, brand.staticMenuWhenShopClosed)
     ? `- [Menu](${PRODUCTION_BASE_URL}/fr/menu): ${menuDescription}\n`
     : ''

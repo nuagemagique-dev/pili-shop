@@ -38,8 +38,9 @@
 
       <div class="flex shrink-0 items-center gap-1 lg:gap-2">
         <!-- Delivery zone (or, takeaway only, the pickup address): ordering-wide state, so it lives here from 2xl up;
-                     below, the six links leave no room for it and the menu page carries the chip beside its search. -->
-        <template v-if="shopEnabled">
+                     below, the six links leave no room for it and the menu page carries the chip beside its search.
+                     Only while the composer is open: nothing is ordered while it is coming soon. -->
+        <template v-if="composerOpen">
           <PickupChip v-if="deliveryHidden" class="hidden 2xl:inline-flex max-w-[16rem]" />
           <DeliveryZoneChip v-else class="hidden 2xl:inline-flex" />
         </template>
@@ -133,8 +134,8 @@ import { useCartStore } from '#engine/stores/cart'
 import { useI18n } from 'vue-i18n'
 import { useMounted } from '@vueuse/core'
 import { useRoute } from 'vue-router'
-import { useMenuOpen, useShopEnabled } from '#engine/composables/useShopEnabled'
-import { useComposerOnly } from '~/composables/useComposerOnly'
+import { useShopEnabled } from '#engine/composables/useShopEnabled'
+import { useComposerAccess } from '~/composables/useComposerAccess'
 
 /**
  * Desktop/tablet header. Replaces the inherited 142px vertical icon rail,
@@ -147,9 +148,8 @@ const route = useRoute()
 const authStore = useAuthStore()
 const cartStore = useCartStore()
 const shopEnabled = useShopEnabled()
-const { composerOnly, composerLink } = useComposerOnly()
+const { composerOpen, composerLink, menuEntryShown } = useComposerAccess()
 const { deliveryHidden } = useDeliveryMode()
-const menuOpen = useMenuOpen()
 
 // Cart store rehydrates from localStorage post-mount; defer the totalItems read.
 const isMounted = useMounted()
@@ -160,14 +160,12 @@ const cartLabel = computed(() =>
 )
 
 // The menu entry stays while the shop is switched off: /menu then shows the static menu (utils/shopGate.ts); "Composer"
-// opens the bowl composer and only exists with the shop on. A composer-only shop (data/composer.ts) has no "Menu": /menu is
-// the composer page. The six destinations of the redesign's header; `from` hides
-// the secondary ones where the row has no room for them (the footer lists all six on every width).
+// opens the bowl composer and only exists while it is open. A composer-only shop (data/composer.ts) has no "Menu": /menu
+// is the composer page; while the composer is coming soon neither entry exists. The six destinations of the redesign's
+// header; `from` hides the secondary ones where the row has no room for them (the footer lists all six on every width).
 const navItems = computed(() => [
-  ...(menuOpen && !(shopEnabled && composerOnly)
-    ? [{ to: 'menu', label: t('nav.menu'), from: '' }]
-    : []),
-  ...(shopEnabled ? [{ to: composerLink, label: t('mkt.nav.compose'), from: '' }] : []),
+  ...(menuEntryShown ? [{ to: 'menu', label: t('nav.menu'), from: '' }] : []),
+  ...(composerOpen ? [{ to: composerLink, label: t('mkt.nav.compose'), from: '' }] : []),
   { to: 'concept', label: t('mkt.nav.concept'), from: 'hidden md:block' },
   { to: 'about', label: t('mkt.nav.about'), from: 'hidden lg:block' },
   { to: 'contact', label: t('nav.contact'), from: '' },

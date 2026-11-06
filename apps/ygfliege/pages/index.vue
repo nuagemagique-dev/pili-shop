@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { BRAND_FIGURES } from '~/data/brandFigures'
 import { COMPOSER_CATEGORY_SLUG } from '~/data/composer'
-import { useComposerOnly } from '~/composables/useComposerOnly'
+import { useComposerAccess } from '~/composables/useComposerAccess'
 import { COUNTER_PRICE_PER_100G_CENTS } from '~/data/estimator'
 import { INGREDIENTS, ingredientIconSrc } from '~/data/menuIngredients'
 import { RECIPE_IMAGE, SHOWN_RECIPES } from '~/data/recipes'
@@ -13,7 +13,6 @@ import MktPicture from '~/components/mkt/MktPicture.vue'
 import MktPracticalInfo from '~/components/mkt/MktPracticalInfo.vue'
 import { formatCents, formatPrice } from '#engine/lib/price'
 import { toCents } from '#engine/utils/money'
-import { useMenuOpen, useShopEnabled } from '#engine/composables/useShopEnabled'
 import { useHeroMotion, useMagnetic } from '~/composables/useMktMotion'
 // Phosphor icons (same set as the vitrine site); raw SVGs, tinted via
 // CurrentColor. Never emojis or hand-drawn paths.
@@ -24,7 +23,8 @@ import scalesIcon from '~/assets/icons/scales.svg?raw'
 // Marketing homepage (the 2026 redesign, "Main" board of the design canvas): hero with live status and price, how it
 // works, the broths, the illustrated recipes ("Composer ce bol"), everything that goes in the bowl, the price
 // estimator, the video band, why Yangguofu with the brand's figures, practical info with the map. Every ordering
-// affordance shows only while the shop is on; with the shop off it is a complete showcase (menu, directions, call, hours).
+// affordance shows only while the composer is open (data/composer.ts); otherwise it is a complete showcase (menu,
+// directions, call, hours), and while the composer is coming soon no price shows at all (hero line, estimator).
 definePageMeta({
   public: true,
   sitemap: { priority: 1, changefreq: 'weekly' },
@@ -32,10 +32,10 @@ definePageMeta({
 
 const { t } = useI18n()
 const { brand } = useAppConfig()
-const shopEnabled = useShopEnabled()
-const { composerOnly, composerLink } = useComposerOnly()
-// The menu link stays while the shop is switched off: /menu then shows the static menu (utils/shopGate.ts).
-const menuOpen = useMenuOpen()
+// What the page may offer of the online composer (data/composer.ts): the composer itself, or the showcase links (the
+// static menu while the shop is off, else the concept) and, while the composer is coming soon, no price at all.
+const { composerOpen, composerOnly, composerLink, composerComingSoon, pricesShown, showcaseLink } =
+  useComposerAccess()
 
 const { config: restaurantConfig } = await useOrderingAvailability({ lazy: true })
 const preparationMinutes = computed(
@@ -43,7 +43,7 @@ const preparationMinutes = computed(
 )
 
 // The online price rule ("En ligne : 2,50 € + vos ingrédients"), read from the composer product's own price: only
-// asked for while the shop is on, and never in the server render's way.
+// asked for while the composer is open, and never in the server render's way.
 const { data: composerData } = await useGqlQuery<{
   productCategories: { slug: string; products: { slug: string; price: string }[] }[]
 }>(
@@ -59,10 +59,10 @@ const { data: composerData } = await useGqlQuery<{
     }
   `,
   {},
-  { immediate: shopEnabled, lazy: true, server: false, cache: true },
+  { immediate: composerOpen, lazy: true, server: false, cache: true },
 )
 const onlinePrice = computed(() => {
-  if (!shopEnabled) return null
+  if (!composerOpen) return null
   const composer = composerData.value?.productCategories.find(
     (category) => category.slug === COMPOSER_CATEGORY_SLUG,
   )?.products[0]
@@ -75,9 +75,12 @@ const counterPrice = computed(() =>
   t('mkt.estimator.rate', { price: formatCents(COUNTER_PRICE_PER_100G_CENTS) }),
 )
 
-/** "Composer ce bol" opens the composer on that recipe; with the shop off the poster leads to the (static) menu. */
+/** "Composer ce bol" opens the composer on that recipe; with the composer not open the poster leads to the showcase. */
 const recipeLink = (key: string): string =>
-  shopEnabled ? `/menu?compose&recipe=${key}` : menuOpen ? '/menu' : '/concept'
+  composerOpen ? `/menu?compose&recipe=${key}` : showcaseLink
+
+// The page's description names the counter's price: another one while the composer is coming soon.
+const homeDescription = pricesShown ? t('mkt.seo.home_desc') : t('mkt.comingSoon.home_desc')
 
 // Motion of the old site (client only, none under reduced motion): hero bowl pop-in and scroll parallax, magnetic CTA.
 // The bowl's levitation is the CSS animation below.
@@ -93,8 +96,8 @@ useSeoMeta({
   title: t('mkt.seo.home_title'),
   ogType: 'website',
   ogTitle: t('mkt.seo.home_title'),
-  description: t('mkt.seo.home_desc'),
-  ogDescription: t('mkt.seo.home_desc'),
+  description: homeDescription,
+  ogDescription: homeDescription,
   ...useLocaleSeoMeta(),
 })
 </script>
@@ -131,8 +134,10 @@ useSeoMeta({
             {{ $t('mkt.hero.subtitle') }}
           </p>
 
-          <!-- The price: online base + ingredients while the shop is on, and the counter's rule, labelled as such -->
+          <!-- The price: online base + ingredients while the composer is open, and the counter's rule, labelled as such.
+               While the composer is coming soon, no price at all: only that it is coming. -->
           <p
+            v-if="pricesShown"
             class="mt-4 flex flex-wrap items-baseline justify-center lg:justify-start gap-x-2 gap-y-1 text-sm text-ygf-gray-600"
             data-testid="hero-price"
           >
@@ -145,6 +150,14 @@ useSeoMeta({
               <span>{{ $t('mkt.hero.payWhatYouWeigh') }}</span>
             </template>
           </p>
+          <p
+            v-else
+            class="mt-4 flex items-center justify-center lg:justify-start gap-1.5 text-sm font-semibold text-ygf-orange-text"
+            data-testid="hero-coming-soon"
+          >
+            <MktIcon name="clock" :size="16" />
+            {{ $t('composer.orderingSoon') }}
+          </p>
 
           <div
             class="mt-6 grid grid-cols-1 gap-2.5 sm:flex sm:flex-wrap sm:items-center sm:justify-center lg:justify-start sm:gap-3"
@@ -152,7 +165,7 @@ useSeoMeta({
             <!-- Magnetic on desktop: drifts toward the pointer (useMagnetic). -->
             <span ref="heroCta" class="inline-flex">
               <NuxtLinkLocale
-                v-if="shopEnabled"
+                v-if="composerOpen"
                 :to="composerLink"
                 data-testid="hero-order"
                 class="btn btn-primary w-full"
@@ -162,15 +175,15 @@ useSeoMeta({
               </NuxtLinkLocale>
               <NuxtLinkLocale
                 v-else
-                :to="menuOpen ? '/menu' : '/concept'"
+                :to="showcaseLink"
                 data-testid="hero-menu"
                 class="btn btn-primary w-full"
               >
-                {{ menuOpen ? $t('mkt.hero.cta') : $t('mkt.hero.ctaConcept') }}
+                {{ showcaseLink === '/menu' ? $t('mkt.hero.cta') : $t('mkt.hero.ctaConcept') }}
               </NuxtLinkLocale>
             </span>
             <NuxtLinkLocale
-              v-if="shopEnabled && !composerOnly"
+              v-if="composerOpen && !composerOnly"
               to="/menu"
               class="btn btn-secondary"
               data-testid="hero-see-menu"
@@ -242,7 +255,7 @@ useSeoMeta({
         </div>
         <MktSteps
           key-prefix="mkt.home.steps"
-          :switchable="shopEnabled"
+          :switchable="composerOpen"
           :preparation-minutes="preparationMinutes"
         />
       </div>
@@ -297,12 +310,14 @@ useSeoMeta({
               <p class="text-sm text-gray-600 leading-relaxed">
                 {{ $t(`mkt.recipes.items.${recipe.key}.desc`) }}
               </p>
+              <!-- No button while the composer is coming soon: the poster is the recipe, there is nothing to open yet -->
               <NuxtLinkLocale
+                v-if="!composerComingSoon"
                 :to="recipeLink(recipe.key)"
                 class="btn btn-secondary btn-sm mt-3 self-start"
                 :data-testid="`home-recipe-${recipe.key}`"
               >
-                {{ shopEnabled ? $t('mkt.recipes.cta') : $t('mkt.hero.seeMenu') }}
+                {{ composerOpen ? $t('mkt.recipes.cta') : $t('mkt.hero.seeMenu') }}
                 <MktIcon name="arrow-right" :size="16" />
               </NuxtLinkLocale>
             </div>
@@ -350,21 +365,21 @@ useSeoMeta({
             </span>
           </li>
         </ul>
-        <p v-if="menuOpen" class="text-center mt-8">
+        <p v-if="composerOpen || showcaseLink === '/menu'" class="text-center mt-8">
           <NuxtLinkLocale
-            :to="shopEnabled ? composerLink : '/menu'"
+            :to="composerOpen ? composerLink : showcaseLink"
             class="btn btn-primary"
             data-testid="home-ingredients-cta"
           >
-            {{ shopEnabled ? $t('composer.open') : $t('mkt.hero.cta') }}
+            {{ composerOpen ? $t('composer.open') : $t('mkt.hero.cta') }}
             <MktIcon name="arrow-right" :size="18" />
           </NuxtLinkLocale>
         </p>
       </div>
     </section>
 
-    <!-- ── 6 · How much is my bowl? (the counter's price by weight) ── -->
-    <section class="bg-white">
+    <!-- ── 6 · How much is my bowl? (the counter's price by weight; none while the composer is coming soon) ── -->
+    <section v-if="pricesShown" class="bg-white">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-24">
         <MktEstimator />
       </div>

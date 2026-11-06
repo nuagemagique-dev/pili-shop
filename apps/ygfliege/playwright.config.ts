@@ -54,8 +54,9 @@ export default defineConfig<BrandOptions>({
   ],
   webServer: {
     command: 'pnpm run dev --port 3001',
-    // The full menu (data/composer.ts): the shared shop specs walk the product grid, which the composer-only shop hides.
-    env: { NUXT_PUBLIC_COMPOSER_ONLY: 'false' },
+    // The full menu, with the composer open (data/composer.ts): the shared shop specs walk the product grid, which the
+    // composer-only shop hides, and the brand specs build a bowl, which the "coming soon" page does not offer.
+    env: { NUXT_PUBLIC_COMPOSER_ONLY: 'false', NUXT_PUBLIC_COMPOSER_COMING_SOON: 'false' },
     url: 'http://localhost:3001/fr/',
     reuseExistingServer: true,
     timeout: 120_000,

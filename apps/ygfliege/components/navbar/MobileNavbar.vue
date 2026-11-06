@@ -46,16 +46,16 @@
           >
             <ul class="flex flex-col w-full">
               <!-- Login and account are gone while the shop is switched off (utils/shopGate.ts); the menu stays,
-                   showing the static menu. -->
+                   showing the static menu. "Composer" exists while the composer is open (data/composer.ts). -->
               <MobileNavItem
-                v-if="menuOpen && !(shopEnabled && composerOnly)"
+                v-if="menuEntryShown"
                 :label="$t('nav.menu')"
                 zh="菜单"
                 to="/menu"
                 @click="closeMenu"
               />
               <MobileNavItem
-                v-if="shopEnabled"
+                v-if="composerOpen"
                 :label="$t('mkt.nav.compose')"
                 zh="自选搭配"
                 :to="composerLink"
@@ -148,14 +148,13 @@ import { useCartStore } from '#engine/stores/cart'
 import { useFocusTrap } from '#engine/composables/useFocusTrap'
 import { useLanguagePicker } from '#engine/composables/useLanguagePicker'
 import { useMediaQuery, useMounted } from '@vueuse/core'
-import { useMenuOpen, useShopEnabled } from '#engine/composables/useShopEnabled'
-import { useComposerOnly } from '~/composables/useComposerOnly'
+import { useShopEnabled } from '#engine/composables/useShopEnabled'
+import { useComposerAccess } from '~/composables/useComposerAccess'
 
 const authStore = useAuthStore()
 const cartStore = useCartStore()
 const shopEnabled = useShopEnabled()
-const { composerOnly, composerLink } = useComposerOnly()
-const menuOpen = useMenuOpen()
+const { composerOpen, composerLink, menuEntryShown } = useComposerAccess()
 const { brand } = useAppConfig()
 // Cart store rehydrates from localStorage post-mount; defer the totalItems read.
 const isMounted = useMounted()

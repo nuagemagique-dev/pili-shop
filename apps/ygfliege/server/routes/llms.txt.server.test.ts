@@ -8,8 +8,13 @@ import { setRuntimeConfig } from '../../../../test/nitro/imports'
 
 // The `server-ygfliege` project resolves `#brand` to this app: the route renders the brand it is shipped with.
 
-const fetchLlms = (baseUrl: unknown, shopEnabled?: unknown) => {
-  setRuntimeConfig({ public: { baseUrl, shopEnabled } })
+// The composer is open unless a test says it is coming soon (the production default, see data/composer.ts).
+const fetchLlms = (
+  baseUrl: unknown,
+  shopEnabled?: unknown,
+  composerComingSoon: unknown = 'false',
+) => {
+  setRuntimeConfig({ public: { baseUrl, shopEnabled, composerComingSoon } })
   return callHandler(handler, { path: '/llms.txt' })
 }
 const production = `https://${brand.domain}`
@@ -81,5 +86,23 @@ describe('with the shop switched off (NUXT_PUBLIC_SHOP_ENABLED=false)', () => {
     const body = await (await fetchLlms(production, true)).text()
     expect(body).toContain(`[Menu](${production}/fr/menu): Carte complète`)
     expect(body).toContain('Livraison et à emporter, commande en ligne.')
+  })
+})
+
+describe('while the composer is coming soon (NUXT_PUBLIC_COMPOSER_COMING_SOON, on by default)', () => {
+  it('says the menu page announces online ordering, and advertises no online ordering', async () => {
+    const body = await (await fetchLlms(production, true, true)).text()
+    expect(body).toContain(
+      `[Menu](${production}/fr/menu): Commande en ligne bientôt disponible : en attendant, le bol se compose au comptoir du restaurant.`,
+    )
+    expect(body).not.toContain('commande en ligne.')
+    expect(body).not.toContain('Carte complète')
+    expect(body).toContain(`${production}/fr/concept`)
+  })
+
+  it('is the state of an unset flag', async () => {
+    setRuntimeConfig({ public: { baseUrl: production, shopEnabled: true } })
+    const body = await (await callHandler(handler, { path: '/llms.txt' })).text()
+    expect(body).toContain('Commande en ligne bientôt disponible')
   })
 })
