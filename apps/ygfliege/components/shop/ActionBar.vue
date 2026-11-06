@@ -86,8 +86,8 @@ import { telHref } from '#engine/utils/phone'
 import { useBottomBarOffset } from '#engine/composables/useBottomBarOffset'
 import { useCartStore } from '#engine/stores/cart'
 import { useCartTotals } from '#engine/composables/useCartTotals'
-import { useMenuOpen, useShopEnabled } from '#engine/composables/useShopEnabled'
-import { useComposerOnly } from '~/composables/useComposerOnly'
+import { useShopEnabled } from '#engine/composables/useShopEnabled'
+import { useComposerAccess } from '~/composables/useComposerAccess'
 import { useRoute } from 'vue-router'
 
 const { t } = useI18n()
@@ -96,8 +96,7 @@ const route = useRoute()
 const cartStore = useCartStore()
 const { payableCents } = useCartTotals()
 const shopEnabled = useShopEnabled()
-const { composerLink } = useComposerOnly()
-const menuOpen = useMenuOpen()
+const { composerOpen, composerLink, showcaseLink } = useComposerAccess()
 const isMounted = useMounted()
 
 const hasCart = computed(() => shopEnabled && isMounted.value && cartStore.totalItems > 0)
@@ -108,13 +107,13 @@ const HIDDEN =
 const isMenuPage = computed(() => route.path.endsWith('/menu'))
 const isHomePage = computed(() => /^\/(?:[a-z]{2}\/?)?$/u.test(route.path))
 
-/** Menu everywhere but on the menu itself; with the shop on, "Commander" opens the composer. */
+/** Menu everywhere but on the menu itself; with the composer open, "Commander" opens it (data/composer.ts). */
 const primary = computed(() => {
   if (isMenuPage.value) return null
-  if (shopEnabled) return { to: composerLink, label: t('mkt.actionBar.order') }
-  return menuOpen
-    ? { to: '/menu', label: t('mkt.actionBar.menu') }
-    : { to: '/concept', label: t('mkt.nav.concept') }
+  if (composerOpen) return { to: composerLink, label: t('mkt.actionBar.order') }
+  return showcaseLink === '/menu'
+    ? { to: showcaseLink, label: t('mkt.actionBar.menu') }
+    : { to: showcaseLink, label: t('mkt.nav.concept') }
 })
 
 // On the home page the hero's own buttons come first: the bar slides up once the hero has scrolled away.

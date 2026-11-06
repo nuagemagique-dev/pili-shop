@@ -131,7 +131,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     staticPageCache: { pages: ['about', 'concept'] },
     // The composer-only shop (data/composer.ts): NUXT_PUBLIC_COMPOSER_ONLY=false brings the full menu back.
-    public: { composerOnly: true },
+    // The composer announced but not open yet (data/composer.ts): /menu is a "coming soon" page and no price shows
+    // anywhere on the site; NUXT_PUBLIC_COMPOSER_COMING_SOON=false opens the composer.
+    public: { composerOnly: true, composerComingSoon: true },
   },
 
   // The engine's CSP plus Google's hosts, for the Google Ads tag of brand.googleAdsId (loaded after cookie consent).

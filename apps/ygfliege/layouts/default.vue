@@ -57,11 +57,13 @@
                 </div>
 
                 <nav :aria-label="$t('nav.secondary')" class="flex flex-col gap-0 text-sm">
+                  <!-- The menu, or the composer page (data/composer.ts); neither while the composer is coming soon -->
                   <NuxtLinkLocale
+                    v-if="composerOpen || menuEntryShown"
                     class="inline-flex min-h-11 items-center hover:text-white transition-colors"
                     to="/menu"
                     >{{
-                      $t(shopEnabled && composerOnly ? 'mkt.nav.compose' : 'nav.menu')
+                      $t(composerOpen && composerOnly ? 'mkt.nav.compose' : 'nav.menu')
                     }}</NuxtLinkLocale
                   >
                   <NuxtLinkLocale
@@ -235,13 +237,13 @@ import { useOrderingAvailability } from '#engine/composables/useOrderingAvailabi
 import { useRestaurantSchema } from '#engine/composables/useRestaurantSchema'
 import { useRoute } from 'vue-router'
 import { useShopEnabled } from '#engine/composables/useShopEnabled'
-import { useComposerOnly } from '~/composables/useComposerOnly'
+import { useComposerAccess } from '~/composables/useComposerAccess'
 
 const route = useRoute()
 const { t } = useI18n()
 const { brand } = useAppConfig()
 const shopEnabled = useShopEnabled()
-const { composerOnly } = useComposerOnly()
+const { composerOpen, composerOnly, composerComingSoon, menuEntryShown } = useComposerAccess()
 
 // Lazy: only consumed by <CartMobile> below, which is wrapped in <ClientOnly>.
 // Awaiting non-lazy here was blocking SSR TTFB on every page (~300ms in the audit).
@@ -255,9 +257,10 @@ const {
   /*
    * The menu asks for the config itself, next to its categories: the layout waiting for it first would make that two
    * requests one after the other (the page only starts once its layout has resolved). Only the dynamic menu does: the
-   * static one shown while the shop is switched off (utils/shopGate.ts) leaves it to the layout.
+   * static one shown while the shop is switched off (utils/shopGate.ts) and the "coming soon" page shown while the
+   * composer is not open yet (data/composer.ts) leave it to the layout.
    */
-  server: !shopEnabled || route.meta.loadsRestaurantConfig !== true,
+  server: !shopEnabled || composerComingSoon || route.meta.loadsRestaurantConfig !== true,
 })
 
 // The restaurant's JSON-LD (hours from the live config), on every page.

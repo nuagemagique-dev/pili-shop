@@ -47,8 +47,9 @@
 /*
  * The live "Ouvert · ferme à 22h00" status of the showcase pages (audit 1a/1b): a pill in the hero, a card with the
  * day bar and the week's hours (identical days collapsed into one line) in the practical info. The hours come from the
- * live restaurant config, else brand.openingHours; with the shop on and its config loaded, the shop's own state wins
- * (open: "prêt en ~30 min", pre-order time). Ticks every minute; nothing under reduced motion is animated but the dot.
+ * live restaurant config, else brand.openingHours; with the composer open (data/composer.ts) and the config loaded,
+ * the shop's own state wins (open: "prêt en ~30 min", pre-order time). Ticks every minute; nothing under reduced
+ * motion is animated but the dot.
  */
 import {
   type HoursRun,
@@ -64,13 +65,13 @@ import {
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import type { BrandOpeningHours } from '#engine/types/brand'
 import { useOrderingAvailability } from '#engine/composables/useOrderingAvailability'
-import { useShopEnabled } from '#engine/composables/useShopEnabled'
+import { useComposerAccess } from '~/composables/useComposerAccess'
 
 const { variant = 'pill' } = defineProps<{ variant?: 'pill' | 'card' }>()
 
 const { t, locale } = useI18n()
 const { brand } = useAppConfig()
-const shopEnabled = useShopEnabled()
+const { composerOpen } = useComposerAccess()
 const {
   config,
   status: availability,
@@ -97,7 +98,7 @@ const state = computed<OpenState | null>(() =>
 )
 
 const ordering = computed<OrderingState | null>(() => {
-  if (!shopEnabled || availability.value === null || live.value === null) return null
+  if (!composerOpen || availability.value === null || live.value === null) return null
   if (availability.value === 'open' || availability.value === 'preorder') return availability.value
   return live.value.isCurrentlyOpen ? 'onsiteOnly' : 'closed'
 })

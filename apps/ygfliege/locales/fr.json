@@ -398,6 +398,13 @@
       "home_title": "Yangguofu Malatang Liège",
       "home_desc": "Composez votre bol de bouillon aux herbes, frais et fait pour vous, à 3,49 €/100 g. Le bonheur tient dans un bol. Yangguofu Malatang à Liège."
     },
+    "comingSoon": {
+      "label": "Bientôt disponible",
+      "title": "Composez votre bol en ligne",
+      "desc": "La commande en ligne arrive très vite. En attendant, venez composer votre bol au comptoir : cinq bouillons, des dizaines d'ingrédients frais, cuit à la minute.",
+      "seo_desc": "La commande en ligne arrive bientôt chez Yangguofu Malatang Liège. En attendant, composez votre bol au comptoir du restaurant : cinq bouillons, des dizaines d'ingrédients frais.",
+      "home_desc": "Composez votre bol de bouillon aux herbes, frais et fait pour vous. Le bonheur tient dans un bol. Yangguofu Malatang à Liège."
+    },
     "legal": {
       "coming": "Cette page est en préparation : nos mentions légales complètes seront publiées ici très bientôt.",
       "meta_desc": "Mentions légales de Yangguofu Malatang Liège."
