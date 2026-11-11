@@ -16,8 +16,7 @@
       @play="playing = true"
       @pause="playing = false"
     >
-      <source data-src="/videos/ingredients-loop.webm" type="video/webm" />
-      <source data-src="/videos/ingredients-loop.mp4" type="video/mp4" />
+      <source v-for="source in SOURCES" :key="source.type" :type="source.type" />
     </video>
     <div
       class="absolute inset-0 bg-linear-to-t from-ygf-black/70 via-transparent to-ygf-black/40"
@@ -79,12 +78,18 @@ let observer: IntersectionObserver | null = null
 // The sources live on <source> children, so video.src stays empty even once they are set: remember it here (a second load() would restart the clip).
 let sourcesLoaded = false
 
+// The <source> elements render without src (only the type); loadSources gives each its file from here, by type.
+const SOURCES = [
+  { type: 'video/webm', src: '/videos/ingredients-loop.webm' },
+  { type: 'video/mp4', src: '/videos/ingredients-loop.mp4' },
+] as const
+
 const loadSources = (v: HTMLVideoElement): boolean => {
   if (sourcesLoaded || !v.children.length) return false
   sourcesLoaded = true
   for (const source of Array.from(v.querySelectorAll('source'))) {
-    const src = source.getAttribute('data-src')
-    if (src) source.setAttribute('src', src)
+    const match = SOURCES.find((candidate) => candidate.type === source.type)
+    if (match) source.src = match.src
   }
   v.load()
   return true

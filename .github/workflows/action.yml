@@ -19,6 +19,12 @@ env:
   IMAGE_NAME_TSB: ${{ github.repository_owner }}/pili-shop-tsb
   IMAGE_NAME_YGF: ${{ github.repository_owner }}/pili-shop-ygf
 
+# GITHUB_TOKEN stays read-only: GHCR pushes log in with secrets.PAT, deploys use
+# SSH or the test webhook. smoke_production grants itself actions: write (it
+# dispatches the rollback run).
+permissions:
+  contents: read
+
 # ── tokyosushi test image (auto on push to main) ─────────────────────────────
 
 jobs:
