@@ -482,9 +482,8 @@ test.describe('Cart on a phone', () => {
     const sheet = await openCart(page)
     const issue = sheet.getByTestId('cart-line-issue-PRICE_CHANGED')
     await expect(issue).toBeVisible()
-    await expect(issue).toContainText(
-      `${plain.price.toFixed(2).replace('.', ',')} € → 5,50 €`.replace(/ /gu, ' '),
-    )
+    // toContainText normalizes whitespace, so the no-break spaces of the price format match plain ones.
+    await expect(issue).toContainText(`${plain.price.toFixed(2).replace('.', ',')} € → 5,50 €`)
     // The line still shows what the customer saw until they accept.
     await expect(line(sheet, plain.name)).toContainText(plain.price.toFixed(2).replace('.', ','))
 

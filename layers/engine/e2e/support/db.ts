@@ -2,21 +2,36 @@
 /*
  * Minimal psql helpers for specs that need to seed or mutate rows the UI cannot
  * reach (e.g. an order whose Mollie payment was cancelled). Same mechanism as
- * global-setup.ts / global-teardown.ts: shell out to psql with the e2e DB env.
+ * global-setup.ts / global-teardown.ts: run psql with the e2e DB env.
  *
- * SQL is passed inside double quotes to the shell, so statements must not
- * contain double quotes or `$`. Values are interpolated into the statement:
- * only ever pass test-controlled input (uuids, fixed enums, the e2e email).
+ * psql is started without a shell (argument list, password in the env), so a
+ * statement may contain any character. Values are interpolated into the
+ * statement: only ever pass test-controlled input (uuids, fixed enums, the e2e
+ * email), quoted with sqlString.
  */
 import { getDbEnv } from './db-env'
-import { execSync } from 'node:child_process'
+import { execFileSync } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
 
 export function psql(sql: string): string {
   const dbEnv = getDbEnv()
-  return execSync(
-    `PGPASSWORD='${dbEnv.DB_PASS}' psql -h ${dbEnv.DB_HOST} -p ${dbEnv.DB_PORT} -U ${dbEnv.DB_USER} -d ${dbEnv.DB_NAME} -t -A -c "${sql.replace(/"/gu, '\\"')}"`,
-    { encoding: 'utf-8' },
+  return execFileSync(
+    'psql',
+    [
+      '-h',
+      dbEnv.DB_HOST,
+      '-p',
+      dbEnv.DB_PORT,
+      '-U',
+      dbEnv.DB_USER,
+      '-d',
+      dbEnv.DB_NAME,
+      '-t',
+      '-A',
+      '-c',
+      sql,
+    ],
+    { encoding: 'utf-8', env: { ...process.env, PGPASSWORD: dbEnv.DB_PASS } },
   ).trim()
 }
 
