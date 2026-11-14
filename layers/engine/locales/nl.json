@@ -671,7 +671,21 @@
     "errorGeneric": "Er is een probleem opgetreden. Probeer het opnieuw.",
     "errorTooManyRequests": "Te veel inzendingen. Wacht enkele minuten en probeer het opnieuw.",
     "errorInvalidInput": "Controleer de formuliervelden en probeer het opnieuw.",
-    "errorCaptchaFailed": "Botverificatie mislukt. Probeer het opnieuw."
+    "errorCaptchaFailed": "Botverificatie mislukt. Probeer het opnieuw.",
+    "requiredNote": "Velden met een * zijn verplicht.",
+    "messageHint": "Minimaal 10 tekens",
+    "errors": {
+      "nameRequired": "Vul uw naam in.",
+      "emailRequired": "Vul uw e-mailadres in.",
+      "emailInvalid": "Dit e-mailadres is niet geldig.",
+      "serviceTypeRequired": "Kies een type service.",
+      "feedbackTypeRequired": "Kies een type feedback.",
+      "messageRequired": "Schrijf uw bericht.",
+      "messageTooShort": "Nog minstens {count} teken. | Nog minstens {count} tekens.",
+      "captchaRequired": "Voltooi de antirobotcontrole hierboven.",
+      "checkField": "Dit veld werd geweigerd, controleer het.",
+      "summary": "Er ontbreekt informatie: controleer de rood gemarkeerde velden."
+    }
   },
   "coupon": {
     "title": "Kortingscode",

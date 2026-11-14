@@ -26,21 +26,33 @@ async function fill(page: Page, { message = MESSAGE } = {}) {
 
 const send = (page: Page) => page.getByRole('button', { name: 'Envoyer', exact: true })
 
-test('the button stays off until every field is filled and the message has 10 characters', async ({
+test('pressing send with something missing says what, field by field, and sends nothing', async ({
   page,
+  backend,
 }) => {
   await page.goto('/fr/contact')
   await waitForNuxtHydration(page)
-  await expect(send(page)).toBeDisabled()
+  await expect(page.getByText("Les champs marqués d'un * sont obligatoires.")).toBeVisible()
+  await expect(send(page)).toBeEnabled()
+  await send(page).tap()
+  await expect(page.getByText('Il manque des informations')).toBeVisible()
+  await expect(page.getByText('Indiquez votre nom.')).toBeVisible()
+  await expect(page.getByText('Indiquez votre adresse e-mail.')).toBeVisible()
+  await expect(page.getByText('Choisissez un type de service.')).toBeVisible()
+  await expect(page.getByText('Choisissez un type de retour.')).toBeVisible()
+  await expect(page.getByText('Écrivez votre message.')).toBeVisible()
+  await expect(page.locator('#feedback-name')).toBeFocused()
+  await expect(page.locator('#feedback-name')).toHaveAttribute('aria-invalid', 'true')
+
   await page.locator('#feedback-name').fill('Eva')
-  await page.locator('#feedback-email').fill('eva@example.test')
+  await page.locator('#feedback-email').fill('eva@example')
   await page.getByRole('button', { name: 'Livraison', exact: true }).tap()
   await page.getByRole('button', { name: 'Suggestion', exact: true }).tap()
-  await page.locator('#feedback-message').fill('trop court')
-  // 10 characters exactly is enough: "trop court" has 10.
-  await expect(send(page)).toBeEnabled()
   await page.locator('#feedback-message').fill('court')
-  await expect(send(page)).toBeDisabled()
+  await expect(page.getByText('Indiquez votre nom.')).toBeHidden()
+  await expect(page.getByText("Cette adresse e-mail n'est pas valide.")).toBeVisible()
+  await expect(page.getByText('Encore 5 caractères au minimum.')).toBeVisible()
+  expect(await backend.mock.restCalls('/feedback')).toHaveLength(0)
 })
 
 test('the choice buttons say which one is on', async ({ page }) => {
@@ -76,7 +88,8 @@ test('sends the message, thanks the customer, and offers another one', async ({
 
   await page.getByRole('button', { name: 'Envoyer un autre avis' }).tap()
   await expect(page.locator('#feedback-message')).toHaveValue('')
-  await expect(send(page)).toBeDisabled()
+  // A fresh form: no error is shown until the customer acts again.
+  await expect(page.getByText('Indiquez votre nom.')).toBeHidden()
 })
 
 for (const [failure, text] of [
