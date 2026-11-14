@@ -671,7 +671,21 @@
     "errorGeneric": "出了点问题，请重试。",
     "errorTooManyRequests": "提交次数过多，请等待几分钟后再试。",
     "errorInvalidInput": "请检查表单字段并重试。",
-    "errorCaptchaFailed": "人机验证失败，请重试。"
+    "errorCaptchaFailed": "人机验证失败，请重试。",
+    "requiredNote": "带 * 的字段为必填项。",
+    "messageHint": "至少 10 个字符",
+    "errors": {
+      "nameRequired": "请填写您的姓名。",
+      "emailRequired": "请填写您的电子邮箱。",
+      "emailInvalid": "电子邮箱地址格式不正确。",
+      "serviceTypeRequired": "请选择服务类型。",
+      "feedbackTypeRequired": "请选择反馈类型。",
+      "messageRequired": "请填写留言内容。",
+      "messageTooShort": "还需至少 {count} 个字符。",
+      "captchaRequired": "请完成上方的人机验证。",
+      "checkField": "此字段未通过验证，请检查。",
+      "summary": "信息不完整：请检查标红的字段。"
+    }
   },
   "coupon": {
     "title": "优惠码",

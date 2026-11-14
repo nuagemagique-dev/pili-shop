@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useNotificationsStore } from '#engine/stores/notifications'
 import { useKeepTypedValue } from '#engine/composables/useKeepTypedValue'
+import { isValidEmail } from '#engine/lib/validators'
 
 // `white`: a white card with a hairline, for a brand whose page is cream (default: the tinted container surface).
 const { surface = 'tint' } = defineProps<{ surface?: 'tint' | 'white' }>()
@@ -83,16 +84,95 @@ onUnmounted(() => {
 const serviceTypes = ['takeaway', 'dine-in', 'delivery'] as const
 const feedbackTypes = ['improvement', 'complaint', 'compliment'] as const
 
-const canSubmit = computed(
-  () =>
-    name.value.trim().length > 0 &&
-    email.value.trim().length > 0 &&
-    serviceType.value !== '' &&
-    feedbackType.value !== '' &&
-    message.value.trim().length >= 10 &&
-    (turnstileSiteKey === '' || turnstileToken.value !== '') &&
-    !submitting.value,
-)
+const MESSAGE_MIN = 10
+
+type Field = 'name' | 'email' | 'serviceType' | 'feedbackType' | 'message' | 'captcha'
+const FIELDS: readonly Field[] = [
+  'name',
+  'email',
+  'serviceType',
+  'feedbackType',
+  'message',
+  'captcha',
+]
+
+// A field shows its error once the customer has left it (text fields) or tried to send the form.
+const touched = reactive<Record<Field, boolean>>({
+  name: false,
+  email: false,
+  serviceType: false,
+  feedbackType: false,
+  message: false,
+  captcha: false,
+})
+const attempted = ref(false)
+// Fields the server refused although they passed the checks here; cleared as soon as the field changes.
+const serverRefused = ref<Field[]>([])
+
+const messageLength = computed(() => message.value.trim().length)
+
+/** What is wrong with each field right now, whether or not it is shown yet. */
+const problems = computed<Partial<Record<Field, string>>>(() => {
+  const out: Partial<Record<Field, string>> = {}
+  if (name.value.trim() === '') out.name = t('feedback.errors.nameRequired')
+  if (email.value.trim() === '') out.email = t('feedback.errors.emailRequired')
+  else if (!isValidEmail(email.value)) out.email = t('feedback.errors.emailInvalid')
+  if (serviceType.value === '') out.serviceType = t('feedback.errors.serviceTypeRequired')
+  if (feedbackType.value === '') out.feedbackType = t('feedback.errors.feedbackTypeRequired')
+  if (messageLength.value === 0) out.message = t('feedback.errors.messageRequired')
+  else if (messageLength.value < MESSAGE_MIN) {
+    const missing = MESSAGE_MIN - messageLength.value
+    out.message = t('feedback.errors.messageTooShort', { count: missing }, missing)
+  }
+  if (turnstileSiteKey !== '' && turnstileToken.value === '')
+    out.captcha = t('feedback.errors.captchaRequired')
+  for (const field of serverRefused.value) out[field] ??= t('feedback.errors.checkField')
+  return out
+})
+
+/** The errors on screen: a field's problem once it was left or the form was sent, and every server refusal. */
+const errors = computed<Partial<Record<Field, string>>>(() => {
+  const out: Partial<Record<Field, string>> = {}
+  for (const field of FIELDS) {
+    const problem = problems.value[field]
+    if (problem && (attempted.value || touched[field] || serverRefused.value.includes(field)))
+      out[field] = problem
+  }
+  return out
+})
+
+const errorId = (field: Field) => `feedback-${field}-error`
+const describedBy = (field: Field) => (errors.value[field] ? errorId(field) : undefined)
+
+// Editing a field the server refused gives it a fresh chance.
+watch([name, email, serviceType, feedbackType, message], (now, before) => {
+  const changed = (['name', 'email', 'serviceType', 'feedbackType', 'message'] as const).filter(
+    (_field, i) => now[i] !== before[i],
+  )
+  if (changed.length > 0)
+    serverRefused.value = serverRefused.value.filter(
+      (f) => !(changed as readonly Field[]).includes(f),
+    )
+})
+
+const formEl = ref<HTMLFormElement | null>(null)
+const summary = ref('')
+
+/** Moves focus to the first field that still needs something, in the order of the form. */
+function focusFirstProblem() {
+  const first = FIELDS.find((field) => problems.value[field])
+  if (!first || !formEl.value) return
+  const target =
+    first === 'captcha'
+      ? turnstileContainer.value
+      : formEl.value.querySelector<HTMLElement>(`[data-field="${first}"]`)
+  target?.focus({ preventScroll: false })
+  target?.scrollIntoView?.({ block: 'center', behavior: 'smooth' })
+}
+
+watch(problems, (now) => {
+  if (Object.keys(now).length === 0) summary.value = ''
+})
 
 function resetTurnstile() {
   if (window.turnstile && turnstileWidgetId.value) {
@@ -102,7 +182,15 @@ function resetTurnstile() {
 }
 
 async function handleSubmit() {
-  if (!canSubmit.value) return
+  if (submitting.value) return
+  attempted.value = true
+  if (Object.keys(problems.value).length > 0) {
+    summary.value = t('feedback.errors.summary')
+    await nextTick()
+    focusFirstProblem()
+    return
+  }
+  summary.value = ''
 
   submitting.value = true
   try {
@@ -135,6 +223,15 @@ async function handleSubmit() {
         duration: 5000,
       })
     } else if (status === 400) {
+      const fields = (error as { data?: { fields?: unknown } })?.data?.fields
+      serverRefused.value = Array.isArray(fields)
+        ? FIELDS.filter((field) => fields.includes(field))
+        : []
+      if (serverRefused.value.length > 0) {
+        summary.value = t('feedback.errors.summary')
+        await nextTick()
+        focusFirstProblem()
+      }
       notifications.notify({
         message: t('feedback.errorInvalidInput'),
         variant: 'error',
@@ -161,8 +258,17 @@ function resetForm() {
   message.value = ''
   website.value = ''
   submitted.value = false
+  attempted.value = false
+  serverRefused.value = []
+  summary.value = ''
+  for (const field of FIELDS) touched[field] = false
   resetTurnstile()
 }
+
+const inputClass = (field: Field) => [
+  'w-full bg-white/60 backdrop-blur-xs border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-neutral-900 placeholder:text-neutral-600 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-ring focus-visible:outline-hidden',
+  errors.value[field] ? 'border-red-500' : 'border-neutral-200/80',
+]
 </script>
 
 <template>
@@ -189,9 +295,9 @@ function resetForm() {
             d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
           />
         </svg>
-        {{ $t('feedback.title') }}
+        {{ t('feedback.title') }}
       </h2>
-      <p class="text-sm text-neutral-600">{{ $t('feedback.subtitle') }}</p>
+      <p class="text-sm text-neutral-600">{{ t('feedback.subtitle') }}</p>
     </div>
 
     <!-- Success state -->
@@ -210,19 +316,26 @@ function resetForm() {
         </svg>
       </div>
       <p class="text-sm text-neutral-700 leading-relaxed max-w-md mx-auto">
-        {{ $t('feedback.success') }}
+        {{ t('feedback.success') }}
       </p>
       <button
         type="button"
         class="mt-4 text-sm font-medium text-primary-700 hover:text-primary-800 transition-colors duration-300"
         @click="resetForm"
       >
-        {{ $t('feedback.sendAnother') }}
+        {{ t('feedback.sendAnother') }}
       </button>
     </div>
 
     <!-- Form -->
-    <form v-else method="post" @submit.prevent="handleSubmit" class="space-y-4">
+    <form
+      v-else
+      ref="formEl"
+      method="post"
+      novalidate
+      class="space-y-4"
+      @submit.prevent="handleSubmit"
+    >
       <!-- Honeypot (hidden from real users) -->
       <div
         aria-hidden="true"
@@ -240,108 +353,169 @@ function resetForm() {
         />
       </div>
 
+      <p id="feedback-required-note" class="text-xs text-neutral-600">
+        {{ t('feedback.requiredNote') }}
+      </p>
+
       <!-- Name & Email row -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label for="feedback-name" class="block text-xs font-medium text-neutral-600 mb-1.5">{{
-            $t('feedback.name')
-          }}</label>
+          <label for="feedback-name" class="block text-xs font-medium text-neutral-600 mb-1.5">
+            {{ t('feedback.name') }} <span aria-hidden="true" class="text-red-700">*</span>
+          </label>
           <input
             id="feedback-name"
             v-model="name"
+            data-field="name"
             type="text"
             autocomplete="name"
             maxlength="100"
-            :placeholder="$t('feedback.namePlaceholder')"
-            class="w-full bg-white/60 backdrop-blur-xs border border-neutral-200/80 rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-neutral-900 placeholder:text-neutral-600 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-ring focus-visible:outline-hidden"
+            aria-required="true"
+            :aria-invalid="errors.name ? 'true' : undefined"
+            :aria-describedby="describedBy('name')"
+            :placeholder="t('feedback.namePlaceholder')"
+            :class="inputClass('name')"
+            @blur="touched.name = true"
           />
+          <p v-if="errors.name" :id="errorId('name')" class="text-xs text-red-700 mt-1">
+            {{ errors.name }}
+          </p>
         </div>
         <div>
-          <label for="feedback-email" class="block text-xs font-medium text-neutral-600 mb-1.5">{{
-            $t('feedback.email')
-          }}</label>
+          <label for="feedback-email" class="block text-xs font-medium text-neutral-600 mb-1.5">
+            {{ t('feedback.email') }} <span aria-hidden="true" class="text-red-700">*</span>
+          </label>
           <input
             id="feedback-email"
             v-model="email"
+            data-field="email"
             type="email"
             autocomplete="email"
             maxlength="255"
-            :placeholder="$t('feedback.emailPlaceholder')"
-            class="w-full bg-white/60 backdrop-blur-xs border border-neutral-200/80 rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-neutral-900 placeholder:text-neutral-600 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-ring focus-visible:outline-hidden"
+            aria-required="true"
+            :aria-invalid="errors.email ? 'true' : undefined"
+            :aria-describedby="describedBy('email')"
+            :placeholder="t('feedback.emailPlaceholder')"
+            :class="inputClass('email')"
+            @blur="touched.email = true"
           />
+          <p v-if="errors.email" :id="errorId('email')" class="text-xs text-red-700 mt-1">
+            {{ errors.email }}
+          </p>
         </div>
       </div>
 
       <!-- Service type pills -->
-      <fieldset>
+      <fieldset :aria-describedby="describedBy('serviceType')">
         <legend class="block text-xs font-medium text-neutral-600 mb-2 p-0">
-          {{ $t('feedback.serviceType') }}
+          {{ t('feedback.serviceType') }} <span aria-hidden="true" class="text-red-700">*</span>
         </legend>
         <div class="flex flex-wrap gap-2">
           <button
-            v-for="st in serviceTypes"
+            v-for="(st, i) in serviceTypes"
             :key="st"
             type="button"
+            :data-field="i === 0 ? 'serviceType' : undefined"
             :aria-pressed="serviceType === st"
             :class="[
               'px-4 py-2 min-h-11 rounded-xl text-sm font-medium transition-all duration-300 border',
               serviceType === st
                 ? 'bg-tsb-four text-primary-700 border-primary-200'
-                : 'bg-white border-neutral-200 text-neutral-600 hover:bg-tsb-four/40',
+                : errors.serviceType
+                  ? 'bg-white border-red-500 text-neutral-600 hover:bg-tsb-four/40'
+                  : 'bg-white border-neutral-200 text-neutral-600 hover:bg-tsb-four/40',
             ]"
             @click="serviceType = st"
           >
-            {{ $t(`feedback.serviceTypes.${st}`) }}
+            {{ t(`feedback.serviceTypes.${st}`) }}
           </button>
         </div>
+        <p v-if="errors.serviceType" :id="errorId('serviceType')" class="text-xs text-red-700 mt-1">
+          {{ errors.serviceType }}
+        </p>
       </fieldset>
 
       <!-- Feedback type pills -->
-      <fieldset>
+      <fieldset :aria-describedby="describedBy('feedbackType')">
         <legend class="block text-xs font-medium text-neutral-600 mb-2 p-0">
-          {{ $t('feedback.feedbackType') }}
+          {{ t('feedback.feedbackType') }} <span aria-hidden="true" class="text-red-700">*</span>
         </legend>
         <div class="flex flex-wrap gap-2">
           <button
-            v-for="ft in feedbackTypes"
+            v-for="(ft, i) in feedbackTypes"
             :key="ft"
             type="button"
+            :data-field="i === 0 ? 'feedbackType' : undefined"
             :aria-pressed="feedbackType === ft"
             :class="[
               'px-4 py-2 min-h-11 rounded-xl text-sm font-medium transition-all duration-300 border',
               feedbackType === ft
                 ? 'bg-tsb-four text-primary-700 border-primary-200'
-                : 'bg-white border-neutral-200 text-neutral-600 hover:bg-tsb-four/40',
+                : errors.feedbackType
+                  ? 'bg-white border-red-500 text-neutral-600 hover:bg-tsb-four/40'
+                  : 'bg-white border-neutral-200 text-neutral-600 hover:bg-tsb-four/40',
             ]"
             @click="feedbackType = ft"
           >
-            {{ $t(`feedback.feedbackTypes.${ft}`) }}
+            {{ t(`feedback.feedbackTypes.${ft}`) }}
           </button>
         </div>
+        <p
+          v-if="errors.feedbackType"
+          :id="errorId('feedbackType')"
+          class="text-xs text-red-700 mt-1"
+        >
+          {{ errors.feedbackType }}
+        </p>
       </fieldset>
 
       <!-- Message textarea -->
       <div>
-        <label for="feedback-message" class="block text-xs font-medium text-neutral-600 mb-1.5">{{
-          $t('feedback.message')
-        }}</label>
+        <label for="feedback-message" class="block text-xs font-medium text-neutral-600 mb-1.5">
+          {{ t('feedback.message') }} <span aria-hidden="true" class="text-red-700">*</span>
+        </label>
         <textarea
           id="feedback-message"
           v-model="message"
+          data-field="message"
           maxlength="2000"
           rows="4"
-          :placeholder="$t('feedback.messagePlaceholder')"
-          class="w-full bg-white/60 backdrop-blur-xs border border-neutral-200/80 rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-neutral-900 placeholder:text-neutral-600 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-ring focus-visible:outline-hidden resize-none"
+          aria-required="true"
+          :aria-invalid="errors.message ? 'true' : undefined"
+          :aria-describedby="errors.message ? errorId('message') : 'feedback-message-hint'"
+          :placeholder="t('feedback.messagePlaceholder')"
+          :class="[...inputClass('message'), 'resize-none']"
+          @blur="touched.message = true"
         />
-        <p class="text-xs text-neutral-600 text-right mt-1">{{ message.length }} / 2000</p>
+        <div class="flex items-start justify-between gap-3 mt-1 text-xs">
+          <p v-if="errors.message" :id="errorId('message')" class="text-red-700">
+            {{ errors.message }}
+          </p>
+          <p v-else id="feedback-message-hint" class="text-neutral-600">
+            {{ t('feedback.messageHint') }}
+          </p>
+          <p class="text-neutral-600 shrink-0" aria-hidden="true">{{ message.length }} / 2000</p>
+        </div>
       </div>
 
       <!-- Turnstile widget -->
-      <div v-if="turnstileSiteKey" ref="turnstileContainer" />
+      <div v-if="turnstileSiteKey">
+        <div ref="turnstileContainer" tabindex="-1" :aria-describedby="describedBy('captcha')" />
+        <p v-if="errors.captcha" :id="errorId('captcha')" class="text-xs text-red-700 mt-1">
+          {{ errors.captcha }}
+        </p>
+      </div>
+
+      <!-- What is still missing, announced when the customer tries to send -->
+      <div role="alert" aria-atomic="true">
+        <p v-if="summary" class="text-sm text-red-700" data-testid="feedback-summary">
+          {{ summary }}
+        </p>
+      </div>
 
       <!-- Submit button -->
-      <UiButton type="submit" class="w-full sm:w-auto" :disabled="!canSubmit" :loading="submitting">
-        {{ submitting ? $t('feedback.sending') : $t('feedback.submit') }}
+      <UiButton type="submit" class="w-full sm:w-auto" :disabled="submitting" :loading="submitting">
+        {{ submitting ? t('feedback.sending') : t('feedback.submit') }}
       </UiButton>
     </form>
   </div>

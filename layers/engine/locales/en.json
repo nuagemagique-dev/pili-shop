@@ -671,7 +671,21 @@
     "errorGeneric": "Something went wrong. Please try again.",
     "errorTooManyRequests": "Too many submissions. Please wait a few minutes before trying again.",
     "errorInvalidInput": "Please check the form fields and try again.",
-    "errorCaptchaFailed": "Bot verification failed. Please try again."
+    "errorCaptchaFailed": "Bot verification failed. Please try again.",
+    "requiredNote": "Fields marked * are required.",
+    "messageHint": "10 characters minimum",
+    "errors": {
+      "nameRequired": "Enter your name.",
+      "emailRequired": "Enter your email address.",
+      "emailInvalid": "This email address is not valid.",
+      "serviceTypeRequired": "Choose a service type.",
+      "feedbackTypeRequired": "Choose a feedback type.",
+      "messageRequired": "Write your message.",
+      "messageTooShort": "{count} more character needed. | {count} more characters needed.",
+      "captchaRequired": "Complete the anti-robot check above.",
+      "checkField": "This field was refused, please check it.",
+      "summary": "Some information is missing: check the fields marked in red."
+    }
   },
   "coupon": {
     "title": "Promo code",

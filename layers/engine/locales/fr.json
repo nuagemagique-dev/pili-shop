@@ -671,7 +671,21 @@
     "errorGeneric": "Un problème est survenu. Veuillez réessayer.",
     "errorTooManyRequests": "Trop de soumissions. Veuillez patienter quelques minutes avant de réessayer.",
     "errorInvalidInput": "Veuillez vérifier les champs du formulaire et réessayer.",
-    "errorCaptchaFailed": "La vérification anti-robot a échoué. Veuillez réessayer."
+    "errorCaptchaFailed": "La vérification anti-robot a échoué. Veuillez réessayer.",
+    "requiredNote": "Les champs marqués d'un * sont obligatoires.",
+    "messageHint": "10 caractères minimum",
+    "errors": {
+      "nameRequired": "Indiquez votre nom.",
+      "emailRequired": "Indiquez votre adresse e-mail.",
+      "emailInvalid": "Cette adresse e-mail n'est pas valide.",
+      "serviceTypeRequired": "Choisissez un type de service.",
+      "feedbackTypeRequired": "Choisissez un type de retour.",
+      "messageRequired": "Écrivez votre message.",
+      "messageTooShort": "Encore {count} caractère au minimum. | Encore {count} caractères au minimum.",
+      "captchaRequired": "Validez la vérification anti-robot ci-dessus.",
+      "checkField": "Ce champ a été refusé, vérifiez-le.",
+      "summary": "Il manque des informations\u00a0: vérifiez les champs signalés en rouge."
+    }
   },
   "coupon": {
     "title": "Code promo",
