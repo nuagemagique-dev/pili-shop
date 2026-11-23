@@ -2,6 +2,7 @@
 // .github/workflows/dependabot-vite-plus.yml; prints `changed` or `unchanged`.
 import { execFileSync } from 'node:child_process'
 import { readFileSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { syncedPins } from './vite-plus-pins.mjs'
 
 const pkgPath = new URL('../package.json', import.meta.url)
@@ -10,7 +11,9 @@ const pkgText = readFileSync(pkgPath, 'utf8')
 const workspaceText = readFileSync(workspacePath, 'utf8')
 const declared = JSON.parse(pkgText).devDependencies?.['vite-plus']
 // The vite-plus-core release that vite-plus depends on, as published (its version differs since vite-plus 1.7.0).
+// Run outside the repo: npm refuses to run under a package.json whose devEngines asks for pnpm.
 const coreSpec = execFileSync('npm', ['view', `vite-plus@${declared}`, 'dependencies.vite'], {
+  cwd: tmpdir(),
   encoding: 'utf8',
 }).trim()
 const synced = syncedPins(
