@@ -1,6 +1,7 @@
 // Dependabot bumps vite-plus and @voidzero-dev/* as one group, but two pins stay behind: the `catalog.vite` alias of
-// pnpm-workspace.yaml (vite-plus-core of the same release) and @vitest/coverage-v8 (peer-pinned to the vitest vite-plus
-// bundles). .github/workflows/dependabot-vite-plus.yml moves them on the Dependabot PR with sync-vite-plus-pins.mjs.
+// pnpm-workspace.yaml (the vite-plus-core that release of vite-plus depends on, read from the registry: since vite-plus
+// 1.7.0 its version no longer matches, 1.7.0 ships core 8.3.8000) and @vitest/coverage-v8 (peer-pinned to the vitest
+// vite-plus bundles). .github/workflows/dependabot-vite-plus.yml moves them on the Dependabot PR with sync-vite-plus-pins.mjs.
 
 /**
  * @typedef {object} Manifest
@@ -65,9 +66,11 @@ function lockedVitest(lockText) {
  * @param {string} pkgText package.json
  * @param {string} workspaceText pnpm-workspace.yaml
  * @param {string} lockText pnpm-lock.yaml, as Dependabot left it
+ * @param {string} coreSpec the `vite` dependency the declared vite-plus release publishes
+ *   (`npm view vite-plus@<version> dependencies.vite`), e.g. `npm:@voidzero-dev/vite-plus-core@8.3.8000`
  * @returns {{ pkg: string, workspace: string }}
  */
-export function syncedPins(pkgText, workspaceText, lockText) {
+export function syncedPins(pkgText, workspaceText, lockText, coreSpec) {
   /** @type {Manifest} */
   const pkg = parseObject(pkgText)
   const declared = pkg.devDependencies?.['vite-plus']
@@ -78,8 +81,12 @@ export function syncedPins(pkgText, workspaceText, lockText) {
     )
   }
 
-  const core = `npm:@voidzero-dev/vite-plus-core@${declared}`
-  const workspace = workspaceText.replace(catalogLine, `$1${core}`)
+  if (!/^npm:@voidzero-dev\/vite-plus-core@[\w.+-]+$/.test(coreSpec)) {
+    throw new Error(
+      `vite-plus@${declared} declares vite as ${JSON.stringify(coreSpec)}, not a vite-plus-core release`,
+    )
+  }
+  const workspace = workspaceText.replace(catalogLine, `$1${coreSpec}`)
 
   let text = pkgText
   const coverage = pkg.devDependencies?.['@vitest/coverage-v8']

@@ -39,47 +39,73 @@ const lock = (vitest: string) =>
 
 describe('syncedPins', () => {
   it('moves the override and coverage-v8 to the release a Dependabot bump declared', () => {
-    expect(syncedPins(pkg('1.5.0', '5.0.5'), workspace(core('1.4.0')), lock('5.1.0'))).toEqual({
+    expect(
+      syncedPins(pkg('1.5.0', '5.0.5'), workspace(core('1.4.0')), lock('5.1.0'), core('1.5.0')),
+    ).toEqual({
       pkg: pkg('1.5.0', '5.1.0'),
       workspace: workspace(core('1.5.0')),
     })
   })
 
+  it('pins the core release vite-plus depends on, even when its version differs', () => {
+    expect(syncedPins(pkg('1.7.0'), workspace(core('1.5.0')), '', core('8.3.8000'))).toEqual({
+      pkg: pkg('1.7.0'),
+      workspace: workspace(core('8.3.8000')),
+    })
+  })
+
+  it('refuses a vite dependency that is not a vite-plus-core release', () => {
+    for (const spec of [
+      '',
+      '^8.0.0',
+      'npm:vite@8.0.0',
+      'npm:@voidzero-dev/vite-plus-core@8 && x',
+    ]) {
+      expect(() => syncedPins(pkg('1.7.0'), workspace(core('1.5.0')), '', spec)).toThrow(
+        'not a vite-plus-core release',
+      )
+    }
+  })
+
   it('leaves pins that hold untouched', () => {
     const holding = { pkg: pkg('1.4.0', '5.0.5'), workspace: workspace(core('1.4.0')) }
-    expect(syncedPins(holding.pkg, holding.workspace, lock('5.0.5'))).toEqual(holding)
+    expect(syncedPins(holding.pkg, holding.workspace, lock('5.0.5'), core('1.4.0'))).toEqual(
+      holding,
+    )
   })
 
   it('moves only the override when the bundled vitest did not change', () => {
-    expect(syncedPins(pkg('1.4.1', '5.0.5'), workspace(core('1.4.0')), lock('5.0.5'))).toEqual({
+    expect(
+      syncedPins(pkg('1.4.1', '5.0.5'), workspace(core('1.4.0')), lock('5.0.5'), core('1.4.1')),
+    ).toEqual({
       pkg: pkg('1.4.1', '5.0.5'),
       workspace: workspace(core('1.4.1')),
     })
   })
 
   it('needs no lockfile entry without coverage-v8', () => {
-    expect(syncedPins(pkg('1.5.0'), workspace(core('1.4.0')), '')).toEqual({
+    expect(syncedPins(pkg('1.5.0'), workspace(core('1.4.0')), '', core('1.5.0'))).toEqual({
       pkg: pkg('1.5.0'),
       workspace: workspace(core('1.5.0')),
     })
   })
 
   it('refuses a workspace file without the override', () => {
-    expect(() => syncedPins(pkg('1.4.0'), 'packages:\n  - apps/*\n', '')).toThrow(
+    expect(() => syncedPins(pkg('1.4.0'), 'packages:\n  - apps/*\n', '', core('1.4.0'))).toThrow(
       'needs devDependencies.vite-plus',
     )
   })
 
   it('refuses a package.json without vite-plus', () => {
-    expect(() => syncedPins('{}', workspace(core('1.4.0')), '')).toThrow(
+    expect(() => syncedPins('{}', workspace(core('1.4.0')), '', core('1.4.0'))).toThrow(
       'needs devDependencies.vite-plus',
     )
   })
 
   it('refuses a lockfile without the bundled vitest', () => {
-    expect(() => syncedPins(pkg('1.5.0', '5.0.5'), workspace(core('1.4.0')), '')).toThrow(
-      'no vitest dependency for vite-plus',
-    )
+    expect(() =>
+      syncedPins(pkg('1.5.0', '5.0.5'), workspace(core('1.4.0')), '', core('1.5.0')),
+    ).toThrow('no vitest dependency for vite-plus')
     const cut = [
       'snapshots:',
       '  vite-plus@1.4.0(x):',
@@ -88,7 +114,7 @@ describe('syncedPins', () => {
       '      vitest: 5.0.5',
     ]
     expect(() =>
-      syncedPins(pkg('1.5.0', '5.0.5'), workspace(core('1.4.0')), cut.join('\n')),
+      syncedPins(pkg('1.5.0', '5.0.5'), workspace(core('1.4.0')), cut.join('\n'), core('1.5.0')),
     ).toThrow('no vitest dependency for vite-plus')
   })
 
@@ -97,6 +123,8 @@ describe('syncedPins', () => {
       '"name": "app"',
       '"name": "app", "x": {"@vitest/coverage-v8": "5.0.5"}',
     )
-    expect(() => syncedPins(twice, workspace(core('1.4.0')), lock('5.1.0'))).toThrow('expected one')
+    expect(() => syncedPins(twice, workspace(core('1.4.0')), lock('5.1.0'), core('1.5.0'))).toThrow(
+      'expected one',
+    )
   })
 })

@@ -6,7 +6,7 @@ packages:
 # the catalog: the root devDependency makes it the `vite` that every peer
 # dependency on vite resolves to (otherwise pnpm installs the real vite next to
 # it), the override covers the plain dependencies on vite, and test/flags.ts
-# imports it. Keep it equal to devDependencies.vite-plus; Dependabot cannot move
+# imports it. Keep it at the core release devDependencies.vite-plus depends on; Dependabot cannot move
 # it, scripts/sync-vite-plus-pins.mjs does on its vite-plus PRs.
 catalog:
   vite: npm:@voidzero-dev/vite-plus-core@1.5.0
