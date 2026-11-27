@@ -40,6 +40,8 @@ export interface Product {
   choiceGroups?: ProductChoiceGroup[]
   code: string | null
   id: string
+  /** When the image was last stored (ISO date); versions its URL. Absent on old persisted carts. */
+  imageUpdatedAt?: string | null
   isAvailable: boolean
   isDiscountable: boolean
   isHalal: boolean

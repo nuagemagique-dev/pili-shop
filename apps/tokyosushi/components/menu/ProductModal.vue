@@ -40,15 +40,15 @@
           class="relative block w-full h-44 lg:h-96 bg-neutral-50 rounded-xl overflow-hidden cursor-zoom-in focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           :aria-label="$t('common.viewPhoto', { name: p.name })"
           aria-haspopup="dialog"
-          @click="openLightbox(p.id, p.name)"
+          @click="openLightbox(p.id, p.name, p.imageUpdatedAt)"
         >
           <picture class="w-full h-full flex justify-center items-center p-4">
-            <source :srcset="`${productImageBaseSrc}.avif`" type="image/avif" />
-            <source :srcset="`${productImageBaseSrc}.webp`" type="image/webp" />
+            <source :srcset="productImageSrc.avif" type="image/avif" />
+            <source :srcset="productImageSrc.webp" type="image/webp" />
             <img
               ref="imageElement"
               :alt="p.name"
-              :src="`${productImageBaseSrc}.png`"
+              :src="productImageSrc.png"
               class="object-contain w-full h-full transition-opacity duration-500 rounded-lg shadow-xs"
               :class="[!p.isAvailable ? 'grayscale' : '']"
               @error="handleProductImageError"
@@ -229,7 +229,7 @@
       @retry="emit('retry')"
     />
 
-    <ImageLightbox ref="lightboxRef" :src="lightboxSrc" :alt="lightboxAlt" />
+    <ImageLightbox ref="lightboxRef" :sources="lightboxSources" :alt="lightboxAlt" />
   </div>
 </template>
 
@@ -278,16 +278,21 @@ const modalRef = ref<HTMLElement | null>(null)
 useFocusTrap(modalRef)
 
 const lightboxRef = ref<InstanceType<typeof ImageLightbox> | null>(null)
-const lightboxSrc = ref('')
+const lightboxSources = ref<productImage.ProductImageSources>({ avif: '', webp: '', png: '' })
 const lightboxAlt = ref('')
 const imageElement = ref<HTMLImageElement | null>(null)
 const { handleProductImageError } = productImage
-const productImageBaseSrc = computed(() =>
-  productImage.productImageBase(config.public.s3bucketUrl, p?.id),
+const productImageSrc = computed(() =>
+  productImage.productImageSources(config.public.s3bucketUrl, p?.id, {
+    imageUpdatedAt: p?.imageUpdatedAt,
+  }),
 )
 
-const openLightbox = (id: string, name: string) => {
-  lightboxSrc.value = productImage.productImageBase(config.public.s3bucketUrl, id, 'classic')
+const openLightbox = (id: string, name: string, imageUpdatedAt?: string | null) => {
+  lightboxSources.value = productImage.productImageSources(config.public.s3bucketUrl, id, {
+    variant: 'classic',
+    imageUpdatedAt,
+  })
   lightboxAlt.value = name
   lightboxRef.value?.open()
 }
@@ -309,6 +314,7 @@ const PRODUCT_QUERY = /* GraphQL */ `
       price
       slug
       isAvailable
+      imageUpdatedAt
       isHalal
       isLunchOnly
       isSpicy

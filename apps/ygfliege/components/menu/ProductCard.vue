@@ -130,8 +130,8 @@
           v-else-if="!brandPhoto"
           class="relative w-full h-full flex justify-center items-start"
         >
-          <source :srcset="`${productImageBaseSrc}.avif`" type="image/avif" />
-          <source :srcset="`${productImageBaseSrc}.webp`" type="image/webp" />
+          <source :srcset="productImageSrc.avif" type="image/avif" />
+          <source :srcset="productImageSrc.webp" type="image/webp" />
           <!-- The thumbnails are square (320 x 320): the box is reserved square (attributes and aspect-square) so the card does not grow when the picture lands, which moved the add button under it by ~45 px (CLS 0.035 on a phone). -->
           <img
             ref="imageElement"
@@ -142,7 +142,7 @@
             :draggable="false"
             :fetchpriority="imagePriority.fetchpriority"
             :loading="imagePriority.loading"
-            :src="`${productImageBaseSrc}.png`"
+            :src="productImageSrc.png"
             class="aspect-square object-contain max-h-full"
             @error="handleImageError"
           />
@@ -295,8 +295,10 @@ const forcedChoiceGroups = computed(() =>
 const forcedChoiceGroupLabel = (group: { name: string; maxSelections: number }) =>
   choiceGroupCountLabel(group.name, group.maxSelections)
 const { handleProductImageError } = productImage
-const productImageBaseSrc = computed(() =>
-  productImage.productImageBase(config.public.s3bucketUrl, product?.id),
+const productImageSrc = computed(() =>
+  productImage.productImageSources(config.public.s3bucketUrl, product?.id, {
+    imageUpdatedAt: product?.imageUpdatedAt,
+  }),
 )
 const brandPhoto = computed(() => productPhoto(product?.slug))
 // The illustration a product without photography falls back to (shown once its S3 image has failed to load).

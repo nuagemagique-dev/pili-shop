@@ -36,6 +36,29 @@ test('images are keyed by product id, never by slug', () => {
   assert.ok(!JSON.stringify(schema).includes('tomato-soup'))
 })
 
+test('the image URLs carry the version when the product has one, bare otherwise', () => {
+  const at = '2026-11-26T12:27:16.000Z'
+  const [
+    {
+      hasMenuItem: [{ image }],
+    },
+  ] = buildMenuSchema({
+    ...base,
+    products: [product({ imageUpdatedAt: at })],
+  }).hasMenuSection
+  assert.equal(image.url, 'https://s3.be/images/thumbnails/p-uuid.png?v=1795696036000')
+  assert.equal(image.contentUrl, 'https://s3.be/images/thumbnails/p-uuid.webp?v=1795696036000')
+  const [
+    {
+      hasMenuItem: [{ image: bare }],
+    },
+  ] = buildMenuSchema({
+    ...base,
+    products: [product({ imageUpdatedAt: null })],
+  }).hasMenuSection
+  assert.equal(bare.url, 'https://s3.be/images/thumbnails/p-uuid.png')
+})
+
 test('a brand photo wins, made absolute', () => {
   const photoFor = (slug) =>
     slug === 'tomato-soup'

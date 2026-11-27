@@ -12,6 +12,7 @@ import { PRODUCT_IMAGE_FALLBACK, productImageUrl } from './productImage.ts'
 export interface MenuSchemaProduct {
   id: string
   slug?: string | null
+  imageUpdatedAt?: string | null
   name: string
   price: string
   isAvailable: boolean
@@ -51,7 +52,7 @@ const imageObject = (url: string, contentUrl: string) => ({
 })
 
 export const menuItemImage = (
-  product: Pick<MenuSchemaProduct, 'id' | 'slug'>,
+  product: Pick<MenuSchemaProduct, 'id' | 'slug' | 'imageUpdatedAt'>,
   { baseUrl, s3BaseUrl, photoFor }: Pick<MenuSchemaInput, 'baseUrl' | 's3BaseUrl' | 'photoFor'>,
 ) => {
   const photo = photoFor?.(product.slug)
@@ -59,8 +60,8 @@ export const menuItemImage = (
   if (s3BaseUrl === undefined || s3BaseUrl === '' || !product.id)
     return imageObject(`${baseUrl}${PRODUCT_IMAGE_FALLBACK}`, `${baseUrl}${PRODUCT_IMAGE_FALLBACK}`)
   return imageObject(
-    productImageUrl(s3BaseUrl, product.id, 'png'),
-    productImageUrl(s3BaseUrl, product.id, 'webp'),
+    productImageUrl(s3BaseUrl, product.id, { ext: 'png', imageUpdatedAt: product.imageUpdatedAt }),
+    productImageUrl(s3BaseUrl, product.id, { ext: 'webp', imageUpdatedAt: product.imageUpdatedAt }),
   )
 }
 

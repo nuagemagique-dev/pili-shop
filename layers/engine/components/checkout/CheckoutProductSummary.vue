@@ -32,7 +32,7 @@
             class="w-14 h-14 shrink-0 rounded-xl bg-neutral-50 flex items-center justify-center overflow-hidden cursor-pointer active:scale-95 transition-transform focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             :aria-label="$t('common.viewPhoto', { name: item.product.name })"
             aria-haspopup="dialog"
-            @click="openLightbox(item.product.id, item.product.name)"
+            @click="openLightbox(item.product.id, item.product.name, item.product.imageUpdatedAt)"
           >
             <CartLineImage
               v-if="itemPresentation(item)?.image"
@@ -40,11 +40,11 @@
               :size="56"
             />
             <picture v-else>
-              <source :srcset="`${productImageBase(item.product.id)}.avif`" type="image/avif" />
-              <source :srcset="`${productImageBase(item.product.id)}.webp`" type="image/webp" />
+              <source :srcset="itemImageSources(item.product).avif" type="image/avif" />
+              <source :srcset="itemImageSources(item.product).webp" type="image/webp" />
               <img
                 ref="itemImageElements"
-                :src="`${productImageBase(item.product.id)}.png`"
+                :src="itemImageSources(item.product).png"
                 alt=""
                 class="w-full h-full object-contain p-0.5"
                 width="56"
@@ -279,7 +279,7 @@
       </div>
     </template>
   </section>
-  <ImageLightbox ref="lightboxRef" :src="lightboxSrc" :alt="lightboxAlt" />
+  <ImageLightbox ref="lightboxRef" :sources="lightboxSources" :alt="lightboxAlt" />
 </template>
 
 <script lang="ts" setup>
@@ -361,18 +361,23 @@ onBeforeUnmount(() => {
 })
 
 const lightboxRef = ref<InstanceType<typeof ImageLightbox> | null>(null)
-const lightboxSrc = ref('')
+const lightboxSources = ref<productImage.ProductImageSources>({ avif: '', webp: '', png: '' })
 const lightboxAlt = ref('')
 
-const openLightbox = (id: string, name: string) => {
-  lightboxSrc.value = productImage.productImageBase(config.public.s3bucketUrl, id, 'classic')
+const openLightbox = (id: string, name: string, imageUpdatedAt?: string | null) => {
+  lightboxSources.value = productImage.productImageSources(config.public.s3bucketUrl, id, {
+    variant: 'classic',
+    imageUpdatedAt,
+  })
   lightboxAlt.value = name
   lightboxRef.value?.open()
 }
 
 const { handleProductImageError } = productImage
-const productImageBase = (id?: string | null) =>
-  productImage.productImageBase(config.public.s3bucketUrl, id)
+const itemImageSources = (product: { id?: string | null; imageUpdatedAt?: string | null }) =>
+  productImage.productImageSources(config.public.s3bucketUrl, product.id, {
+    imageUpdatedAt: product.imageUpdatedAt,
+  })
 const itemImageElements = ref<HTMLImageElement[]>([])
 
 watch(
