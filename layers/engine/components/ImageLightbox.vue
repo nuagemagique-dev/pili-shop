@@ -42,10 +42,10 @@
 
         <!-- Image -->
         <picture class="max-w-[90vw] max-h-[75dvh] bg-white rounded-2xl p-3">
-          <source :srcset="`${src}.avif`" type="image/avif" />
-          <source :srcset="`${src}.webp`" type="image/webp" />
+          <source :srcset="sources.avif" type="image/avif" />
+          <source :srcset="sources.webp" type="image/webp" />
           <img
-            :src="`${src}.png`"
+            :src="sources.png"
             :alt="alt"
             class="max-w-full max-h-[75dvh] object-contain"
             @error="onImageError"
@@ -58,12 +58,13 @@
 
 <script lang="ts" setup>
 import * as productImage from '#engine/utils/productImage'
+import type { ProductImageSources } from '#engine/utils/productImage'
 import { ref } from 'vue'
 import { useBodyScrollLock } from '#engine/composables/useBodyScrollLock'
 import { useFocusTrap } from '#engine/composables/useFocusTrap'
 
-const { src, alt = undefined } = defineProps<{
-  src: string
+const { sources, alt = undefined } = defineProps<{
+  sources: ProductImageSources
   alt?: string
 }>()
 

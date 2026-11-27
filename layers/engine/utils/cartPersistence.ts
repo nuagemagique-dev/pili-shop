@@ -40,6 +40,8 @@ export interface PersistedSnapshot {
   name: string
   code: string | null
   slug: string
+  /** Versions the image URL; absent in carts saved before the field existed. */
+  imageUpdatedAt?: string | null
   priceCents: number
   pieceCount: number | null
   isDiscountable: boolean
@@ -112,6 +114,7 @@ export function toPersistedLine(item: CartItem): PersistedLine {
       name: product.name,
       code: product.code ?? null,
       slug: product.slug ?? '',
+      ...(nonEmpty(product.imageUpdatedAt) ? { imageUpdatedAt: product.imageUpdatedAt } : {}),
       priceCents: toCents(product.price),
       pieceCount: product.pieceCount ?? null,
       isDiscountable: flags.isDiscountable === true,
@@ -163,6 +166,7 @@ export function productFromSnapshot(productId: string, snapshot: PersistedSnapsh
     pieceCount: snapshot.pieceCount,
     price: centsToDecimalString(snapshot.priceCents),
     slug: snapshot.slug,
+    ...(nonEmpty(snapshot.imageUpdatedAt) ? { imageUpdatedAt: snapshot.imageUpdatedAt } : {}),
   }
 }
 
@@ -246,6 +250,7 @@ function cleanPersistedLine(value: unknown, max: number): PersistedLine | null {
       name: snapshot.name,
       code: optionalText(snapshot.code),
       slug: text(snapshot.slug),
+      ...(nonEmpty(snapshot.imageUpdatedAt) ? { imageUpdatedAt: snapshot.imageUpdatedAt } : {}),
       priceCents,
       pieceCount: typeof snapshot.pieceCount === 'number' ? snapshot.pieceCount : null,
       isDiscountable: snapshot.isDiscountable === true,

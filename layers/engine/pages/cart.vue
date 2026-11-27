@@ -416,13 +416,15 @@ useSeoMeta({
   robots: 'noindex,nofollow',
 })
 const { handleProductImageError } = productImage
-const productImageBase = (id?: string | null) =>
-  productImage.productImageBase(config.public.s3bucketUrl, id)
 /*
  * The same image as every other surface: the official photo of a mapped product (smallest size, the PNG fallback),
  * otherwise the dashboard upload keyed by product id (audit PR 3.8, P9: this used the slug, so it never found one).
  */
-const itemImage = (product: { id: string; slug?: string | null }) => {
+const itemImage = (product: {
+  id: string
+  slug?: string | null
+  imageUpdatedAt?: string | null
+}) => {
   const photo = productPhoto(product.slug)
   if (photo) {
     const small = Math.min(...(photo.widths ?? PRODUCT_PHOTO_WIDTHS))
@@ -432,8 +434,9 @@ const itemImage = (product: { id: string; slug?: string | null }) => {
       png: `${photo.base}-${photo.fallbackWidth ?? 560}.png`,
     }
   }
-  const base = productImageBase(product.id)
-  return { avif: `${base}.avif`, webp: `${base}.webp`, png: `${base}.png` }
+  return productImage.productImageSources(config.public.s3bucketUrl, product.id, {
+    imageUpdatedAt: product.imageUpdatedAt,
+  })
 }
 const itemImageElements = ref<HTMLImageElement[]>([])
 // Publishes the checkout bar's height so the toasts float above it.

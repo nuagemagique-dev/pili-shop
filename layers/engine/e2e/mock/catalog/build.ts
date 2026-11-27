@@ -44,6 +44,7 @@ export interface MockProduct {
   isSpicy: boolean
   isVegetarian: boolean
   isDiscountable: boolean
+  imageUpdatedAt: string | null
   categoryId: string
   category: MockCategoryRef
   choices: MockChoice[]
@@ -109,6 +110,7 @@ function buildProduct(category: MockCategoryRef, spec: ProductSpec): MockProduct
     isSpicy: false,
     isVegetarian: false,
     isDiscountable: true,
+    imageUpdatedAt: '2026-11-27T10:00:00Z',
     ...rest,
     categoryId: category.id,
     category,

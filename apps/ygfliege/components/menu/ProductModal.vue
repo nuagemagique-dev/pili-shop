@@ -61,7 +61,7 @@
           class="relative block w-44 sm:w-full mx-auto sm:mx-0 aspect-square bg-ygf-orange-50/40 rounded-ygf-card overflow-hidden cursor-zoom-in focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           :aria-label="$t('common.viewPhoto', { name: p.name })"
           aria-haspopup="dialog"
-          @click="openLightbox(p.id, p.name)"
+          @click="openLightbox(p.id, p.name, p.imageUpdatedAt)"
         >
           <!-- Official bowl photography for the malatang sets; other
                          products keep the dashboard-uploaded S3 image. -->
@@ -96,12 +96,12 @@
             />
           </span>
           <picture v-else class="w-full h-full flex justify-center items-center p-4">
-            <source :srcset="`${productImageBaseSrc}.avif`" type="image/avif" />
-            <source :srcset="`${productImageBaseSrc}.webp`" type="image/webp" />
+            <source :srcset="productImageSrc.avif" type="image/avif" />
+            <source :srcset="productImageSrc.webp" type="image/webp" />
             <img
               ref="imageElement"
               :alt="p.name"
-              :src="`${productImageBaseSrc}.png`"
+              :src="productImageSrc.png"
               class="object-contain w-full h-full transition-opacity duration-slow"
               :class="[!p.isAvailable ? 'grayscale' : '']"
               @error="onImageError"
@@ -256,7 +256,7 @@
       </div>
     </footer>
 
-    <ImageLightbox ref="lightboxRef" :src="lightboxSrc" :alt="lightboxAlt" />
+    <ImageLightbox ref="lightboxRef" :sources="lightboxSources" :alt="lightboxAlt" />
   </div>
 </template>
 
@@ -312,12 +312,14 @@ const modalRef = ref<HTMLElement | null>(null)
 useFocusTrap(modalRef)
 
 const lightboxRef = ref<InstanceType<typeof ImageLightbox> | null>(null)
-const lightboxSrc = ref('')
+const lightboxSources = ref<productImage.ProductImageSources>({ avif: '', webp: '', png: '' })
 const lightboxAlt = ref('')
 const imageElement = ref<HTMLImageElement | null>(null)
 const { handleProductImageError } = productImage
-const productImageBaseSrc = computed(() =>
-  productImage.productImageBase(config.public.s3bucketUrl, p?.id),
+const productImageSrc = computed(() =>
+  productImage.productImageSources(config.public.s3bucketUrl, p?.id, {
+    imageUpdatedAt: p?.imageUpdatedAt,
+  }),
 )
 const brandPhoto = computed(() => productPhoto(p?.slug))
 // The illustration a product without photography falls back to (shown once its S3 image has failed to load).
@@ -328,13 +330,17 @@ const onImageError = (event: Event) => {
   else handleProductImageError(event)
 }
 
-const openLightbox = (id: string, name: string) => {
-  // ImageLightbox appends .avif/.webp/.png itself; the largest brand asset
-  // May lack .png, but the avif/webp <source>s always win in supporting
-  // Browsers.
-  lightboxSrc.value = brandPhoto.value
-    ? `${brandPhoto.value.base}-${Math.max(...(brandPhoto.value.widths ?? PRODUCT_PHOTO_WIDTHS))}`
-    : productImage.productImageBase(config.public.s3bucketUrl, id, 'classic')
+const openLightbox = (id: string, name: string, imageUpdatedAt?: string | null) => {
+  // The largest brand asset. The .png may be missing, but the avif/webp <source>s always win in supporting browsers.
+  if (brandPhoto.value) {
+    const base = `${brandPhoto.value.base}-${Math.max(...(brandPhoto.value.widths ?? PRODUCT_PHOTO_WIDTHS))}`
+    lightboxSources.value = { avif: `${base}.avif`, webp: `${base}.webp`, png: `${base}.png` }
+  } else {
+    lightboxSources.value = productImage.productImageSources(config.public.s3bucketUrl, id, {
+      variant: 'classic',
+      imageUpdatedAt,
+    })
+  }
   lightboxAlt.value = name
   lightboxRef.value?.open()
 }
@@ -356,6 +362,7 @@ const PRODUCT_QUERY = /* GraphQL */ `
       price
       slug
       isAvailable
+      imageUpdatedAt
       isHalal
       isLunchOnly
       isSpicy

@@ -65,7 +65,9 @@
                 class="row-span-2 flex shrink-0 items-center justify-center w-16 h-16 bg-neutral-50 rounded-md overflow-hidden cursor-pointer active:scale-95 transition-transform focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 :aria-label="$t('common.viewPhoto', { name: item.product.name })"
                 aria-haspopup="dialog"
-                @click="openLightbox(item.product.id, item.product.name)"
+                @click="
+                  openLightbox(item.product.id, item.product.name, item.product.imageUpdatedAt)
+                "
               >
                 <CartLineImage
                   v-if="itemPresentation(item)?.image"
@@ -73,11 +75,11 @@
                   :size="64"
                 />
                 <picture v-else class="contents">
-                  <source :srcset="`${productImageBase(item.product.id)}.avif`" type="image/avif" />
-                  <source :srcset="`${productImageBase(item.product.id)}.webp`" type="image/webp" />
+                  <source :srcset="itemImageSources(item.product).avif" type="image/avif" />
+                  <source :srcset="itemImageSources(item.product).webp" type="image/webp" />
                   <img
                     ref="itemImageElements"
-                    :src="`${productImageBase(item.product.id)}.png`"
+                    :src="itemImageSources(item.product).png"
                     alt=""
                     class="object-contain w-full h-full"
                     width="64"
@@ -304,7 +306,12 @@
         </footer>
       </div>
     </Transition>
-    <ImageLightbox v-if="showLightbox" ref="lightboxRef" :src="lightboxSrc" :alt="lightboxAlt" />
+    <ImageLightbox
+      v-if="showLightbox"
+      ref="lightboxRef"
+      :sources="lightboxSources"
+      :alt="lightboxAlt"
+    />
   </div>
 </template>
 
@@ -382,12 +389,15 @@ const hasBreakdownRows = computed(
 useOrderQuote({ active: () => cartStore.isCartVisible })
 
 const lightboxRef = ref<{ open: () => void } | null>(null)
-const lightboxSrc = ref('')
+const lightboxSources = ref<productImage.ProductImageSources>({ avif: '', webp: '', png: '' })
 const lightboxAlt = ref('')
 const showLightbox = ref(false)
 
-const openLightbox = async (id: string, name: string) => {
-  lightboxSrc.value = productImage.productImageBase(config.public.s3bucketUrl, id, 'classic')
+const openLightbox = async (id: string, name: string, imageUpdatedAt?: string | null) => {
+  lightboxSources.value = productImage.productImageSources(config.public.s3bucketUrl, id, {
+    variant: 'classic',
+    imageUpdatedAt,
+  })
   lightboxAlt.value = name
   showLightbox.value = true
   await nextTick()
@@ -397,8 +407,10 @@ const openLightbox = async (id: string, name: string) => {
 }
 
 const { handleProductImageError } = productImage
-const productImageBase = (id?: string | null) =>
-  productImage.productImageBase(config.public.s3bucketUrl, id)
+const itemImageSources = (product: { id?: string | null; imageUpdatedAt?: string | null }) =>
+  productImage.productImageSources(config.public.s3bucketUrl, product.id, {
+    imageUpdatedAt: product.imageUpdatedAt,
+  })
 const itemImageElements = ref<HTMLImageElement[]>([])
 
 watch(

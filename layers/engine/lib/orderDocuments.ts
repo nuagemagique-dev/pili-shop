@@ -12,7 +12,7 @@ export const ORDER_ITEMS_SELECTION = `items {
         quantity
         totalPrice
         product {
-          id name code slug price pieceCount isAvailable isDiscountable isHalal isLunchOnly isSpicy isVegetarian isVisible
+          id name code slug imageUpdatedAt price pieceCount isAvailable isDiscountable isHalal isLunchOnly isSpicy isVegetarian isVisible
           category { id name order }
           choices { id productId choiceGroupId priceModifier sortOrder name }
           choiceGroups { id productId minSelections maxSelections sortOrder name }

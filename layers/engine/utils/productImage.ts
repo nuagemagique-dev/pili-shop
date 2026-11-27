@@ -18,19 +18,65 @@ const fallbackPngByVariant = (variant: ProductImageVariant): string =>
 const hasText = (value: string | null | undefined): value is string =>
   value !== undefined && value !== null && value !== ''
 
+/**
+ * Cache-busting suffix of a stored product image: `?v=<epoch ms of imageUpdatedAt>`, appended AFTER the
+ * extension (the dashboard builds the exact same URLs, so the CDN and browser caches line up). The image is
+ * overwritten in place on re-upload; the version makes a replaced image a new URL. Empty when the date is
+ * missing or unparseable (old persisted carts, a pre-#180 API): the bare URL.
+ */
+export const productImageVersion = (imageUpdatedAt?: string | null): string => {
+  if (!hasText(imageUpdatedAt)) return ''
+  const ms = Date.parse(imageUpdatedAt)
+  return Number.isFinite(ms) ? `?v=${ms}` : ''
+}
+
+export interface ProductImageSources {
+  avif: string
+  webp: string
+  png: string
+}
+
+/**
+ * The three URLs of a product image (for `<picture>`), versioned with `imageUpdatedAt`. The placeholder
+ * fallback (no bucket or no id) never carries a version.
+ */
+export const productImageSources = (
+  s3BaseUrl?: string,
+  id?: string | null,
+  {
+    variant = 'thumbnail',
+    imageUpdatedAt,
+  }: { variant?: ProductImageVariant; imageUpdatedAt?: string | null } = {},
+): ProductImageSources => {
+  const base = productImageBase(s3BaseUrl, id, variant)
+  const version = hasText(s3BaseUrl) && hasText(id) ? productImageVersion(imageUpdatedAt) : ''
+  return {
+    avif: `${base}.avif${version}`,
+    webp: `${base}.webp${version}`,
+    png: `${base}.png${version}`,
+  }
+}
+
 export const productImageUrl = (
   s3BaseUrl?: string,
   id?: string | null,
-  format: ProductImageExt | { ext?: ProductImageExt; variant?: ProductImageVariant } = 'png',
+  format:
+    | ProductImageExt
+    | {
+        ext?: ProductImageExt
+        variant?: ProductImageVariant
+        imageUpdatedAt?: string | null
+      } = 'png',
 ): string => {
   const ext = typeof format === 'string' ? format : (format.ext ?? 'png')
   const variant = typeof format === 'string' ? 'thumbnail' : (format.variant ?? 'thumbnail')
+  const imageUpdatedAt = typeof format === 'string' ? undefined : format.imageUpdatedAt
 
   if (!hasText(s3BaseUrl) || !hasText(id)) {
     return `${fallbackBaseByVariant(variant)}.${ext}`
   }
 
-  return `${s3BaseUrl}/images/thumbnails/${id}.${ext}`
+  return `${s3BaseUrl}/images/thumbnails/${id}.${ext}${productImageVersion(imageUpdatedAt)}`
 }
 
 export const productImageBase = (

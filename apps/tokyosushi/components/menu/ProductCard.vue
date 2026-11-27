@@ -45,8 +45,8 @@
         />
         <!-- Visible from the first paint, with or without JavaScript (it used to be opacity-0 until onMounted saw it loaded, which kept it out of the LCP): the shimmer is only a background behind it, hence "relative" so the image paints over it. -->
         <picture class="relative w-full h-full flex justify-center items-center">
-          <source :srcset="`${productImageBaseSrc}.avif`" type="image/avif" />
-          <source :srcset="`${productImageBaseSrc}.webp`" type="image/webp" />
+          <source :srcset="productImageSrc.avif" type="image/avif" />
+          <source :srcset="productImageSrc.webp" type="image/webp" />
           <!-- The thumbnails are square (320 x 320): the box is reserved square (attributes and aspect-square) so the card does not grow when the picture lands, which moved the add button under it by ~45 px (CLS 0.035 on a phone). -->
           <img
             ref="imageElement"
@@ -57,7 +57,7 @@
             :draggable="false"
             :fetchpriority="imagePriority.fetchpriority"
             :loading="imagePriority.loading"
-            :src="`${productImageBaseSrc}.png`"
+            :src="productImageSrc.png"
             class="aspect-square object-contain max-h-full"
             @error="handleImageError"
           />
@@ -212,8 +212,10 @@ const forcedChoiceGroupLabel = (group: { name: string; maxSelections: number }) 
     : choiceGroupCountLabel(group.name, group.maxSelections)
 }
 const { handleProductImageError } = productImage
-const productImageBaseSrc = computed(() =>
-  productImage.productImageBase(config.public.s3bucketUrl, product?.id),
+const productImageSrc = computed(() =>
+  productImage.productImageSources(config.public.s3bucketUrl, product?.id, {
+    imageUpdatedAt: product?.imageUpdatedAt,
+  }),
 )
 
 // SSR-safe: cart store hydrates from localStorage post-mount, so render as empty until then.

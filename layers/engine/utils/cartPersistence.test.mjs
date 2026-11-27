@@ -753,3 +753,19 @@ describe('the coupon discount', () => {
     )
   })
 })
+
+test('the image version rides the snapshot; a line saved without it still loads (bare URL)', () => {
+  const at = '2026-11-26T12:27:16.000Z'
+  const persisted = toPersistedLine(v1Line({ ...wholeProduct(), imageUpdatedAt: at }, 1, []))
+  assert.equal(persisted.snapshot.imageUpdatedAt, at)
+  assert.equal(productFromSnapshot('bowl', persisted.snapshot).imageUpdatedAt, at)
+  const reloaded = parsePersistedCart(
+    serializeCartState({ products: [v1Line({ ...wholeProduct(), imageUpdatedAt: at }, 1, [])] }),
+    MAX,
+  )
+  assert.equal(reloaded.state.products[0].product.imageUpdatedAt, at)
+
+  const old = toPersistedLine(v1Line(wholeProduct(), 1, []))
+  assert.ok(!('imageUpdatedAt' in old.snapshot))
+  assert.equal(productFromSnapshot('bowl', old.snapshot).imageUpdatedAt, undefined)
+})

@@ -538,6 +538,7 @@ const PRODUCT_CATEGORIES = /* GraphQL */ `
         pieceCount
         isVisible
         isAvailable
+        imageUpdatedAt
         isHalal
         isLunchOnly
         isSpicy
@@ -613,6 +614,7 @@ const SUB_PRODUCT_UPDATED = /* GraphQL */ `
       price
       code
       pieceCount
+      imageUpdatedAt
       isHalal
       isLunchOnly
       isSpicy

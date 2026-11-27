@@ -74,19 +74,19 @@
             class="w-12 h-12 rounded-lg overflow-hidden bg-neutral-100 flex items-center justify-center cursor-pointer active:scale-95 transition-transform focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             :aria-label="$t('common.viewPhoto', { name: item.product.name })"
             aria-haspopup="dialog"
-            @click="openLightbox(item.product?.id, item.product.name)"
+            @click="openLightbox(item.product?.id, item.product.name, item.product.imageUpdatedAt)"
           >
             <CartLineImage
               v-if="itemPresentation(item)?.image"
               :image="itemPresentation(item)!.image!"
             />
             <picture v-else>
-              <source :srcset="`${productImageBase(item.product?.id)}.avif`" type="image/avif" />
-              <source :srcset="`${productImageBase(item.product?.id)}.webp`" type="image/webp" />
+              <source :srcset="itemImageSources(item.product).avif" type="image/avif" />
+              <source :srcset="itemImageSources(item.product).webp" type="image/webp" />
               <img
                 ref="itemImageElements"
                 alt=""
-                :src="`${productImageBase(item.product?.id)}.png`"
+                :src="itemImageSources(item.product).png"
                 class="max-w-full max-h-full"
                 width="48"
                 height="48"
@@ -294,7 +294,7 @@
       </UiButton>
     </footer>
   </aside>
-  <ImageLightbox ref="lightboxRef" :src="lightboxSrc" :alt="lightboxAlt" />
+  <ImageLightbox ref="lightboxRef" :sources="lightboxSources" :alt="lightboxAlt" />
 </template>
 
 <script lang="ts" setup>
@@ -363,18 +363,23 @@ const isDesktop = useMediaQuery('(min-width: 1024px)')
 useOrderQuote({ active: isDesktop })
 
 const lightboxRef = ref<InstanceType<typeof ImageLightbox> | null>(null)
-const lightboxSrc = ref('')
+const lightboxSources = ref<productImage.ProductImageSources>({ avif: '', webp: '', png: '' })
 const lightboxAlt = ref('')
 
-const openLightbox = (id: string, name: string) => {
-  lightboxSrc.value = productImage.productImageBase(config.public.s3bucketUrl, id, 'classic')
+const openLightbox = (id: string, name: string, imageUpdatedAt?: string | null) => {
+  lightboxSources.value = productImage.productImageSources(config.public.s3bucketUrl, id, {
+    variant: 'classic',
+    imageUpdatedAt,
+  })
   lightboxAlt.value = name
   lightboxRef.value?.open()
 }
 
 const { handleProductImageError } = productImage
-const productImageBase = (id?: string | null) =>
-  productImage.productImageBase(config.public.s3bucketUrl, id)
+const itemImageSources = (product: { id?: string | null; imageUpdatedAt?: string | null }) =>
+  productImage.productImageSources(config.public.s3bucketUrl, product.id, {
+    imageUpdatedAt: product.imageUpdatedAt,
+  })
 const itemImageElements = ref<HTMLImageElement[]>([])
 
 // Flash-highlight for newly added items
